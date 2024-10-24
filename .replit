@@ -1,5 +1,2 @@
 [nix]
 channel = "stable-24_05"
-
-[[ports]]
-localPort = 80
