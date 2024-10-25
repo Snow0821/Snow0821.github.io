@@ -1,70 +1,93 @@
-\documentclass[11pt,a4paper]{moderncv}
-\moderncvstyle{classic} % 스타일 선택: 'classic', 'casual', 'banking', 'oldstyle', 'fancy' 중에서 선택 가능
-\moderncvcolor{blue}    % 색상 선택: 'blue', 'orange', 'green', 'red', 'purple', 'grey', 'black'
-
+\documentclass[11pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[scale=0.85]{geometry} % 페이지 레이아웃 조정
+\usepackage[scale = 0.85]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{setspace}
 
-% 개인 정보 입력
-\name{Soon Ho}{Choi}
-\title{Curriculum Vitae}
-\address{Seoul, South Korea} % 주소
-\phone[mobile]{+82-10-3190-4635} % 전화번호
-\email{sosaror@gmail.com} % 이메일
-\homepage{github.com/Snow0821} % GitHub 주소
-\social[linkedin]{linkedin.com/in/snowian} % LinkedIn 주소
+% 제목 스타일 설정
+\titleformat{\section}{\large\bfseries\color{black}}{}{0em}{}[\titlerule]
+
+% 줄 간격 설정
+\setstretch{1.15}
+
+% 좌우 정렬을 위한 명령어 정의
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\newcommand{\itemheader}[2]{
+    \noindent\textbf{#1} \hfill \textit{#2} \\
+}
 
 \begin{document}
 
-\makecvtitle
+% 이름과 연락처 정보
+{\huge \textbf{Soon Ho, Choi}}\\[0.1cm]
+Graduate Student, Kookmin University, Seoul, South Korea \\
+\href{mailto:sosaror@gmail.com}{sosaror@gmail.com} | +82 10-3190-4635 \\
+linkedin : \href{https://www.linkedin.com/in/snowian}{www.linkedin.com/in/snowian} \\
+personal website : \href{https://snow0821.github.io/}{https://snow0821.github.io/} \\
+github : \href{https://github.com/Snow0821}{https://github.com/Snow0821}
 
-\section{Education}
-\cventry{Expected Graduation: August, 2025}{M.E. in Artificial Intelligence}{Kookmin University}{Seoul}{South Korea}{%
-  Thesis: \emph{Title of Your Thesis} (Advisor: Dr. Advisor Name)\\
-  Relevant Coursework: Machine Learning, Deep Learning, Neural Network Quantization}
+\vspace{0.3cm}
 
-\cventry{August, 2019}{B.E. in Computer Science}{Handong University}{Pohang}{South Korea}{%
-  Relevant Coursework: Data Structures, Algorithms }
+% Research Interests 섹션
+\section*{Research Interests}
+\noindent
+\#Artificial Intelligence \#Machine Learning \#Deep Learning \#Multimodal \\
+\#Neural Network Quantization
 
-% \section{Research Experience}
-% \cventry{Month, Year -- Present}{Graduate Research Assistant}{University Name}{Department Name, Seoul}{South Korea}{%
-%   Conducted research on [Research Topic], focusing on [specific methods or tools].\\
-%   Developed a novel algorithm to [Briefly describe your achievement or project].\\
-%   Published a paper titled \emph{“Paper Title”} in [Journal/Conference Name].}
+% Education 섹션
+\section*{Education}
+\itemheader{Kookmin University, Seoul, South Korea}{2023 — 2025}
+\textbf{Master of Engineering in Artificial Intelligence} \\
+Thesis Title: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \\
 
-% \cventry{Month, Year -- Month, Year}{Undergraduate Researcher}{University Name}{Research Lab Name}{City, Country}{%
-%   Assisted in a project on [Research Topic], analyzing data using [software/tool].\\
-%   Collaborated with a team to [describe project or role].}
+\vspace{0.3cm}
 
-\section{Teaching Experience}
-\cventry{Month, Year -- Present}{Online Instructor}{Self-employed / [Platform Name]}{Seoul}{South Korea}{%
-  Provided online education to elementary and middle school students for over two years, creating interactive and engaging content in mathematics, programming, and general science.}
+\itemheader{Handong Global University, Pohang, South Korea}{2010 — 2019}
+\textbf{Bachelor of Engineering: Computer Science} 
 
-\cventry{Month, Year -- Present}{AI Instructor for High School Students}{[Institution/Platform Name]}{Seoul}{South Korea}{%
-  Designed and taught AI courses, covering machine learning, deep learning, and natural language processing. Developed hands-on projects for students to apply AI concepts using Python and TensorFlow.}
+% Academic Experience 섹션
+\section*{Academic Experience}
+\itemheader{Name of Employer Company, City, Country}{Month Year — Present}
+\textbf{Your Position} \\
+\begin{itemize}[left=0pt]
+    \item Description of your job duty and responsibilities.
+    \item Description of your job duty and responsibilities.
+    \item Description of your job duty and responsibilities.
+\end{itemize}
 
-% \section{Publications}
-% \cvitem{1.}{\textbf{First Author}, \emph{"Title of Paper,"} [Conference/Journal Name], Month, Year.}
-% \cvitem{2.}{\textbf{Co-Author}, \emph{"Title of Paper,"} [Conference/Journal Name], Month, Year.}
+\vspace{0.3cm}
 
-\section{Conference Proceedings}
-\cvitem{1.}{\textbf{Your Name}, \emph{"Title of Your Paper,"} Proceedings of the [Conference Name], [Location], Month, Year.}
+\itemheader{Name of Employer Company, City, Country}{Month Year — Present}
+\textbf{Your Position} \\
+\begin{itemize}[left=0pt]
+    \item Description of your job duty and responsibilities.
+    \item Description of your job duty and responsibilities.
+    \item Description of your job duty and responsibilities.
+\end{itemize}
 
-\section{Technical Skills}
-\cvitem{Programming Languages}{Python, C++, Java, MATLAB}
-\cvitem{Machine Learning Frameworks}{TensorFlow, PyTorch, Keras}
-\cvitem{Tools \& Software}{Git, Docker, Jupyter Notebook, SQL}
-\cvitem{Other}{Data Analysis, Statistical Modeling, Cloud Computing (AWS, GCP)}
+% Projects 섹션
+\section*{Projects}
+\itemheader{Project Name, City, Country}{Month Year — Month Year}
+\textbf{Your Position} \\
+\begin{itemize}[left=0pt]
+    \item Description of your job duty and responsibilities.
+    \item Description of your job duty and responsibilities.
+\end{itemize}
 
-\section{Awards \& Honors}
-\cventry{Month, Year}{[Award Name]}{Awarding Organization}{}{}{Brief description of why you received the award.}
-\cventry{Semester/Year}{Dean’s List}{University Name}{}{}
+% Publications 섹션
+\section*{Publications}
+\noindent
+Journal paper \\
+\# You can use some options here such as: In-Progress, Submitted, reviewed, Published. \\
+\# write your publication based on common form of referencing in your field of study. \\
+Kahnemann, D., \& Tversky, A. (1979). Prospect theory: A decision making under risk. Econometrica, 47(2), 263-291. \\
+\vspace{0.2cm}
 
-\section{Projects}
-\cventry{Month, Year -- Month, Year}{[Project Title]}{Link to GitHub}{}{}{%
-  Developed [Briefly describe what you developed, tools used, and key achievements].}
-
-\cventry{Month, Year -- Month, Year}{[Another Project Title]}{Link to GitHub}{}{}{%
-  Implemented [Brief description, highlighting your role and the outcome].}
+\noindent
+\# Here you can also add your other publication such as: Translation, book and so on...\\
+O'Connor, J., Lages, A. (2019). Coaching the brain: Practical applications of neuroscience to coaching. Routledge.
 
 \end{document}
