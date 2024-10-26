@@ -1,43 +1,55 @@
-<html>
-  <head>
-    <title>Choi Soon Ho</title>
-    <style>
-      body {
-        background-color: #9999CC;
-      }
-      .card{
-        width:50%;
-        border: 2px solid #000000;
-        border-radius:20px;
-        padding: 10px;
-        background-color:#DDDDDD;
-        margin : 10px;
-      }
-      .card:hover{
-        background-color:#FFFFFF;
-        cursor:pointer;
-      }
-      #name{
-      	color:blue;
-      }
-    </style>
-  </head>
-  <body>
-    <div>
-      <div class="card">
-        <p id = "name">name : Choi Soon Ho</p>
-        <p id = "email">Email : sosaror@gmail.com</p>
-      </div>
-      <div class="card">
-        <p id = "name2">name : Choi Soon Ho2</p>
-        <p id = "email2">Email : sosaror@gmail.com2</p>
-      </div>
-      <a href="page1.html">
-        <div class="card">
-          <p>Link to the other world!</p>
-          <p>Click me!</p>
-        </div>
-      </a>
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>My Personal Website</title>
+      <link rel="stylesheet" href="css/style.css" />
+   </head>
+   <body>
+      <header>
+         <nav>
+            <ul>
+               <li><a href="index.html">Home</a></li>
+               <li><a href="cv/cv.pdf" target="_blank">CV</a></li>
+               <li><a href="projects/project1.html">Projects</a></li>
+               <li><a href="about.html">About Me</a></li>
+               <li><a href="contact.html">Contact</a></li>
+            </ul>
+         </nav>
+      </header>
+
+      <main>
+         <section class="intro">
+            <h1>Welcome to My Personal Website</h1>
+            <p>
+               Hello! I'm Soon Ho, a graduate student specializing in Artificial Intelligence. Here, you can find my CV,
+               research projects, and more about me.
+            </p>
+         </section>
+         <section class="projects">
+            <h2>Highlighted Projects</h2>
+            <div class="project-grid">
+               <div class="project">
+                  <a href="projects/project1.html">
+                     <h3>Project Title 1</h3>
+                     <p>Short description of the project.</p>
+                  </a>
+               </div>
+               <div class="project">
+                  <a href="projects/project2.html">
+                     <h3>Project Title 2</h3>
+                     <p>Short description of the project.</p>
+                  </a>
+               </div>
+            </div>
+         </section>
+      </main>
+
+      <footer>
+         <p>&copy; 2024 Soon Ho, Choi</p>
+      </footer>
+
+      <script src="js/script.js"></script>
+   </body>
 </html>
