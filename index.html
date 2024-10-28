@@ -1,55 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>My Personal Website</title>
-      <link rel="stylesheet" href="css/style.css" />
-   </head>
-   <body>
-      <header>
-         <nav>
-            <ul>
-               <li><a href="index.html">Home</a></li>
-               <li><a href="cv/cv.pdf" target="_blank">CV</a></li>
-               <li><a href="projects/project1.html">Projects</a></li>
-               <li><a href="about.html">About Me</a></li>
-               <li><a href="contact.html">Contact</a></li>
-            </ul>
-         </nav>
-      </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Research and Projects</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/card.css">
+</head>
+<body>
+    <header></header> <!-- 헤더 로드 -->
 
-      <main>
-         <section class="intro">
-            <h1>Welcome to My Personal Website</h1>
-            <p>
-               Hello! I'm Soon Ho, a graduate student specializing in Artificial Intelligence. Here, you can find my CV,
-               research projects, and more about me.
-            </p>
-         </section>
-         <section class="projects">
-            <h2>Highlighted Projects</h2>
-            <div class="project-grid">
-               <div class="project">
-                  <a href="projects/project1.html">
-                     <h3>Project Title 1</h3>
-                     <p>Short description of the project.</p>
-                  </a>
-               </div>
-               <div class="project">
-                  <a href="projects/project2.html">
-                     <h3>Project Title 2</h3>
-                     <p>Short description of the project.</p>
-                  </a>
-               </div>
-            </div>
-         </section>
-      </main>
+    <main>
+        <section class="intro">
+            <h1>Welcome to My Research and Projects</h1>
+            <p>Explore my research topics and projects, including developments in neural networks and advanced architectures.</p>
+        </section>
 
-      <footer>
-         <p>&copy; 2024 Soon Ho, Choi</p>
-      </footer>
+        <section class="research">
+         <h2>Research Topics</h2>
+ 
+         <div class="card">
+             <h3>Binarization of Ternary</h3>
+             <p>An exploration into the binarization techniques for ternary neural networks, aimed at reducing complexity while maintaining accuracy.</p>
+             <ul>
+                 <li><strong>Research Papers:</strong> [List of published or in-progress papers]</li>
+                 <li><strong>Related Project:</strong> <a href="projects.html#plinear">plinear</a></li>
+             </ul>
+         </div>
+ 
+         <div class="card">
+             <h3>Transformers & New Architectures</h3>
+             <p>Developing novel architectures and adapting transformer models using efficient quantization techniques.</p>
+             <ul>
+                 <li><strong>Research Papers:</strong> [List of research outputs]</li>
+                 <li><strong>Related Project:</strong> <a href="projects.html#plinear">plinear</a></li>
+             </ul>
+         </div>
+     </section>
+    </main>
 
-      <script src="js/script.js"></script>
-   </body>
+    <footer></footer> <!-- 푸터 로드 -->
+
+    <script src="js/load.js"></script>
+</body>
 </html>

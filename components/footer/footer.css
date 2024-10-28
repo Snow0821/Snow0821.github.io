@@ -1,0 +1,11 @@
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;   /* 고정 위치 설정 */
+    bottom: 0;         /* 화면의 아래쪽에 고정 */
+    left: 0;           /* 좌측 끝부터 시작 */
+    width: 100%;       /* 전체 화면 너비 */
+    z-index: 1000;     /* 다른 요소 위에 위치 */
+}
