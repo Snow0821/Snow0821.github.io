@@ -1,46 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Research and Projects</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/card.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Choi Soon Ho - AI Researcher</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <header></header> <!-- 헤더 로드 -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications &amp; Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="./cv/cv.pdf" target="_blank">CV</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-        <section class="intro">
-            <h1>Welcome to My Research and Projects</h1>
-            <p>Explore my research topics and projects, including developments in neural networks and advanced architectures.</p>
-        </section>
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="container">
+      <h1>Choi Soon Ho</h1>
+      <p>AI Researcher</p>
+    </div>
+  </section>
 
-        <section class="research">
-         <h2>Research Topics</h2>
- 
-         <div class="card">
-             <h3>Binarization of Ternary</h3>
-             <p>An exploration into the binarization techniques for ternary neural networks, aimed at reducing complexity while maintaining accuracy.</p>
-             <ul>
-                 <li><strong>Research Papers:</strong> [List of published or in-progress papers]</li>
-                 <li><strong>Related Project:</strong> <a href="projects.html#plinear">plinear</a></li>
-             </ul>
-         </div>
- 
-         <div class="card">
-             <h3>Transformers & New Architectures</h3>
-             <p>Developing novel architectures and adapting transformer models using efficient quantization techniques.</p>
-             <ul>
-                 <li><strong>Research Papers:</strong> [List of research outputs]</li>
-                 <li><strong>Related Project:</strong> <a href="projects.html#plinear">plinear</a></li>
-             </ul>
-         </div>
-     </section>
-    </main>
+  <!-- Research Overview Section -->
+  <section id="research" class="section">
+    <div class="container">
+      <h2>Research Overview</h2>
+      <p>
+        I am solving <b> operand selection </b> problem for <b>Logic Gate Neural Networks</b> for efficient,
+        explainable and modularizable artificial intelligence. 
+      </p>
+      <p>
+        For now I was able to achieve around 30~40% accuracy for MNIST classification problem with around <b>1k NANDs</b>.
+        I am now using <b>policy gradient</b> for learning. I am now seeking for other <b>learning algorithms</b> like <b>RL, SAM-like methods</b> to improve the model. 
+      </p>
+      <p>
+        I hope my research could contribute for <b>understanding of knowledge</b>, 
+        <b>efficient robotic application</b> 
+        and <b>building mutiple-AI system</b> for <b>simulations</b> and <b>computer games</b> etc.
+      </p>
+    </div>
+  </section>
 
-    <footer></footer> <!-- 푸터 로드 -->
+  <!-- Publications & Projects Section -->
+  <section id="publications" class="section">
+    <div class="container">
+      <h2>Publications &amp; Projects</h2>
+      <div class="card-container">
+        <div class="card">
+          <h3>Operand Selectiive Logic Gate Neural Networks</h3>
+          <p>Made LGN problem into logic gate selection using NAND or NOR gates. </p>
+          <p>Working</p>
+          <div class="links">
+            <a href="https://github.com/Snow0821/oslgn" target="_blank">GitHub</a>
+            
+          </div>
+        </div>
+        <div class="card">
+          <h3>Binarization of Ternary Neural Networks</h3>
+          <p>Compared various ternarization methods deeper and binarized it to fit binary computer system.</p>
+          <p>KICS 2025 Winter Conference Oral (Paper publication waiting)</p>
+          <div class="links">
+            <a href="https://github.com/Snow0821/plinear/tree/main/Experiments/binarization_of_ternary_neural_networks" target="_blank">GitHub</a>
+            
+          </div>
+        </div>
+        <div class="card">
+          <h3>Comparing accuracy of sign-quantized layers with linear layer in small models</h3>
+          <p>A brief description of the project or publication goes here.</p>
+          <p>KICS 2024 Summer Conference Oral</p>
+          <div class="links">
+            <a href="https://github.com/Snow0821/Comparing_Accuracy_of_Ternary_Neural_Networks_in_Small_Models" target="_blank">GitHub</a>
+            <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11906215&nodeId=NODE11906215&mobileYN=N&medaTypeCode=185005&isPDFSizeAllowed=true&locale=ko&foreignIpYn=N&articleTitle=Comparing+accuracy+of+sign-quantized+layers+with+linear+layer+in+small+models&articleTitleEn=Comparing+accuracy+of+sign-quantized+layers+with+linear+layer+in+small+models&voisId=VOIS00753945&voisName=2024%EB%85%84%EB%8F%84+%ED%95%9C%EA%B5%AD%ED%86%B5%EC%8B%A0%ED%95%99%ED%9A%8C+%ED%95%98%EA%B3%84%EC%A2%85%ED%95%A9%ED%95%99%EC%88%A0%EB%B0%9C%ED%91%9C%ED%9A%8C+%EB%85%BC%EB%AC%B8%EC%A7%91&voisCnt=1006&language=ko_KR&hasTopBanner=true" target="_blank">Paper</a>
+          </div>
+        </div>
+        <!-- Add more cards as needed -->
+      </div>
+    </div>
+  </section>
 
-    <script src="js/load.js"></script>
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:sosaror@gmail.com">sosaror@gmail.com</a></p>
+      <p>GitHub: <a href="https://github.com/Snow0821" target="_blank">github.com/Snow0821</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Choi Soon Ho. All Rights Reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
