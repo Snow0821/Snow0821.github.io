@@ -4,7 +4,9 @@
 - Result of Cellular Automata can be considered as function
 - Is rules of CA unique?
 
-## Experiments
+## Experiments planned
+
+## Experiments result
 
 ## Papers Collected
 - Agent0
