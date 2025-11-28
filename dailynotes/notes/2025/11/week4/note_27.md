@@ -23,8 +23,8 @@
 
 ## Reviewed
 
-## Field to study
+## new Field to study
 - Cellular Automata
 
-## Todolist
+## new Todolist
 - re-collect previous collections
