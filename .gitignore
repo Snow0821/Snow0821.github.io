@@ -2,3 +2,4 @@ cv/cv.aux
 cv/cv.log
 cv/cv.out
 .DS_Store
+my_curriculum/fields/*/*/textbooks/*.pdf
