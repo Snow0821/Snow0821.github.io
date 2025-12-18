@@ -57,4 +57,29 @@
         x, & x \ge 0 \\
         -x, & x < 0
         \end{cases}$
-    
+    - greatest integer function (integer floor function)
+        - $\lfloor x \rfloor$
+    - least integer function (integer ceiling function)
+        - $\lceil x \rceil$
+- Increasing and Decreasing Functions
+    - on an interval $l$ and let $x_1$ and $x_2$ be any two points in $l.
+    - whenever $x_1 < x_2$
+        - if $f(x_2) > f(x_1)$, $f$ is said to be increasing on $l$
+        - if $f(x_2) < f(x_1)$, $f$ is said to be decreasing on $l$
+- Even Functions and Odd Functions : Symmetry
+    - even function : $f(x) = f(-x)$
+        - symmetric about the y-axis
+    - odd function : $f(-x) = -f(x)$
+        - symmetric about the origin
+- Common Functions
+    - Linear Functions
+        - $f(x) = mx + b$, for constants $m$ and $b$
+        - identiry function : $f(x) = x$, where $m = 1$ and $b = 0$
+        - proportionality relationship : a linear functions where $m \ge 0$, $b = 0$
+        - proportional : x, y if $y = kx$ for some nonzero constant k
+            - inversely proportional : x, y if $y = k / x$ or y is proportional to $1/x$
+    - Power Functions
+        - $f(x) = x^a$
+        - even function if $a$ is even
+        - odd function if $a$ is odd
+        - not defined for $x = 0$ if $a < 0$ 
