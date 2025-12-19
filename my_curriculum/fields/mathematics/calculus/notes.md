@@ -83,3 +83,24 @@
         - even function if $a$ is even
         - odd function if $a$ is odd
         - not defined for $x = 0$ if $a < 0$ 
+    - Polynomials
+        - A function $p$ is polynomial if
+        - $p(x) = a_nx^n + a_{n-1}x^{n-1} + \dots + a_1x + a_0$
+            - where $n \in I, n \ge 0$ and $a_i \in \R$
+            - $n$ is called degree of the polynomial
+            - quadratic functions : $p(x) = ax^2 + bx + c$ 
+            - cubic functions : $p(x) = ax^3 + bx^2 + cx + d$
+    - Rational Functions
+        - $f(x) = p(x) / q(x)$
+            - asymptotes : part not included in graph
+    - Algebraic Functions
+        - Any functions constructed from polynomials using algebraic operations(+, -. *, /, **)
+    - Trigonometric Functions
+    - Exponential Functions
+        - $f(x) = a^x$
+    - Logarithmic Functions
+        - $f(x) = \log_{a}{x}$
+    - Transcendental Functions
+        - functions that are not algebraic.
+        - examples : trigonometric, exponential, catenary $\dots$
+    
