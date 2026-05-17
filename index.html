@@ -1,43 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Choi Soon Ho - AI Researcher</title>
+  <title>알고리즘 수업 자료실</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="script.js"></script>
 </head>
 <body>
-  <div id="header-placeholder"></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="알고리즘 수업 자료실 홈">Algorithm Class</a>
+    <nav aria-label="주요 메뉴">
+      <a href="#stages">K-Stage</a>
+      <a href="#textbook">Textbook</a>
+      <a href="#problems">Problems</a>
+      <a href="#judge">Judge</a>
+    </nav>
+  </header>
 
-  <!-- Hero Section -->
-  <section id="hero">
-    <div class="container">
-      <h1>Choi Soon Ho</h1>
-      <p>AI Researcher</p>
-    </div>
-  </section>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">KOI / IOI Preparation</p>
+        <h1>학생별 속도에 맞춰 쓰는 인터랙티브 알고리즘 교재</h1>
+        <p>
+          프로젝트 메모리에 정리된 KOI 단계 분류, 숙달 기준, 문제 풀이 절차를
+          수업에서 바로 쓸 수 있는 웹페이지 형태로 옮겼습니다.
+        </p>
+      </div>
+      <div class="hero-panel" aria-label="현재 수업 구성 요약">
+        <div>
+          <span class="metric">K0-K9</span>
+          <span>단계형 성장 지도</span>
+        </div>
+        <div>
+          <span class="metric">6</span>
+          <span>풀이 진단 단계</span>
+        </div>
+        <div>
+          <span class="metric">HTML</span>
+          <span>GitHub Pages 배포</span>
+        </div>
+      </div>
+    </section>
 
-  <!-- Research Overview Section -->
-  <section id="research" class="section">
-    <div class="container">
-      <h2>Research Overview</h2>
-      <p>
-        I am solving <b> operand selection </b> problem for <b>Logic Gate Neural Networks</b> for efficient,
-        explainable and modularizable artificial intelligence. 
-      </p>
-      <p>
-        For now I was able to achieve around 30~40% accuracy for MNIST classification problem with around <b>1k NANDs</b>.
-        I am now using <b>policy gradient</b> for learning. I am now seeking for other <b>learning algorithms</b> like <b>RL, SAM-like methods</b> to improve the model. 
-      </p>
-      <p>
-        I hope my research could contribute for <b>understanding of knowledge</b>, 
-        <b>efficient robotic application</b> 
-        and <b>building mutiple-AI system</b> for <b>simulations</b> and <b>computer games</b> etc.
-      </p>
-    </div>
-  </section>
+    <section class="section intro-grid" aria-label="운영 원칙">
+      <article>
+        <h2>고정 차시보다 숙달 기준</h2>
+        <p>학생마다 독해, 구현, 검산 속도가 다르므로 수업은 차시가 아니라 관찰 가능한 성취 기준으로 진행합니다.</p>
+      </article>
+      <article>
+        <h2>시각화 먼저, 코드 나중</h2>
+        <p>큐, 배열, DP 표, 트리 상태처럼 눈으로 봐야 이해가 빠른 부분은 인터랙션으로 먼저 다룹니다.</p>
+      </article>
+      <article>
+        <h2>기출은 분류해서 사용</h2>
+        <p>KOI 문제는 학년 구분보다 실제 개념 난이도와 구현 부담을 기준으로 K-stage에 배치합니다.</p>
+      </article>
+    </section>
 
-  <div id="footer-placeholder"></div>
+    <section id="stages" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Mastery Map</p>
+        <h2>K-stage 단계 지도</h2>
+        <p>초등, 중등, 고등 문제를 별도 사다리로 보지 않고 하나의 연속 난이도 축으로 관리합니다.</p>
+      </div>
+      <div class="stage-filter" role="group" aria-label="단계 필터">
+        <button class="filter-button active" data-filter="all" type="button">전체</button>
+        <button class="filter-button" data-filter="foundation" type="button">기초</button>
+        <button class="filter-button" data-filter="bridge" type="button">브리지</button>
+        <button class="filter-button" data-filter="advanced" type="button">심화</button>
+      </div>
+      <div class="stage-grid" id="stage-grid"></div>
+    </section>
+
+    <section id="textbook" class="section split">
+      <div>
+        <p class="eyebrow">Interactive Textbook</p>
+        <h2>첫 화면에서 바로 다루는 알고리즘 상태 변화</h2>
+        <p>
+          각 장은 문제 상황, 느린 접근, 병목 시각화, 개선 아이디어, 구현 뼈대,
+          KOI 연결 문제, 숙달 확인 순서로 확장합니다.
+        </p>
+        <div class="chapter-list">
+          <button class="chapter-button active" data-chapter="prefix" type="button">Prefix Sum</button>
+          <button class="chapter-button" data-chapter="bfs" type="button">BFS Queue</button>
+          <button class="chapter-button" data-chapter="dp" type="button">DP Table</button>
+        </div>
+      </div>
+      <div class="visualizer" aria-live="polite">
+        <div class="visualizer-header">
+          <h3 id="visual-title">Prefix Sum</h3>
+          <div>
+            <button id="prev-step" type="button" aria-label="이전 단계">‹</button>
+            <button id="next-step" type="button" aria-label="다음 단계">›</button>
+          </div>
+        </div>
+        <div id="visual-canvas" class="visual-canvas"></div>
+        <p id="visual-caption"></p>
+      </div>
+    </section>
+
+    <section id="problems" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Problem Sources</p>
+        <h2>문제 수집과 수업 배치</h2>
+        <p>공식 문제 PDF, BIKO 채점 링크, 외부 저지를 구분해서 사용합니다. 문제 본문은 링크 중심으로 관리합니다.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>자료원</th>
+              <th>현재 판단</th>
+              <th>수업 적용</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://koi.or.kr/archives/" target="_blank" rel="noreferrer">KOI 공식 과거 대회</a></td>
+              <td>2019-2025 대회 기록과 문제 PDF 링크를 공식 제공</td>
+              <td>문제 원문과 해설의 기준 자료로 사용</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.biko.kr/" target="_blank" rel="noreferrer">BIKO</a></td>
+              <td>KOI 페이지에서 채점 사이트로 연결되는 공식 연습 환경</td>
+              <td>학생 제출과 채점은 우선 BIKO에 맡김</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.acmicpc.net/category/1126" target="_blank" rel="noreferrer">BOJ KOI 카테고리</a></td>
+              <td>2026년 4월 28일 이후 서비스 종료 안내 상태</td>
+              <td>당장은 핵심 채점 인프라로 의존하지 않음</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="judge" class="section split">
+      <div>
+        <p class="eyebrow">GitHub As Judge</p>
+        <h2>GitHub는 보조 채점기로만 적용</h2>
+        <p>
+          GitHub Classroom의 autograding은 학생 저장소에 푸시될 때 GitHub Actions로 테스트를 실행합니다.
+          공개 예제 테스트, 구현 과제, 코드 리뷰에는 적합하지만 KOI식 비공개 대량 테스트 온라인 저지를 대체하기에는 부족합니다.
+        </p>
+        <a class="text-link" href="https://docs.github.com/en/education/manage-coursework-with-github-classroom/teach-with-github-classroom/use-autograding" target="_blank" rel="noreferrer">
+          GitHub Classroom autograding 문서
+        </a>
+      </div>
+      <div class="judge-cards">
+        <article>
+          <h3>적용하면 좋은 경우</h3>
+          <p>함수 구현, 자료구조 메서드, 작은 입출력 문제, 스타일/테스트 습관 훈련</p>
+        </article>
+        <article>
+          <h3>조심할 경우</h3>
+          <p>비공개 테스트가 핵심인 대회 문제, 실행 시간 제한이 빡빡한 문제, 부정행위 방지</p>
+        </article>
+        <article>
+          <h3>추천 운영</h3>
+          <p>교재와 과제 배포는 GitHub Pages/Classroom, 실전 채점은 BIKO 또는 공식 환경</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Algorithm Class Materials</span>
+    <span>Built for static GitHub Pages</span>
+  </footer>
 </body>
 </html>
