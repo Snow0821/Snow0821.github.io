@@ -25,14 +25,17 @@ The initial scope is official KOI 2nd-round problems from 2022 through 2025.
 
 ## Current Status
 
-- Problem lists are recorded as `listed`.
+- Official links from 2019-2025 1st/2nd rounds are indexed under
+  `curriculum/problems/koi/`.
+- Current generated index coverage: 14 pages, 130 indexed rows, 119 problem
+  links, 101 solution links, 43 model-code links, 39 solution-code zip links,
+  85 test-data links, and 90 judge links.
 - Algorithm tags are intentionally not assigned yet.
-- First analysis stubs were created for key shared bridge problems.
-- Official PDFs from 2019-2025 1st/2nd rounds were downloaded into
-  `curriculum/problems/koi/raw/`.
-- Current raw download count: 119 problem PDFs, 101 solution/answer PDFs, 220 total.
+- Test-data zip files are linked but not redistributed in the repository by
+  default.
 
 ## Next Actions
 
+- Assign one primary K-stage to each indexed problem.
 - Analyze official PDFs for the priority bridge problems.
 - Fill in expected K-stage, concepts, observations, and lesson placement.
