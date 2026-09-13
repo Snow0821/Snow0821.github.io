@@ -1,0 +1,72 @@
+{
+  "version": "2026-09-13-preview-1",
+  "publicationStatus": "draft",
+  "profile": {
+    "name": "Soon Ho Choi",
+    "nameKo": "최순호",
+    "alias": "Snow",
+    "email": "sosaror@gmail.com",
+    "github": "https://github.com/Snow0821",
+    "linkedin": "https://www.linkedin.com/in/snowian",
+    "scholar": "https://scholar.google.com/citations?user=vHEqI8oAAAAJ",
+    "title": {"en": "AI Researcher & Instructor", "ko": "AI 연구자 · 강사"},
+    "bio": {
+      "en": "I study discrete and integer neural networks, and teach people to turn ideas into working code.",
+      "ko": "이산·정수 신경망을 연구하고, 아이디어를 작동하는 코드로 만드는 과정을 가르칩니다."
+    }
+  },
+  "education": [
+    {"institution": {"en": "Kookmin University", "ko": "국민대학교"}, "degree": {"en": "M.Eng. in Artificial Intelligence", "ko": "인공지능 전공 공학석사"}, "period": "2023.08 - 2025.08"},
+    {"institution": {"en": "Handong Global University", "ko": "한동대학교"}, "degree": {"en": "B.Eng. in Computer Science", "ko": "컴퓨터공학 공학사"}, "period": "2010.03 - 2019.08"}
+  ],
+  "research": [
+    {
+      "id": "oslgn", "year": "2025", "category": {"en": "Logic-gate networks", "ko": "논리 게이트 신경망"},
+      "title": {"en": "Operand Selective Logic Gate Neural Networks", "ko": "피연산자 선택 기반 논리 게이트 신경망"},
+      "short": "OSLGN",
+      "summary": {"en": "Exploring neural networks through the selection of operands and logic operations.", "ko": "피연산자와 논리 연산의 선택을 통해 신경망을 구성하고 학습하는 방법을 탐구합니다."},
+      "tags": ["Discrete learning", "Logic gates", "Efficient AI"],
+      "problem": {"en": "How can a network learn useful connections when its building blocks are discrete logic gates?", "ko": "이산적인 논리 게이트를 기본 단위로 사용하는 신경망은 유용한 연결을 어떻게 학습할 수 있을까요?"},
+      "approach": {"en": "Treating the choice of gate inputs as a learning problem, alongside the logic operations that connect them.", "ko": "게이트에 입력할 피연산자의 선택을 학습 문제로 다루고, 이들을 연결하는 논리 연산을 함께 탐구합니다."},
+      "evidence": {"en": "The public repository contains the research implementation. This overview describes the direction of the work; it does not claim a verified performance advantage.", "ko": "공개 저장소에서 연구 구현을 확인할 수 있습니다. 이 요약은 연구 방향을 소개하며, 검증되지 않은 성능 우위를 주장하지 않습니다."},
+      "github": "https://github.com/Snow0821/oslgn", "paper": null,
+      "source": "Existing CV and public OSLGN repository; repository visibility checked 2026-09-13."
+    },
+    {
+      "id": "ternary", "year": "2025", "category": {"en": "Quantization", "ko": "양자화"},
+      "title": {"en": "Binarization of Ternary Neural Networks", "ko": "삼진 신경망의 이진 표현"},
+      "short": "Ternary → binary",
+      "summary": {"en": "Investigating how ternary representations can be expressed in a binary computing system.", "ko": "삼진 표현을 이진 컴퓨팅 환경에 맞게 표현하는 방법을 탐구합니다."},
+      "tags": ["Binary", "Ternary", "Representation"],
+      "problem": {"en": "Ternary networks use three states, while conventional digital systems are built around binary representations.", "ko": "삼진 신경망은 세 가지 상태를 사용하지만, 일반적인 디지털 시스템은 이진 표현을 중심으로 구성됩니다."},
+      "approach": {"en": "Studying binary representations of ternary models and comparing quantization methods in small networks.", "ko": "삼진 모델의 이진 표현을 살펴보고, 작은 신경망에서 양자화 방법을 비교합니다."},
+      "evidence": {"en": "Code and experiment materials are available in the public project repository. Publication details will be added after bibliographic verification.", "ko": "공개 프로젝트 저장소에서 코드와 실험 자료를 확인할 수 있습니다. 논문 서지 정보는 확인 후 추가할 예정입니다."},
+      "github": "https://github.com/Snow0821/plinear", "paper": null,
+      "source": "Existing CV; public plinear repository visibility checked 2026-09-13."
+    },
+    {
+      "id": "sign-quantized", "year": "2024", "category": {"en": "Conference research · KICS", "ko": "학술대회 연구 · 한국통신학회"},
+      "title": {"en": "Sign-Quantized Layers in Small Models", "ko": "소규모 모델에서 부호 양자화 층의 정확도 비교"},
+      "short": "Sign quantization",
+      "summary": {"en": "Comparing sign-quantized layers with conventional linear layers in small neural networks.", "ko": "작은 신경망에서 부호 양자화 층과 일반적인 선형 층의 정확도를 비교합니다."},
+      "tags": ["Quantization", "Small models", "KICS 2024"],
+      "problem": {"en": "How does restricting a layer's numerical representation affect learning in small models?", "ko": "층에서 사용하는 수치 표현을 제한하면 작은 모델의 학습에 어떤 변화가 생길까요?"},
+      "approach": {"en": "Comparing sign-quantized and conventional linear layers under small-model settings.", "ko": "소규모 모델 환경에서 부호 양자화 층과 일반적인 선형 층을 비교합니다."},
+      "evidence": {"en": "Choi Soon Ho and Soo-Yeon Yoon. “Comparing accuracy of sign-quantized layers with linear layer in small models.” KICS Symposium, June 19, 2024. The public code is linked below.", "ko": "Choi Soon Ho, Soo-Yeon Yoon. “Comparing accuracy of sign-quantized layers with linear layer in small models.” 한국통신학회 학술대회, 2024년 6월 19일. 공개 코드는 아래 링크에서 확인할 수 있습니다."},
+      "github": "https://github.com/Snow0821/Comparing_Accuracy_of_Ternary_Neural_Networks_in_Small_Models", "paper": null,
+      "source": "Bibliographic entry in existing cv/cv.tex. Paywalled article link deliberately omitted under the user's link policy."
+    }
+  ],
+  "teaching": [
+    {"id": "programming", "title": {"en": "Python & C++", "ko": "Python · C++"}, "description": {"en": "Programming foundations, clear mental models, and hands-on practice.", "ko": "프로그래밍의 기초 개념부터 직접 구현하는 실습까지."}, "tags": {"en": "Foundations · Practice", "ko": "프로그래밍 기초 · 실습"}},
+    {"id": "algorithms", "title": {"en": "Data structures & algorithms", "ko": "자료구조 · 알고리즘"}, "description": {"en": "Reasoning about a problem, choosing a structure, and building a solution.", "ko": "문제를 분석하고, 적절한 구조를 선택하고, 해결 방법을 구현합니다."}, "tags": {"en": "Problem solving · Computer science", "ko": "문제 해결 · 컴퓨터과학"}},
+    {"id": "ai-web", "title": {"en": "Practical AI & web development", "ko": "AI 활용 · 웹 제작"}, "description": {"en": "Project-based workshops that connect AI concepts to something useful.", "ko": "AI의 개념을 이해하고, 자신에게 필요한 결과물을 만드는 프로젝트 수업."}, "tags": {"en": "Workshops · Personal projects", "ko": "워크숍 · 개인 프로젝트"}}
+  ],
+  "experience": [{"period": "2023 - Present", "role": {"en": "Freelance developer & AI instructor", "ko": "프리랜서 개발자 · AI 강사"}, "source": "User-provided career context. Pending LinkedIn cross-check."}],
+  "notes": [],
+  "documents": [
+    {"id": "research-cv", "title": {"en": "Research CV", "ko": "영문 연구 CV"}, "subtitle": {"en": "Research & academic background", "ko": "연구 활동 · 학력"}, "language": "EN", "filename": "Soon-Ho-Choi-Research-CV.pdf"},
+    {"id": "resume-ko", "title": {"en": "Korean résumé", "ko": "국문 이력서"}, "subtitle": {"en": "Experience & education", "ko": "경력 · 학력 · 연구"}, "language": "KO", "filename": "Soon-Ho-Choi-Resume-KO.pdf"},
+    {"id": "instructor", "title": {"en": "Instructor profile", "ko": "강사 소개서"}, "subtitle": {"en": "Teaching areas & workshops", "ko": "강의 분야 · 수업 방식"}, "language": "KO", "filename": "Soon-Ho-Choi-Instructor-Profile.pdf"}
+  ]
+}
