@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs",
+    "deploy": "npm run build && npx --yes wrangler@4 deploy",
+    "deploy:preview": "npm run build && npx --yes wrangler@4 versions upload",
     "test": "node --test scripts/worker.test.mjs"
   }
 }
