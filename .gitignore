@@ -1,8 +1,5 @@
-cv/cv.aux
-cv/cv.log
-cv/cv.out
-.DS_Store
-my_curriculum/fields/*/*/textbooks/*.pdf
-my_curriculum/**/*.pdf
-curriculum/problems/koi/downloads/
-curriculum/problems/koi/raw/
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+qa/
