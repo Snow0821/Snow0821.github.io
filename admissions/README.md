@@ -2,7 +2,7 @@
 
 [ys-faculty]: https://swedu.yonsei.ac.kr/yonseisw/intro05.do
 
-최종 갱신: **2026-09-23 (Asia/Seoul)** · 대상: **2027학년도 전기**  
+최종 갱신: **2026-09-24 (Asia/Seoul)** · 대상: **2027학년도 전기**  
 관리 원본: `Snow0821/Snow0821.github.io` / `main` / `admissions/README.md`
 
 서울을 우선하고, 수도권은 연구 적합성이 강한 경우에 포함한다. 독립 박사과정과 진학으로 이어질 수 있는 연구인턴·RA·공동연구를 함께 검토한다. 연구 기준은 **이산 학습, integer-only/floatless, neuro-symbolic, neuromorphic**이며, OSLGN의 operand/operator 선택·STE 경험과 연결한다.
@@ -17,8 +17,9 @@
 4. **서울대 AI대학원** 지원서·영어성적·박사 지도 가능 여부 점검. 원서 마감 **10월 2일 17:00**, 서류 마감 **10월 6일 17:00**.
 5. **UST–KIST AI-로봇 독립 박사 접수 중, 10월 6일 15:00 마감.** 9월 22일 온라인 설명회는 종료됐고 참석 여부는 미기록. Seongsik Park 연구팀의 개인 지도 가능 여부·실제 연구 장소·재정은 지원 전 별도 확인.
 
-6. **성균관대 IRIS Lab / Jong Hwan Ko — 오늘 09-23 10:00 전전컴 박사 원서접수 시작.** 1:1 상담·학과 설명회 사전신청 기한은 지났고 실제 신청 여부는 미기록. 수원 오픈랩 **09-29 14:00~18:00**의 방문 가능 여부를 별도 확인. 박사는 **희망 지도교수 추천서 필수**이므로 추천서·지도 가능 여부 확인 없이는 원서만 먼저 내기 어렵다.
-7. **비학위 연구 경로:** 성균관대 Kim Lab의 `post-master` 자리 유무를 우선 확인. 서울대 MLLAB 상시 연구 인턴과 고려대 EMI 단기 연구 인턴은 석사 졸업자 수용·급여·기간을 문의.
+6. **건국대 GLI Lab / Byungkook Oh — 현재 MS/PhD 모집을 공식 명시.** 2027 전기 원서는 **10-01 10:00~10-20 23:59**, 서류는 **10-21 16:00까지**. CV·연구관심·지원동기로 `bkoh@konkuk.ac.kr`에 이번 주 연구 정합성 상담을 요청하고, 논리 규칙 internalization과 OSLGN의 discrete operator selection 연결을 제시.
+7. **성균관대 IRIS Lab / Jong Hwan Ko — 09-23 10:00 전전컴 박사 원서접수 시작.** 1:1 상담·학과 설명회 사전신청 기한은 지났고 실제 신청 여부는 미기록. 수원 오픈랩 **09-29 14:00~18:00**의 방문 가능 여부를 별도 확인. 박사는 **희망 지도교수 추천서 필수**이므로 추천서·지도 가능 여부 확인 없이는 원서만 먼저 내기 어렵다.
+8. **비학위 연구 경로:** 성균관대 Kim Lab의 `post-master` 자리 유무를 우선 확인. 서울대 MLLAB 상시 연구 인턴과 고려대 EMI 단기 연구 인턴은 석사 졸업자 수용·급여·기간을 문의.
 
 아래 연락·지원은 권장 행동이다. 실제 발송·등록·참석·지원 완료 여부는 아직 기록되지 않았다.
 
@@ -50,6 +51,7 @@
 | **고려대 KU-KIST융합대학원** | **10-01 10:00 ~ 10-15 17:00** | **서류 10-20 17:00 도착**, 구술 **11-14 10:00**, 합격 **12-10 10:00 예정**. 면접 장소 공지일은 요강 오기 가능성으로 재확인 필요 | 09-19 [학교 페이지][kukist-admission]의 [2027 전기 PDF][kukist-guide-2027] 확인. 게시·수정일 미표시 |
 | **국민대 AI·SW대학원** | **미정** | 전형일·서류·재정지원·영어요건 미정 | 확인 · [09-07 공식 통합 안내][kmu-notice] |
 | **KAIST 서울권 후보 / 대학 공통 봄학기 2차** | **09-29 10:00 ~ 10-08 17:30** (대학 공통 일정) | 추천서 해당 시 10-12 18:00. **김재철AI대학원·KAIST-KIST AI로봇의 2차 참여 여부는 미확인** | 09-15 [입학팀 공식 일정][kaist-spring2] 확인. 1·2차는 모집 학과가 다르므로 AI 박사 접수 가능으로 해석하지 않음 |
+| **건국대 일반대학원 / GLI Lab** | **10-01 10:00 ~ 10-20 23:59** | 서류 **10-21 16:00까지**, 면접 **11-06~11-07**. 박사 신입학은 국내외 정규대학원 석사학위 취득자 또는 2027년 2월 취득예정자 | 09-24 [09-09 공식 모집 공지][konkuk-2027] 및 [학사일정][konkuk-schedule] 확인. 세부 제출서류·공인영어 조건은 접근 제한으로 재확인 필요 |
 
 UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공고][ust-notice-2027]와 [해당 PDF][ust-pdf]를 기준으로 한다. 09-16 PDF를 내려받아 모집·영어 표를 시각 대조했고, KIST AI-로봇 박사 모집과 접수 시각을 확인했다. 아래 다른 후보의 미수정 조건은 기존 확인값이며, 09-16에 전부 재검증했다는 의미는 아니다.
 
@@ -65,6 +67,7 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 | 서울대 **SKI-ML / Jay-Yoon Lee** | 지도·지원절차 확인 | 중상 | 낮음 | 매우 높음 | 낮음 |
 | 연세대 **SCLAB / Sung-Bae Cho** | 설명회 종료·개별 면담 | 높음 | 중하 | 매우 높음 | 낮음 |
 | 연세대 **ICL / Kyong-Ho Lee** | 대안 면담 | 중간 | 낮음 | 높음 | 낮음 |
+| 건국대 **GLI / Byungkook Oh** | 적극 모집·연구 정합성 상담 | 중상·추론 | 낮음 | 매우 높음 | 낮음 |
 | 국민대 **MLPR / Jangho Kim** | 사전 면담 | 높음 | 높음 | 낮음 | 낮음 |
 | 국민대 **EAIC / Eunji Kwon** | 사전 면담 | 중간 | 높음 | 낮음 | 중간 |
 | KU-KIST **Gunuk Wang** | 알고리즘 공동지도 조건 확인 | 중하 | 중간 | 낮음 | 매우 높음·소자 중심 |
@@ -126,6 +129,16 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 - **서울 신촌.** [공식 연구실][icl]이 **2027 전기 모집**을 명시. `khlee89@yonsei.ac.kr`.
 - **연구 근거:** [공식 교수 소개][ys-faculty]에 지식 그래프, 그래프 표현 학습 및 추론을 명시. OSLGN의 논리 연산자 선택과 결합할 수 있다는 연구 제안은 추론이며, 최근 논문과 구체적인 실험 주제를 면담 전에 대조.
 - **다음 행동:** 컴퓨터과학과 독립 박사 지도·등록금·인건비 문의. 연세대 내 HAI·SCLAB 경로와 최종 지원학과를 조정.
+
+### 건국대 Graph & Language Intelligence Lab — Byungkook Oh / 오병국
+
+- **서울 광진구.** [공식 Hiring Q&A][gli-hiring]가 현재 **MS/PhD 학생과 학부 연구인턴을 모집 중**이라고 명시하며, CV·연구관심·지원동기를 `bkoh@konkuk.ac.kr`로 언제든 보내도록 안내한다. 페이지 게시·수정일은 미표시이고 09-24 확인.
+- **전형:** [09-09 공식 모집 공지][konkuk-2027] 기준 2027 전기 원서 **10-01 10:00~10-20 23:59**, 서류 **10-21 16:00까지**, 면접 **11-06~11-07**. 박사 신입학은 국내외 정규대학원 석사학위 취득자 또는 2027년 2월 취득예정자다. 세부 제출서류·공인영어·수업 언어는 모집요강 파일 접근 제한으로 이번 실행에서 재확인하지 못했으며, 낮은 학부 GPA가 심사에서 어떻게 반영되는지도 공개 확인되지 않았다.
+- **재정:** 연구실은 상황에 따라 **등록금에 해당하는 기본 인건비를 최대한 보장**하고 연구 기여도에 따라 추가 지급한다고 설명한다. 이는 전액 등록금·월 지급액·박사 전 기간의 확정 보장이 아니며 실제 금액·기간·과제조건은 개별 확인이 필요하다.
+- **연구 근거:** [공식 교수 프로필][gli-professor]의 Graph ML/DL·Knowledge-based Systems·NLP, [논문 목록][gli-papers]의 *Internalizing Negation-Gated Logical Rules into LLMs for Document-Level Relation Extraction* (Findings of EMNLP 2026)과 *Diversifying Differentiable Graph Retrieval with Topic-Adaptive Multi-Intent Learning* (WWW 2026), [프로젝트 목록][gli-projects]의 2026.07~2031.12 조립형 AI 생애주기 과제를 확인.
+- **네 축 판단:** 이산 학습 **중상·추론**(그래프·관계·규칙·제약은 이산 구조지만 STE 기반 선택 학습은 미확인), integer-only/floatless **낮음**(양자화·정수학습 직접 근거 없음), neuro-symbolic **매우 높음**(differentiable logical constraints·rule internalization 직접 연구), neuromorphic **낮음**(SNN·소자 직접 근거 없음).
+- **제안할 연구:** OSLGN의 operand/operator 선택을 negation-gated rule internalization과 결합한 제어 가능한 neuro-symbolic learning. 정수학습은 주된 정합성으로 과장하지 않는다.
+- **ACT NOW — 권장 행동:** 이번 주 CV·IJCNN 채택 논문·1쪽 정합성 메모로 **연구 협업·정합성 상담**을 요청하고, 독립 박사 지도 가능 여부·전형 학과·등록금/월 지급액/보장기간을 확인. 연구실 연락 마감은 없지만 원서가 10-01 시작되므로 접수 전 상담이 유리하다. 실제 연락·지원 여부는 미기록.
 
 ### 국민대 MLPR / EAIC — Jangho Kim / Eunji Kwon
 
@@ -222,13 +235,12 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 
 ### 학부생 대상 공고: 석사후 참여는 별도 문의
 
-다음 4곳은 현재 비학위 모집에 **학부생**을 명시한다. 석사 졸업자인 사용자에게 동일 자격이 적용된다고 보지 않는다. 모든 행은 09-20 공식 페이지 재확인 기준이다.
+다음 3곳은 현재 비학위 모집에 **학부생**을 명시한다. GLI Lab은 별도 MS/PhD 적극 모집 후보로 승격해 이 표에서 제외했다. 석사 졸업자인 사용자에게 동일 자격이 적용된다고 보지 않는다. 모든 행은 09-20 공식 페이지 재확인 기준이다.
 
 | 후보·지역 | 현재 공식 대상 | 연구 연결·확인할 점 | 연락·출처 |
 | --- | --- | --- | --- |
 | 서울대 **AISys · 이진호** · 서울 관악 | 석·박사 신입생 및 **학부생 인턴 상시 선발** | 양자화·압축·SNN·학습 가속. 석사 졸업자 RA/연구원은 별도 문의 | `leejinho@snu.ac.kr` · [공식 모집](https://aisys.snu.ac.kr/) |
 | 서울시립대 **CIDA · 고상기** · 서울 동대문 | 대학원생·**학부 연구생 모집**, 학부 연구생은 **최소 1년** | Neuro-symbolic·정형 검증·SNN/STDP. 석사후 비학위 자리는 미명시 | `sangkiko@uos.ac.kr` · [공식 모집](https://cida.uos.ac.kr/) |
-| 건국대 **GLI · 오병국** · 서울 광진 | MS/PhD 및 **학부 연구 인턴**, 언제든 문의 안내 | 지식그래프·관계/논리 기반 추론. 석사 졸업자 연구원 신분·급여 문의 | `bkoh@konkuk.ac.kr` · [공식 Hiring Q&A](https://gli.konkuk.ac.kr/contact/hiring/) |
 | 한국뉴욕주립대 **BCL · Yoon Seok Yang** · 인천 송도 | **학부 연구 인턴** 및 MS/PhD 모집 · 마감 미표시 | SNN·비트 단위 스파이크·무곱셈 연산. 석사후 경로 미명시; 통학 부담 검토 | `yoonseok.yang@sunykorea.ac.kr` · [공식 모집](https://sites.google.com/view/suny-bcl/home) |
 
 **재확인 대기:** 서울과기대 BrAIn / 김성은은 과거 학부 연구조교 모집 기록이 있지만, 이번에는 [기존 홈페이지](https://brainailab.com/)가 열리지 않아 현재 조건을 확인하지 못했다. 종료로 처리하지 않으며, 석사후 채용으로도 표시하지 않는다.
@@ -271,11 +283,11 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 
 ## 최근 변경
 
+- **2026-09-24:** 건국대 GLI Lab의 현재 MS/PhD 모집·연구실 인건비 방침과 2027 전기 접수 일정을 확인해 서울 neuro-symbolic 박사 후보로 승격.
 - **2026-09-23:** 성균관대 전전컴 원서접수 10:00 시작을 행동 항목으로 올리고, IRIS 1:1 상담·학과 설명회 신청과 UST 온라인 설명회를 기한 경과·참석 미확인으로 이관. 새 모집 공고는 확인되지 않음.
 - **2026-09-21:** IRIS 1:1 상담 사전신청을 당일 마감 상태로 상향하고 UST–KIST 온라인 설명회 참가스쿨 기준일을 정정.
 - **2026-09-20:** 상시 연구원·인턴 구역을 `main`에 병합. MLLAB 상시 연구 인턴, EMI 단기 연구 인턴, Kim Lab `post-master`를 학부생 대상 공고와 분리.
 - **2026-09-19:** KU-KIST 2027 전기 서류·영어·연구실적 조건과 성균관대 신규 장학의 GPA·TA 요건을 확인하고 입학요건과 구분.
-- **2026-09-18:** 고려대 2027 전기 일정·박사 제출요건을 EMI 준비사항에 반영하고, 지난 설명회는 참석 여부 미기록 상태로 종료 처리.
 [ys-ai-event]: https://cs.yonsei.ac.kr/csai/board/facultyBoard.do?articleNo=478837&mode=view
 [ys-ax-post]: https://phdkim.net/gradrecruit/post/1275
 [ys-schedule]: https://graduate.yonsei.ac.kr/graduate/admission/general_schedule.do
@@ -329,3 +341,10 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 
 [kukist-guide-2027]: https://kukistschool.korea.ac.kr/ft_board/download.html?fd=freshman&fname=2027%ED%95%99%EB%85%84%EB%8F%84_%EC%A0%84%EA%B8%B0_KU-KIST%EC%9C%B5%ED%95%A9%EB%8C%80%ED%95%99%EC%9B%90_%EC%8B%A0%EC%9E%85%EC%83%9D_%EB%AA%A8%EC%A7%91%EC%95%88%EB%82%B4.pdf
 [skku-scholarship-2027]: https://ice.skku.edu/ice/notice_grad.do?articleNo=225783&mode=view
+
+[konkuk-2027]: https://grad.konkuk.ac.kr/bbs/grad/262/1206768/artclView.do?layout=unknown
+[konkuk-schedule]: https://www.konkuk.ac.kr/grad/10315/subview.do
+[gli-hiring]: https://gli.konkuk.ac.kr/contact/hiring/
+[gli-professor]: https://www.konkuk.ac.kr/cse/9960/subview.do
+[gli-papers]: https://gli.konkuk.ac.kr/publications/papers/
+[gli-projects]: https://gli.konkuk.ac.kr/research/projects/
