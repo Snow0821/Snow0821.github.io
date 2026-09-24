@@ -2,7 +2,7 @@
 
 [ys-faculty]: https://swedu.yonsei.ac.kr/yonseisw/intro05.do
 
-최종 갱신: **2026-09-24 (Asia/Seoul)** · 대상: **2027학년도 전기**  
+최종 갱신: **2026-09-25 (Asia/Seoul)** · 대상: **2027학년도 전기**  
 관리 원본: `Snow0821/Snow0821.github.io` / `main` / `admissions/README.md`
 
 서울을 우선하고, 수도권은 연구 적합성이 강한 경우에 포함한다. 독립 박사과정과 진학으로 이어질 수 있는 연구인턴·RA·공동연구를 함께 검토한다. 연구 기준은 **이산 학습, integer-only/floatless, neuro-symbolic, neuromorphic**이며, OSLGN의 operand/operator 선택·STE 경험과 연결한다.
@@ -20,6 +20,7 @@
 6. **건국대 GLI Lab / Byungkook Oh — 현재 MS/PhD 모집을 공식 명시.** 2027 전기 원서는 **10-01 10:00~10-20 23:59**, 서류는 **10-21 16:00까지**. CV·연구관심·지원동기로 `bkoh@konkuk.ac.kr`에 이번 주 연구 정합성 상담을 요청하고, 논리 규칙 internalization과 OSLGN의 discrete operator selection 연결을 제시.
 7. **성균관대 IRIS Lab / Jong Hwan Ko — 전전컴 박사 원서접수 중(10-13 18:00 마감).** 1:1 상담·학과 설명회 사전신청 기한은 지났고 실제 신청 여부는 미기록. 수원 오픈랩 **09-29 14:00~18:00**의 방문 가능 여부를 별도 확인. 박사는 **희망 지도교수 추천서 필수**이므로 추천서·지도 가능 여부 확인 없이는 원서만 먼저 내기 어렵다.
 8. **비학위 연구 경로:** 성균관대 Kim Lab의 `post-master` 자리 유무를 우선 확인. 서울대 MLLAB 상시 연구 인턴과 고려대 EMI 단기 연구 인턴은 석사 졸업자 수용·급여·기간을 문의.
+9. **SUNY Korea BCL / Yoon Seok Yang — MS/PhD 공개 모집과 2026년 9월 신규 과제 확인.** 2027 전기 Computer Science PhD 마감은 **12월 1일(시각 미표시)**. 누적 GPA 3.00/4.00 기준이 학부·석사 중 어느 성적에 적용되는지 서면 확인한 뒤 연구 정합성 상담 여부를 결정.
 
 아래 연락·지원은 권장 행동이다. 실제 발송·등록·참석·지원 완료 여부는 아직 기록되지 않았다.
 
@@ -52,6 +53,7 @@
 | **국민대 AI·SW대학원** | **미정** | 전형일·서류·재정지원·영어요건 미정 | 확인 · [09-07 공식 통합 안내][kmu-notice] |
 | **KAIST 서울권 후보 / 대학 공통 봄학기 2차** | **09-29 10:00 ~ 10-08 17:30** (대학 공통 일정) | 추천서 해당 시 10-12 18:00. **김재철AI대학원·KAIST-KIST AI로봇의 2차 참여 여부는 미확인** | 09-15 [입학팀 공식 일정][kaist-spring2] 확인. 1·2차는 모집 학과가 다르므로 AI 박사 접수 가능으로 해석하지 않음 |
 | **건국대 일반대학원 / GLI Lab** | **10-01 10:00 ~ 10-20 23:59** | 서류 **10-21 16:00까지**, 면접 **11-06~11-07**. 박사 신입학은 국내외 정규대학원 석사학위 취득자 또는 2027년 2월 취득예정자 | 09-24 [09-09 공식 모집 공지][konkuk-2027] 및 [학사일정][konkuk-schedule] 확인. 세부 제출서류·공인영어 조건은 접근 제한으로 재확인 필요 |
+| **SUNY Korea Computer Science PhD / BCL** | **12-01 마감**(시각 미표시) | 누적 GPA **3.00/4.00 이상**, personal statement·추천서 3부·전 학력 성적표·지원료. CS PhD GRE 불필요. 구체계 TOEFL iBT **90** 또는 개정 체계 **5**, IELTS 6.5 등 | 09-25 [공식 대학원 입학요건](https://www.sunykorea.ac.kr/adm/html/sub03/030301.html) 확인. GPA가 어느 학위 성적에 적용되는지 미명시되어 입학팀 서면 확인 필요 |
 
 UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공고][ust-notice-2027]와 [해당 PDF][ust-pdf]를 기준으로 한다. 09-16 PDF를 내려받아 모집·영어 표를 시각 대조했고, KIST AI-로봇 박사 모집과 접수 시각을 확인했다. 아래 다른 후보의 미수정 조건은 기존 확인값이며, 09-16에 전부 재검증했다는 의미는 아니다.
 
@@ -72,6 +74,7 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 | 국민대 **EAIC / Eunji Kwon** | 사전 면담 | 중간 | 높음 | 낮음 | 중간 |
 | KU-KIST **Gunuk Wang** | 알고리즘 공동지도 조건 확인 | 중하 | 중간 | 낮음 | 매우 높음·소자 중심 |
 | 성균관대 **IRIS / Jong Hwan Ko** · 수원 | 원서 09-23 10:00 시작·추천서/오픈랩 확인 | 높음 | 높음·완전 정수학습 미확인 | 낮음 | 높음 |
+| SUNY Korea **BCL / Yoon Seok Yang** · 인천 송도 | 공개 MS/PhD 모집·GPA 자격 확인 | 높음·추론 | 매우 높음·정수 역전파 미확인 | 낮음 | 매우 높음 |
 
 ### 연세대 HAI Lab — Jaeyong Chung / 정재용
 
@@ -183,6 +186,17 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 - **프로필 연결·위험:** IJCNN OSLGN의 STE 경험을 비트 선택과 결합하고, 진행 중인 int8 누산·정수 갱신을 부분합 양자화와 비교하는 1쪽 메모가 적합하다는 판단. 학부 성적 제출은 필수이므로 GPA 2.04/4.5 위험은 남으며 석사 3.9/4.5·연구실적으로 보완하되 합격 가능성을 단정하지 않음.
 - **ACT NOW — 권장 행동:** 원서접수 중이므로 희망 지도교수 추천서 발급 가능 여부와 09-29 오픈랩 방문 예약부터 확인. 추천서·박사 TO·알고리즘 연구 비중·등록금/생활비를 확인한 뒤 지원을 결정한다. 학과 문의 `skkuece@skku.edu`, 교수 연락 `jhko@skku.edu`([저자 연락처 근거][iris-contact]). 연락·신청·지원 완료 여부는 미기록.
 
+### SUNY Korea Brain-Inspired Computing Lab — Yoon Seok Yang
+
+- **인천 송도.** 서울 통학 부담이 크지만, [공식 연구실](https://sites.google.com/view/suny-bcl/home)이 학부 인턴과 별도로 **M.S./Ph.D. 지원자를 공개 모집**하고 있어 neuromorphic·floatless 축의 수도권 예외 후보로 승격한다. 연구실 연락 마감은 미표시이며 교수 연락처는 `yoonseok.yang@sunykorea.ac.kr`.
+- **전형·마감:** [공식 대학원 입학요건](https://www.sunykorea.ac.kr/adm/html/sub03/030301.html)의 Spring 마감은 **12월 1일**이며 시각은 표시되지 않았다. 최소 누적 GPA는 **3.00/4.00**이지만 어느 학위 성적에 적용되는지 페이지가 구분하지 않는다. 학부 2.04/4.5는 위험요소이고 석사 3.9/4.5가 기준을 충족할 수 있는지는 `gradadmission@sunykorea.ac.kr` 또는 `cs@sunykorea.ac.kr`의 서면 확인이 필요하다.
+- **서류·언어:** personal statement, 추천서 3부, 전 학력 성적표와 지원료가 필요하고 Computer Science PhD는 GRE가 필요 없다. 영어 면제 대상이 아니라면 2026-01-21 이전 TOEFL iBT **90**, 이후 개정 체계 총점 **5**, IELTS 6.5 또는 Gateway 495가 기준이다. TOEFL 101의 응시일·유효성은 미확인으로 남긴다.
+- **재정:** [공식 프로그램 안내](https://www.sunykorea.ac.kr/adm/html/sub03/030302.html)는 우수 지원자에게 TA/RA 형태의 **등록금 전액 면제와 월 stipend**가 경쟁적으로 제공될 수 있다고 명시한다. 선발·금액·지급기간은 보장되지 않았다.
+- **시의성 근거:** 연구실은 **2026.09~2029.08 NRF SpikeMamba 과제** 선정을 공지했다. 또한 [09-17 학교 공식 뉴스](https://www.sunykorea.ac.kr/news/html/sub03/03.html?mng_no=1357&mode=V)는 2026.07~2030.12 wearable EEG on-device AI 과제에서 SUNY Korea 배정액 5억 원과 Yang 연구팀의 저전력 AI 역할을 확인한다.
+- **연구 근거:** [교수 공식 프로필](https://cs.sunykorea.ac.kr/cs/html/sub02/0201.html?mode=V&mng_no=8a844cf6cbd8854de9cfcf45517a3b6b)과 [논문 목록](https://sites.google.com/view/suny-bcl/publications)의 *SpikeMamba*, *TFST*, *MindCore*가 spike-domain state-space model, hardware-aware spiking transformer, bit-packed·multiplier-free 가속을 직접 다룬다.
+- **네 축 판단:** 이산 학습 **높음·추론**(스파이크·event-driven binary accumulation; OSLGN식 연산자 선택은 미확인), integer-only/floatless **매우 높음**(무곱셈·bit-packed·INT8 접점; 완전 정수 역전파는 미확인), neuro-symbolic **낮음**, neuromorphic **매우 높음**.
+- **ACT NOW — 권장 행동:** 지원료를 내기 전에 GPA 3.00 기준의 적용 학위를 입학팀에 서면 확인한다. 동시에 CV·IJCNN 채택 논문과 ‘discrete operator selection을 spike-domain/multiplier-free 학습으로 확장’한 1쪽 메모로 박사 TO, 알고리즘 대 하드웨어 비중, TA/RA의 등록금·월액·보장기간을 문의할지 결정한다. 연락·지원 완료 여부는 미기록.
+
 ## 상시 연구원·인턴 기회
 
 확인일: **2026-09-20 (KST)**. 박사 입시 일정과 별도로, **학위 입학 전 또는 입학 없이 참여할 연구 인턴·RA·석사후연구원·연구 소프트웨어 직무**를 관리한다. 모집 페이지의 게시·수정일은 아래 주요 3곳 모두 미표시이며, 확인일을 신규 공고일로 간주하지 않는다.
@@ -235,13 +249,12 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 
 ### 학부생 대상 공고: 석사후 참여는 별도 문의
 
-다음 3곳은 현재 비학위 모집에 **학부생**을 명시한다. GLI Lab은 별도 MS/PhD 적극 모집 후보로 승격해 이 표에서 제외했다. 석사 졸업자인 사용자에게 동일 자격이 적용된다고 보지 않는다. 모든 행은 09-20 공식 페이지 재확인 기준이다.
+다음 2곳은 현재 비학위 모집에 **학부생**을 명시한다. GLI Lab과 BCL은 독립 박사 후보로 승격해 이 표에서 제외했다. 석사 졸업자인 사용자에게 동일 자격이 적용된다고 보지 않는다. 아래 두 행은 09-20 공식 페이지 재확인 기준이다.
 
 | 후보·지역 | 현재 공식 대상 | 연구 연결·확인할 점 | 연락·출처 |
 | --- | --- | --- | --- |
 | 서울대 **AISys · 이진호** · 서울 관악 | 석·박사 신입생 및 **학부생 인턴 상시 선발** | 양자화·압축·SNN·학습 가속. 석사 졸업자 RA/연구원은 별도 문의 | `leejinho@snu.ac.kr` · [공식 모집](https://aisys.snu.ac.kr/) |
 | 서울시립대 **CIDA · 고상기** · 서울 동대문 | 대학원생·**학부 연구생 모집**, 학부 연구생은 **최소 1년** | Neuro-symbolic·정형 검증·SNN/STDP. 석사후 비학위 자리는 미명시 | `sangkiko@uos.ac.kr` · [공식 모집](https://cida.uos.ac.kr/) |
-| 한국뉴욕주립대 **BCL · Yoon Seok Yang** · 인천 송도 | **학부 연구 인턴** 및 MS/PhD 모집 · 마감 미표시 | SNN·비트 단위 스파이크·무곱셈 연산. 석사후 경로 미명시; 통학 부담 검토 | `yoonseok.yang@sunykorea.ac.kr` · [공식 모집](https://sites.google.com/view/suny-bcl/home) |
 
 **재확인 대기:** 서울과기대 BrAIn / 김성은은 과거 학부 연구조교 모집 기록이 있지만, 이번에는 [기존 홈페이지](https://brainailab.com/)가 열리지 않아 현재 조건을 확인하지 못했다. 종료로 처리하지 않으며, 석사후 채용으로도 표시하지 않는다.
 
@@ -283,11 +296,11 @@ UST 일정 페이지 상단의 이전 학기 표제 대신 [2027 전기 1차 공
 
 ## 최근 변경
 
+- **2026-09-25:** SUNY Korea BCL의 공개 MS/PhD 모집, 12월 1일 전기 마감, 경쟁형 TA/RA 지원과 2026년 9월 신규 과제를 확인해 독립 박사 후보로 승격. GPA 3.00/4.00 적용 범위는 서면 확인 필요.
 - **2026-09-24:** 건국대 GLI Lab의 현재 MS/PhD 모집·연구실 인건비 방침과 2027 전기 접수 일정을 확인해 서울 neuro-symbolic 박사 후보로 승격.
 - **2026-09-23:** 성균관대 전전컴 원서접수 10:00 시작을 행동 항목으로 올리고, IRIS 1:1 상담·학과 설명회 신청과 UST 온라인 설명회를 기한 경과·참석 미확인으로 이관. 새 모집 공고는 확인되지 않음.
 - **2026-09-21:** IRIS 1:1 상담 사전신청을 당일 마감 상태로 상향하고 UST–KIST 온라인 설명회 참가스쿨 기준일을 정정.
 - **2026-09-20:** 상시 연구원·인턴 구역을 `main`에 병합. MLLAB 상시 연구 인턴, EMI 단기 연구 인턴, Kim Lab `post-master`를 학부생 대상 공고와 분리.
-- **2026-09-19:** KU-KIST 2027 전기 서류·영어·연구실적 조건과 성균관대 신규 장학의 GPA·TA 요건을 확인하고 입학요건과 구분.
 [ys-ai-event]: https://cs.yonsei.ac.kr/csai/board/facultyBoard.do?articleNo=478837&mode=view
 [ys-ax-post]: https://phdkim.net/gradrecruit/post/1275
 [ys-schedule]: https://graduate.yonsei.ac.kr/graduate/admission/general_schedule.do
