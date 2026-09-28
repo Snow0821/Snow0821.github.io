@@ -1,5 +1,5 @@
 
-        #snow-cv-stage { container: snow / inline-size; width: 100%; max-width: 1024px; margin: 12px auto 0; }
+        #snow-cv-stage { width: 100%; max-width: 1024px; margin: 12px auto 0; }
         #snow-cv-portfolio {
           --paper: light-dark(#faf8f3, #24231f);
           --ink: light-dark(#302e27, #f0ece3);
@@ -21,17 +21,17 @@
         #snow-cv-portfolio button { background: transparent; }
         #snow-cv-portfolio a { color: inherit; text-decoration: none; }
         #snow-cv-portfolio .pair { display: grid; min-width: 0; }
-        #snow-cv-portfolio .pair > [data-l] { grid-area: 1 / 1; min-width: 0; visibility: hidden; }
+        #snow-cv-portfolio .pair > [data-l] { grid-area: 1 / 1; min-width: 0; display: none; }
         #snow-cv-portfolio[data-language="ko"] .pair > [data-l="ko"],
-        #snow-cv-portfolio[data-language="en"] .pair > [data-l="en"] { visibility: visible; }
-        #snow-cv-portfolio .site-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: 18px 0 0; }
-        #snow-cv-portfolio .language-control { display: flex; align-items: center; padding-left: 20px; position: relative; }
-        #snow-cv-portfolio .language-control::before { content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 1px; background: var(--line); }
-        #snow-cv-portfolio .language { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; padding: 0; background: var(--paper); }
+        #snow-cv-portfolio[data-language="en"] .pair > [data-l="en"] { display: block; }
+        #snow-cv-portfolio .site-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: center; gap: 32px; padding: 18px 0 0; min-width: 0; }
+        #snow-cv-portfolio .language-control { display: flex; align-items: center; width: 44px; min-width: 0; position: relative; }
+        #snow-cv-portfolio .language-control::before { content: ""; position: absolute; left: -16px; top: 9px; bottom: 9px; width: 1px; background: var(--line); }
+        #snow-cv-portfolio .language { display: grid; place-items: center; width: 44px; min-width: 44px; height: 44px; flex: none; border: 1px solid var(--line); border-radius: 50%; padding: 0; background: var(--paper); }
         #snow-cv-portfolio .language-flags, #snow-cv-portfolio .language-flags img { width: 24px; height: 18px; }
         #snow-cv-portfolio .language-flags img { display: block; border-radius: 2px; }
         #snow-cv-portfolio .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); min-width: 0; gap: 8px; border-bottom: 1px solid var(--line); }
-        #snow-cv-portfolio .tab { min-width: 44px; min-height: 52px; border: 0; border-radius: 0; padding: 8px 10px; font-size: 14px; line-height: 1.4; color: var(--secondary); }
+        #snow-cv-portfolio .tab { width: 100%; min-width: 0; min-height: 52px; border: 0; border-radius: 0; padding: 8px 10px; font-size: 14px; line-height: 1.4; color: var(--secondary); }
         #snow-cv-portfolio .tab[aria-selected="true"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); font-weight: 500; }
         #snow-cv-portfolio .tab:hover:not([aria-selected="true"]),
         #snow-cv-portfolio .language:hover, #snow-cv-portfolio .action:hover { background: var(--tint); }
@@ -92,12 +92,12 @@
         #snow-cv-portfolio .examples .example-detail { display: grid; color: var(--secondary); font-size: 12px; margin-top: 2px; }
         #snow-cv-portfolio .pbl-note { margin-top: 26px; padding: 18px 0 0; border-top: 1px solid var(--line); color: var(--secondary); font-size: 13px; }
         #snow-cv-portfolio .pbl-note strong { color: var(--ink); }
-        #snow-cv-portfolio .footer { border-top: 1px solid var(--line); padding: 17px 0 20px; color: var(--secondary); font-size: 12px; }
+        #snow-cv-portfolio .footer { display: flex; align-items: baseline; gap: 8px; border-top: 1px solid var(--line); padding: 17px 0 20px; color: var(--secondary); font-size: 12px; }
         #snow-cv-portfolio .sr-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
         #snow-cv-portfolio .cv-layout { display: grid; grid-template-columns: minmax(230px, .85fr) minmax(0, 2fr); gap: 36px; align-items: start; }
         #snow-cv-portfolio .cv-sidebar { min-width: 0; padding-right: 28px; border-right: 1px solid var(--line); }
         #snow-cv-portfolio .cv-identity h1 { font-size: 29px; line-height: 1.3; letter-spacing: -.7px; }
-        #snow-cv-portfolio .cv-identity .roles { display: grid; gap: 2px; font-size: 15px; margin-top: 12px; }
+        #snow-cv-portfolio .cv-identity .roles { display: flex; gap: 4px 14px; font-size: 15px; margin-top: 12px; }
         #snow-cv-portfolio .cv-intro { margin-top: 16px; color: var(--secondary); font-size: 13px; line-height: 1.75; }
         #snow-cv-portfolio .cv-contact { gap: 8px; margin-top: 18px; }
         #snow-cv-portfolio .cv-contact .action { min-width: 88px; padding: 10px 12px; }
@@ -134,14 +134,14 @@
         #snow-cv-portfolio .history-pbl .history-entry { padding-top: 16px; }
         #snow-cv-portfolio .history-pbl .history-meta { max-width: 520px; }
         #snow-cv-portfolio .history-qualification { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--secondary); font-size: 13px; }
-        @container snow (max-width: 720px) {
+        @media (max-width: 720px) {
           #snow-cv-portfolio { padding: 0 20px; font-size: 14px; }
           #snow-cv-portfolio .desktop-only { display: none !important; }
           #snow-cv-portfolio .mobile-only { display: block !important; }
-          #snow-cv-portfolio .site-toolbar { gap: 10px; padding-top: 12px; }
-          #snow-cv-portfolio .language-control { padding-left: 10px; }
+          #snow-cv-portfolio .site-toolbar { gap: 16px; padding-top: 12px; }
+          #snow-cv-portfolio .language-control::before { left: -8px; }
           #snow-cv-portfolio .tabs { gap: 2px; }
-          #snow-cv-portfolio .tab { padding: 8px 1px; min-height: 48px; font-size: 12px; white-space: nowrap; }
+          #snow-cv-portfolio .tab { padding: 8px 1px; min-height: 48px; font-size: 12px; white-space: normal; overflow-wrap: normal; }
           #snow-cv-portfolio .panel { padding: 24px 0 28px; }
           #snow-cv-portfolio .panel-heading { margin-bottom: 18px; gap: 10px; }
           #snow-cv-portfolio .panel-heading h2 { font-size: 23px; }
@@ -190,7 +190,7 @@
           #snow-cv-portfolio .history-pbl { margin-top: 0; }
           #snow-cv-portfolio .history-qualification { margin-top: 8px; }
         }
-        @container snow (max-width: 350px) {
+        @media (max-width: 350px) {
           #snow-cv-portfolio { padding: 0 16px; }
           #snow-cv-portfolio .hero h1 { font-size: 32px; }
           #snow-cv-portfolio select { width: 130px; }
@@ -198,9 +198,8 @@
       #snow-cv-portfolio .cv-contact .icon-action { width:48px; min-width:48px; height:48px; padding:0; flex:none; position:relative; }
 #snow-cv-portfolio .icon-action:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
 #snow-cv-portfolio .icon-action svg { width:22px; height:22px; }
-#snow-cv-portfolio .pdf-action { flex-direction:column; gap:0; }
-#snow-cv-portfolio .pdf-action svg { width:20px; height:20px; }
-#snow-cv-portfolio .pdf-mark { font-size:9px; font-weight:500; line-height:12px; }
+#snow-cv-portfolio .cv-download { flex-direction:column; gap:1px; }
+#snow-cv-portfolio .cv-mark { font-size:11px; font-weight:500; line-height:12px; }
 
 #snow-cv-portfolio .interest-tag {
   display: inline-block;
@@ -236,8 +235,7 @@
 #snow-cv-portfolio .cv-paper .record-meta { margin-top: 6px; }
 #snow-cv-portfolio .cv-job + .cv-job { border-top: 1px solid var(--line); }
 #snow-cv-portfolio .fold-preview { display: none; }
-#snow-cv-portfolio .pdf-mark { font-size: 11px; }
-@container snow (max-width: 720px) {
+@media (max-width: 720px) {
   #snow-cv-portfolio .fold-preview {
     display: block;
     margin: -4px 0 0;
@@ -257,9 +255,9 @@
 #snow-cv-portfolio .brand-icon[data-brand="scholar"] { width:22px; height:22px; background:var(--ink); mask: url("google-scholar.svg") no-repeat center / contain; -webkit-mask: url("google-scholar.svg") no-repeat center / contain; }
 #snow-cv-portfolio .preview-line { display:grid; }
 #snow-cv-portfolio .degree-type { display:block; font-size:12px; font-weight:400; color:var(--secondary); margin-top:2px; }
-#snow-cv-portfolio .contact-block { margin-bottom:14px; }
-#snow-cv-portfolio .contact-block h2 { font-size:15px; font-weight:500; color:var(--ink); }
-#snow-cv-portfolio .contact-email { display:inline-flex; align-items:center; min-height:48px; padding:8px 0; font-size:14px; color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
+#snow-cv-portfolio .contact-block { margin-top:20px; }
+#snow-cv-portfolio .contact-block h2 { font-size:12px; font-weight:400; color:var(--secondary); }
+#snow-cv-portfolio .contact-email { display:inline-flex; align-items:center; min-height:44px; padding:4px 0; font-size:14px; color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
 #snow-cv-portfolio .contact-email:hover { color:var(--accent); }
 #snow-cv-portfolio .contact-email:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
 

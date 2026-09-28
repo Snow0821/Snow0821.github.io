@@ -1,0 +1,286 @@
+{
+  "languages": [
+    "ko",
+    "en"
+  ],
+  "updated": "2026-09-28",
+  "profile": {
+    "roles": {
+      "ko": [
+        "연구자",
+        "강사"
+      ],
+      "en": [
+        "Researcher",
+        "Instructor"
+      ]
+    },
+    "email": "sosaror@gmail.com"
+  },
+  "authors": {
+    "choi": {
+      "name": "Choi Soon Ho",
+      "bibtex": "Choi, Soon Ho",
+      "initials": "S. H. Choi"
+    },
+    "kim": {
+      "name": "Soo Yong Kim",
+      "bibtex": "Kim, Soo Yong",
+      "initials": "S. Y. Kim"
+    },
+    "im": {
+      "name": "Jae Young Im",
+      "bibtex": "Im, Jae Young",
+      "initials": "J. Y. Im"
+    },
+    "yoon": {
+      "name": "Soo-Yeon Yoon",
+      "bibtex": "Yoon, Soo-Yeon",
+      "initials": "S.-Y. Yoon"
+    }
+  },
+  "venues": {
+    "ijcnn2026": {
+      "short": {
+        "ko": "IJCNN",
+        "en": "IJCNN"
+      },
+      "name": {
+        "ko": "2026 International Joint Conference on Neural Networks (IJCNN)",
+        "en": "2026 International Joint Conference on Neural Networks (IJCNN)"
+      }
+    },
+    "kicsWinter2025": {
+      "short": {
+        "ko": "한국통신학회 · 동계",
+        "en": "KICS · Winter"
+      },
+      "name": {
+        "ko": "2025년도 한국통신학회 동계종합학술발표회 논문집",
+        "en": "KICS Winter Conference Proceedings"
+      },
+      "publisher": {
+        "ko": "한국통신학회",
+        "en": "The Korean Institute of Communications and Information Sciences"
+      }
+    },
+    "kicsSummer2024": {
+      "short": {
+        "ko": "한국통신학회 · 하계",
+        "en": "KICS · Summer"
+      },
+      "name": {
+        "ko": "2024년도 한국통신학회 하계종합학술발표회 논문집",
+        "en": "KICS Summer Conference Proceedings"
+      },
+      "publisher": {
+        "ko": "한국통신학회",
+        "en": "The Korean Institute of Communications and Information Sciences"
+      }
+    }
+  },
+  "papers": [
+    {
+      "id": "2026",
+      "year": 2026,
+      "title": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
+      "authors": [
+        "choi",
+        "kim"
+      ],
+      "venue": "ijcnn2026",
+      "month": null,
+      "pages": null,
+      "url": "https://linklings.s3.amazonaws.com/organizations/WCCI/wcci2026/submissions/stype114/YihWd-ijcnn_pap3087s2.pdf",
+      "linkLabel": "pdf",
+      "citationKey": "choi2026learning"
+    },
+    {
+      "id": "2025",
+      "year": 2025,
+      "title": "Binarization of Ternary ViT on Image Classification",
+      "authors": [
+        "choi",
+        "im",
+        "yoon"
+      ],
+      "venue": "kicsWinter2025",
+      "month": 2,
+      "pages": [
+        668,
+        669
+      ],
+      "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12132696",
+      "linkLabel": "DBpia",
+      "citationKey": "choi2025ternaryvit"
+    },
+    {
+      "id": "2024",
+      "year": 2024,
+      "title": "Comparing accuracy of sign-quantized layers with linear layer in small models",
+      "authors": [
+        "choi",
+        "yoon"
+      ],
+      "venue": "kicsSummer2024",
+      "month": 6,
+      "pages": [
+        847,
+        849
+      ],
+      "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11906215",
+      "linkLabel": "DBpia",
+      "citationKey": "choi2024signquantized"
+    }
+  ],
+  "cv": {
+    "education": {
+      "ko": [
+        {
+          "year": "2025",
+          "degree": "공학석사",
+          "school": "국민대학교 소프트웨어융합대학원",
+          "field": "인공지능"
+        },
+        {
+          "year": "2019",
+          "degree": "공학사",
+          "school": "한동대학교 전산전자공학부",
+          "field": "컴퓨터공학"
+        }
+      ],
+      "en": [
+        {
+          "year": "2025",
+          "degree": "Master of Engineering (M.E)",
+          "school": "Graduate School of Software Convergence, Kookmin University",
+          "field": "Artificial Intelligence"
+        },
+        {
+          "year": "2019",
+          "degree": "Bachelor of Engineering (B.E)",
+          "school": "School of Computer Science and Electrical Engineering, Handong Global University",
+          "field": "Computer Science"
+        }
+      ]
+    },
+    "jobs": {
+      "ko": [
+        {
+          "date": "2026.08-현재",
+          "course": "고양 스마트시티즌 · AI 활용 웹 제작",
+          "org_role": "에듀코어센터 · 강사"
+        },
+        {
+          "date": "2026.06-현재",
+          "course": "Codyssey",
+          "org_role": "모두의연구소 · PBL 퍼실리테이터"
+        },
+        {
+          "date": "2023.03-현재",
+          "course": "Python·C++ · 자료구조·알고리즘",
+          "org_role": "코더랜드 · 온라인 강사"
+        },
+        {
+          "date": "2026.07",
+          "course": "LG이노텍 · AI/AX Lv2",
+          "org_role": "엘리스코딩 · 강사"
+        },
+        {
+          "date": "2025",
+          "course": "T아카데미 · 알고리즘 특강",
+          "org_role": "민코딩 · 강사"
+        },
+        {
+          "date": "2025",
+          "course": "삼성 SDS · SW역량테스트 Pro",
+          "org_role": "민코딩 · 보조강사"
+        },
+        {
+          "date": "2025",
+          "course": "SW 동행 · AI 활용 웹앱 제작",
+          "org_role": "에듀코어센터 · 강사"
+        },
+        {
+          "date": "2023-2024",
+          "course": "SW 동행 · AI 활용 웹앱 제작",
+          "org_role": "엘리스코딩 · 강사"
+        },
+        {
+          "date": "2023-2024",
+          "course": "디지털 새싹 · 웹 프로그래밍",
+          "org_role": "엘리스코딩 · 강사"
+        },
+        {
+          "date": "2023",
+          "course": "정보과학 주문형 강좌",
+          "org_role": "고색고등학교 · 강사"
+        }
+      ],
+      "en": [
+        {
+          "date": "2026.08-Present",
+          "course": "Goyang Smart Citizen · AI-assisted web creation",
+          "org_role": "EduCore Center · Instructor"
+        },
+        {
+          "date": "2026.06-Present",
+          "course": "Codyssey",
+          "org_role": "MODULABS · PBL facilitator"
+        },
+        {
+          "date": "2023.03-Present",
+          "course": "Python & C++ · Data structures & algorithms",
+          "org_role": "Coderland · Online instructor"
+        },
+        {
+          "date": "2026.07",
+          "course": "LG Innotek · AI/AX Lv2",
+          "org_role": "Elice Coding · Instructor"
+        },
+        {
+          "date": "2025",
+          "course": "T Academy · Algorithms course",
+          "org_role": "Mincoding · Instructor"
+        },
+        {
+          "date": "2025",
+          "course": "Samsung SDS · SW competency test Pro",
+          "org_role": "Mincoding · Assistant instructor"
+        },
+        {
+          "date": "2025",
+          "course": "SW Donghaeng · AI-assisted web apps",
+          "org_role": "EduCore Center · Instructor"
+        },
+        {
+          "date": "2023-2024",
+          "course": "SW Donghaeng · AI-assisted web apps",
+          "org_role": "Elice Coding · Instructor"
+        },
+        {
+          "date": "2023-2024",
+          "course": "Digital Saessak · Web programming",
+          "org_role": "Elice Coding · Instructor"
+        },
+        {
+          "date": "2023",
+          "course": "Computer science elective course",
+          "org_role": "Gosaek High School · Instructor"
+        }
+      ]
+    },
+    "interests": {
+      "ko": [
+        "이산·정수 학습",
+        "신경·기호 네트워크",
+        "적응형 신경망 구조"
+      ],
+      "en": [
+        "Discrete & integer learning",
+        "Neuro-symbolic networks",
+        "Adaptive neural structures"
+      ]
+    }
+  }
+}

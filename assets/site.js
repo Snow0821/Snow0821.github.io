@@ -7,6 +7,7 @@
       const panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
       const languageButton = root.querySelector('#snow-language');
       const live = root.querySelector('#snow-live');
+      const citationRenderers = [];
       function activateTab(button) {
         for (const tab of tabs) { tab.setAttribute('aria-selected', String(tab === button)); tab.tabIndex = tab === button ? 0 : -1; }
         for (const panel of panels) panel.hidden = panel.id !== button.getAttribute('aria-controls');
@@ -44,6 +45,7 @@
           const title = paper.querySelector('.paper-name').textContent;
           paper.querySelector('.paper-expand').setAttribute('aria-label', title + (language === 'ko' ? ' 상세 보기' : ' details'));
         }
+        for (const render of citationRenderers) render();
       }
       languageButton.addEventListener('click', () => {
         applyLanguage(root.lang === 'ko' ? 'en' : 'ko');
@@ -91,14 +93,16 @@
         const output = citation.querySelector('.cite-text');
         const status = citation.querySelector('.copy-status');
         function renderCitation() {
-          const prefix = format.value === 'bibtex' ? 'snow-bib-' : 'snow-ref-';
-          const source = root.querySelector('#' + prefix + citation.dataset.paper);
+          const sourceId = format.value === 'bibtex'
+            ? 'snow-bib-' + citation.dataset.paper
+            : 'snow-ref-' + citation.dataset.paper + '-' + root.lang;
+          const source = root.querySelector('#' + sourceId);
           output.textContent = source.content.textContent.trim();
           output.dataset.format = format.value;
           status.textContent = '';
         }
         format.addEventListener('change', renderCitation);
-        renderCitation();
+        citationRenderers.push(renderCitation);
         citation.querySelector('.copy').addEventListener('click', async () => {
           let copied = false;
           try {

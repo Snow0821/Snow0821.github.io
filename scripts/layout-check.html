@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio responsive layout check</title>
+<style>
+  body { margin:24px; background:#e8e8e8; color:#333; font:14px system-ui; }
+  main { display:flex; align-items:flex-start; gap:24px; }
+  h1 { font-size:18px; margin-bottom:8px; }
+  p { margin:0 0 20px; }
+  h2 { font-size:14px; margin:0 0 8px; }
+  iframe { display:block; border:1px solid #bbb; background:white; }
+</style>
+<h1>Responsive layout check</h1>
+<p>Each frame loads the actual portfolio at a mobile viewport width.</p>
+<main>
+  <section><h2>320 px</h2><iframe id="check-320" title="320 px portfolio" src="../index.html" width="320" height="900"></iframe></section>
+  <section><h2>375 px</h2><iframe id="check-375" title="375 px portfolio" src="../index.html" width="375" height="900"></iframe></section>
+  <section><h2>430 px</h2><iframe id="check-430" title="430 px portfolio" src="../index.html" width="430" height="900"></iframe></section>
+</main>
+</html>
