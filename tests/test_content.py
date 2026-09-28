@@ -1,5 +1,6 @@
 """Regression checks for shared edits, derived summaries, and build guards."""
 import copy
+import re
 import sys
 import tempfile
 import unittest
@@ -12,6 +13,13 @@ import site_sections
 
 
 class SharedContentTests(unittest.TestCase):
+    def test_icon_urls_resolve_beside_stylesheet(self):
+        assets = Path(__file__).resolve().parents[1] / 'assets'
+        urls = re.findall(r"--icon:url\('([^']+)'\)", site_sections.profile())
+        self.assertEqual(len(urls), len(DATA['profile']['links']) + 1)
+        for url in urls:
+            self.assertTrue((assets / url).is_file(), f'Missing icon: {url}')
+
     def test_education_is_separate_from_qualifications(self):
         education = site_sections.education()
         qualification = site_sections.qualifications()

@@ -7,6 +7,11 @@ def h(value):
     return escape(str(value), quote=True)
 
 
+def asset_icon(filename, classes=''):
+    # Custom-property URLs resolve beside the stylesheet (assets/site.css).
+    return f'<span class="icon {h(classes)}" style="--icon:url(\'{h(filename)}\')" aria-hidden="true"></span>'
+
+
 def translations(values, markup=False):
     parts=[]
     for lang in LANGUAGES:

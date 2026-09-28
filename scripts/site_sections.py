@@ -1,17 +1,16 @@
 """Profile, education, interests, and teaching views built from shared records."""
 from content import DATA, LANGUAGES, DEFAULT_LANGUAGE, localized, text, cv_filename, teaching_records, teaching_values, period
-from html_components import h, pair, label, mapped, preview, fold, external_link
+from html_components import h, pair, label, mapped, preview, fold, external_link, asset_icon
 
 
 def profile():
     person=DATA['profile']
     actions=[]
     for link in person['links']:
-        icon=f'<span class="icon" style="--icon:url(\'assets/{h(link["icon"])}\')" aria-hidden="true"></span>'
-        actions.append(external_link(link['url'],icon,'action icon-action',link['label']))
+        actions.append(external_link(link['url'],asset_icon(link['icon']),'action icon-action',link['label']))
     filename=cv_filename(DEFAULT_LANGUAGE)
     download_label=text('ui.download_cv',DEFAULT_LANGUAGE)
-    actions.append(f'<a id="snow-cv-download" class="action icon-action cv-download cursor-interaction" href="assets/{h(filename)}" download="{h(filename)}" aria-label="{h(download_label)}" title="{h(download_label)}"><span class="icon file-icon" style="--icon:url(\'assets/file-down.svg\')" aria-hidden="true"></span><span class="cv-mark" aria-hidden="true">CV</span></a>')
+    actions.append(f'<a id="snow-cv-download" class="action icon-action cv-download cursor-interaction" href="assets/{h(filename)}" download="{h(filename)}" aria-label="{h(download_label)}" title="{h(download_label)}">{asset_icon("file-down.svg","file-icon")}<span class="cv-mark" aria-hidden="true">CV</span></a>')
     mail_icon='<svg class="mail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>'
     email=h(person['email'])
     return f'''<div class="cv-identity" data-block>
