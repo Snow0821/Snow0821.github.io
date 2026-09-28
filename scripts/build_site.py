@@ -1,89 +1,75 @@
-"""Generate the static page without a browser-side data request or a framework."""
+"""Compose the static page from small views and one shared content model."""
+import json
 import re
-from html import escape as h
-from content import ROOT, DATA, LANGUAGES, LOCALES, localized, authors, venue_details, reference, bibtex
+from content import ROOT, DATA, LANGUAGES, DEFAULT_LANGUAGE, LOCALES, localized, text, cv_filename, reference, bibtex, year_range, validate, write_if_changed
+from html_components import h, pair, label, mapped, preview, fold
+import site_sections as sections
+import publications
 
 
-def translations(values, markup=False):
-    return ''.join(f'<span data-l="{lang}" lang="{lang}"' + (' aria-hidden="true"' if lang != 'ko' else '')
-                   + '>' + (localized(values, lang) if markup else h(localized(values, lang))) + '</span>'
-                   for lang in LANGUAGES)
+def navigation():
+    tabs=[]
+    for key,full,short in [('home','nav.home',None),('interests','nav.interests','nav.interests_short'),('publications','nav.publications','nav.publications_short'),('teaching','nav.teaching',None)]:
+        selected=key=='home'
+        title=label(full) if not short else f'<span class="desktop-only">{label(full)}</span><span class="mobile-only">{label(short)}</span>'
+        tabs.append(f'<button type="button" class="tab cursor-interaction" id="snow-tab-{key}" role="tab" aria-selected="{str(selected).lower()}" aria-controls="snow-panel-{key}" data-tab="{key}" tabindex="{0 if selected else -1}">{title}</button>')
+    return '\n'.join(tabs)
 
 
-def pair(values):
-    return '<span class="pair">' + translations(values) + '</span>'
-
-
-def label(key):
-    return pair({lang: LOCALES[lang][key] for lang in LANGUAGES})
-
-
-def metadata(paper):
-    return {lang: venue_details(paper, lang) for lang in LANGUAGES}
-
-
-def topline(paper):
-    return f'<span class="paper-topline"><span>{paper["year"]}</span>{pair(DATA["venues"][paper["venue"]]["short"])}</span>'
-
-
-def summary(paper):
-    return f'''<article class="cv-paper" data-paper="{paper['id']}" data-record>
-      <div class="cv-year">{paper['year']}</div><div>
-      <h3 lang="en">{h(paper['title'])}</h3>
-      <dl class="record-meta"><dt>{label('authors')}</dt><dd lang="en">{h(', '.join(authors(paper)))}</dd>
-      <dt>{label('venue')}</dt><dd class="paper-venue">{pair(metadata(paper))}</dd></dl>
-      </div></article>'''
-
-
-def detail(paper):
-    pid, title = paper['id'], h(paper['title'])
-    author_line = ', '.join(f'<strong>{h(name)}</strong>' if i == 0 else h(name) for i, name in enumerate(authors(paper)))
-    link_label = label('paper_pdf') if paper['linkLabel'] == 'pdf' else h(paper['linkLabel'])
-    return f'''<article class="paper" data-paper="{pid}" data-open="false" data-block>
-      <div class="desktop-only">{topline(paper)}<h3 class="paper-title" lang="en">{title}</h3></div>
-      <button type="button" class="paper-expand mobile-only cursor-interaction" aria-expanded="false" aria-controls="snow-detail-{pid}" aria-label="{title} 상세 보기">
-      <span>{topline(paper)}<span class="paper-name" lang="en">{title}</span></span><span class="expand-sign" aria-hidden="true">+</span></button>
-      <div class="paper-detail" id="snow-detail-{pid}">
-        <p class="paper-authors" lang="en">{author_line}</p>
-        <p class="paper-venue">{pair(metadata(paper))}</p>
-        <div class="paper-actions"><a class="action cursor-interaction" href="{h(paper['url'])}" target="_blank" rel="noopener noreferrer">{link_label}<span aria-hidden="true">↗</span></a>
-        <button type="button" class="action cite-toggle cursor-interaction" aria-expanded="false" aria-controls="snow-citation-{pid}">{label('cite')}</button></div>
-        <div class="citation" id="snow-citation-{pid}" data-paper="{pid}" hidden>
-          <div class="cite-tools"><label class="format-label">{label('citation_format')}<select class="cite-format cursor-interaction"><option value="reference">Reference</option><option value="bibtex">BibTeX</option></select></label>
-          <button type="button" class="action copy cursor-interaction">{label('copy')}</button></div>
-          <pre class="cite-text" data-format="reference"></pre><p class="copy-status" aria-live="polite"></p>
-        </div>
-      </div></article>'''
+def language_control():
+    current=next(item for item in DATA['languages'] if item['code']==DEFAULT_LANGUAGE)
+    next_code=LANGUAGES[(LANGUAGES.index(DEFAULT_LANGUAGE)+1)%len(LANGUAGES)]
+    aria=text('ui.current_language',DEFAULT_LANGUAGE,name=current['name'])+' '+text('ui.switch_to',next_code)
+    title=current['name']+' · '+text('ui.switch_to',next_code)
+    flags=''.join(f'<img data-l="{h(item["code"])}" src="{h(item["flag"])}" alt="" width="24" height="18"'+(' hidden aria-hidden="true"' if item['code']!=DEFAULT_LANGUAGE else '')+'>' for item in DATA['languages'])
+    return f'<button type="button" class="language cursor-interaction" id="snow-language" aria-label="{h(aria)}" title="{h(title)}"><span class="pair language-flags" aria-hidden="true">{flags}</span></button>'
 
 
 def build():
-    papers = DATA['papers']
-    latest = papers[0]
-    preview = '<span class="pair preview-title">' + translations({lang: f'{latest["year"]} · {localized(DATA["venues"][latest["venue"]]["short"], lang)}' for lang in LANGUAGES}) + '</span>'
-    preview += f'<span class="preview-line" lang="en">{h(latest["title"])}</span>'
-    citation_templates = []
+    validate()
+    papers=sorted(DATA['papers'],key=lambda item:(item['year'],item['month'] or 0),reverse=True)
+    publication_preview=''
+    if papers:
+        latest=papers[0]
+        publication_preview=preview(mapped(lambda lang:f'{latest["year"]} · {localized(DATA["venues"][latest["venue"]]["short"],lang)}'),latest['title'])
+    citation_templates=[]
     for paper in papers:
         for lang in LANGUAGES:
-            citation_templates.append(f'<template id="snow-ref-{paper["id"]}-{lang}">{h(reference(paper, lang))}</template>')
+            citation_templates.append(f'<template id="snow-ref-{paper["id"]}-{lang}">{h(reference(paper,lang))}</template>')
         citation_templates.append(f'<template id="snow-bib-{paper["id"]}">{h(bibtex(paper))}</template>')
-    slots = {
-        'profile_roles': ''.join(pair({lang: DATA['profile']['roles'][lang][i] for lang in LANGUAGES}) for i in range(len(DATA['profile']['roles']['en']))),
-        'publication_summary': '\n'.join(map(summary, papers)),
-        'publication_detail': '\n'.join(map(detail, papers)),
-        'publication_preview': preview,
-        'citations': '\n'.join(citation_templates),
-        'last_updated': label('last_updated') + f'<time datetime="{DATA["updated"]}">{DATA["updated"].replace("-", ".")}</time>',
+    runtime={
+        'defaultLanguage':DEFAULT_LANGUAGE,'languages':DATA['languages'],
+        'messages':{lang:{key[3:]:value for key,value in LOCALES[lang].items() if key.startswith('ui.')} for lang in LANGUAGES},
+        'pdfs':{lang:{'href':'assets/'+cv_filename(lang),'filename':cv_filename(lang)} for lang in LANGUAGES},
+        'email':DATA['profile']['email']}
+    names=' · '.join(dict.fromkeys(localized(DATA['profile']['name'],lang) for lang in LANGUAGES))
+    roles=' and '.join(localized(DATA['roles'][role],'en') for role in DATA['profile']['roles'])
+    slots={
+        'default_language':h(DEFAULT_LANGUAGE),'portfolio_label':h(text('ui.portfolio',DEFAULT_LANGUAGE)),
+        'page_title':h(names+' | Research & Teaching'),
+        'meta_description':h(names+' — '+roles+'. Research interests, publications, teaching experience, and CV.'),
+        'navigation':navigation(),'language_control':language_control(),
+        'profile':sections.profile(),'education':sections.education(),'qualifications':sections.qualifications(),
+        'interest_summary':sections.interest_summary(),'interest_detail':sections.interest_detail(),
+        'publication_summary':fold('snow-cv-papers','section.publications',len(papers),'\n'.join(map(publications.summary,papers)),publication_preview),
+        'publication_detail':'\n'.join(map(publications.detail,papers)),
+        'publication_range':f'{year_range(papers)} · {len(papers)}',
+        'teaching_summary':sections.teaching_summary(),'teaching_detail':sections.teaching_detail(),
+        'teaching_range':f'{year_range(DATA["teaching"],teaching=True)} · {len(DATA["teaching"])}',
+        'github_link':sections.profile_link('github','action.github'),
+        'teaching_link':sections.profile_link('linkedin','action.teaching_inquiries',True),
+        'last_updated':label('label.updated')+f'<time datetime="{h(DATA["updated"])}">{h(DATA["updated"].replace("-","."))}</time>',
+        'citations':'\n'.join(citation_templates),
+        'runtime_config':json.dumps(runtime,ensure_ascii=False).replace('<','\\u003c'),
     }
+    template=(ROOT/'src/index.template.html').read_text()
     def replace(match):
-        key = match[1]
-        if key.startswith('i18n:'):
-            return translations({lang: LOCALES[lang][key[5:]] for lang in LANGUAGES}, markup=True)
-        return slots[key]
-    template = (ROOT / 'src/index.template.html').read_text()
-    result = re.sub(r'\{\{([a-zA-Z0-9_:]+)\}\}', replace, template)
-    (ROOT / 'index.html').write_text('\n'.join(line.rstrip() for line in result.splitlines()) + '\n')
-    print('Built index.html from shared metadata and locale files.')
+        key=match[1]
+        return label(key[6:]) if key.startswith('label:') else slots[key]
+    result=re.sub(r'\{\{([^{}]+)\}\}',replace,template)
+    changed=write_if_changed(ROOT/'index.html','\n'.join(line.rstrip() for line in result.splitlines())+'\n')
+    print('Built index.html' if changed else 'index.html unchanged')
 
 
-if __name__ == '__main__':
+if __name__=='__main__':
     build()

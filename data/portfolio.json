@@ -1,27 +1,58 @@
 {
   "languages": [
-    "ko",
-    "en"
+    {
+      "code": "ko",
+      "name": "한국어",
+      "flag": "assets/flag-kr.svg"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "flag": "assets/flag-us.svg"
+    }
   ],
   "updated": "2026-09-28",
   "profile": {
-    "roles": {
-      "ko": [
-        "연구자",
-        "강사"
-      ],
-      "en": [
-        "Researcher",
-        "Instructor"
-      ]
+    "name": {
+      "ko": "최순호",
+      "en": "Choi Soon Ho"
     },
-    "email": "sosaror@gmail.com"
+    "roles": [
+      "researcher",
+      "instructor"
+    ],
+    "intro": {
+      "ko": "신경망의 구조와 연산을 연구하고,\n컴퓨터공학과 AI 활용을 가르칩니다.",
+      "en": "I study neural structures and operations, and teach computer science and applied AI."
+    },
+    "email": "sosaror@gmail.com",
+    "cvFilename": "Choi-Soon-Ho-CV-{language}.pdf",
+    "links": [
+      {
+        "id": "linkedin",
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/snowian",
+        "icon": "linkedin.svg"
+      },
+      {
+        "id": "github",
+        "label": "GitHub",
+        "url": "https://github.com/Snow0821",
+        "icon": "github.svg"
+      },
+      {
+        "id": "scholar",
+        "label": "Google Scholar",
+        "url": "https://scholar.google.com/citations?user=vHEqI8oAAAAJ",
+        "icon": "google-scholar.svg"
+      }
+    ]
   },
   "authors": {
     "choi": {
-      "name": "Choi Soon Ho",
       "bibtex": "Choi, Soon Ho",
-      "initials": "S. H. Choi"
+      "initials": "S. H. Choi",
+      "profile": true
     },
     "kim": {
       "name": "Soo Yong Kim",
@@ -133,154 +164,352 @@
       "citationKey": "choi2024signquantized"
     }
   ],
-  "cv": {
-    "education": {
-      "ko": [
-        {
-          "year": "2025",
-          "degree": "공학석사",
-          "school": "국민대학교 소프트웨어융합대학원",
-          "field": "인공지능"
-        },
-        {
-          "year": "2019",
-          "degree": "공학사",
-          "school": "한동대학교 전산전자공학부",
-          "field": "컴퓨터공학"
-        }
-      ],
-      "en": [
-        {
-          "year": "2025",
-          "degree": "Master of Engineering (M.E)",
-          "school": "Graduate School of Software Convergence, Kookmin University",
-          "field": "Artificial Intelligence"
-        },
-        {
-          "year": "2019",
-          "degree": "Bachelor of Engineering (B.E)",
-          "school": "School of Computer Science and Electrical Engineering, Handong Global University",
-          "field": "Computer Science"
-        }
+  "defaultLanguage": "ko",
+  "roles": {
+    "researcher": {
+      "ko": "연구자",
+      "en": "Researcher"
+    },
+    "instructor": {
+      "ko": "강사",
+      "en": "Instructor"
+    },
+    "facilitator": {
+      "ko": "PBL 퍼실리테이터",
+      "en": "PBL facilitator"
+    },
+    "online": {
+      "ko": "온라인 강사",
+      "en": "Online instructor"
+    },
+    "assistant": {
+      "ko": "보조강사",
+      "en": "Assistant instructor"
+    }
+  },
+  "organizations": {
+    "educore": {
+      "ko": "에듀코어센터",
+      "en": "EduCore Center"
+    },
+    "elice": {
+      "ko": "엘리스코딩",
+      "en": "Elice Coding"
+    },
+    "modulabs": {
+      "ko": "모두의연구소",
+      "en": "MODULABS"
+    },
+    "coderland": {
+      "ko": "코더랜드",
+      "en": "Coderland"
+    },
+    "mincoding": {
+      "ko": "민코딩",
+      "en": "Mincoding"
+    },
+    "gosaek": {
+      "ko": "고색고등학교",
+      "en": "Gosaek High School"
+    }
+  },
+  "education": [
+    {
+      "id": "masters",
+      "year": 2025,
+      "field": {
+        "ko": "인공지능",
+        "en": "Artificial Intelligence"
+      },
+      "degree": {
+        "ko": "공학석사",
+        "en": "Master of Engineering (M.E)"
+      },
+      "degreeShort": {
+        "ko": "공학석사",
+        "en": "M.E"
+      },
+      "institution": {
+        "ko": "국민대학교",
+        "en": "Kookmin University"
+      },
+      "school": {
+        "ko": "국민대학교 소프트웨어융합대학원",
+        "en": "Graduate School of Software Convergence, Kookmin University"
+      }
+    },
+    {
+      "id": "bachelors",
+      "year": 2019,
+      "field": {
+        "ko": "컴퓨터공학",
+        "en": "Computer Science"
+      },
+      "degree": {
+        "ko": "공학사",
+        "en": "Bachelor of Engineering (B.E)"
+      },
+      "degreeShort": {
+        "ko": "공학사",
+        "en": "B.E"
+      },
+      "institution": {
+        "ko": "한동대학교",
+        "en": "Handong Global University"
+      },
+      "school": {
+        "ko": "한동대학교 전산전자공학부",
+        "en": "School of Computer Science and Electrical Engineering, Handong Global University"
+      }
+    }
+  ],
+  "qualifications": [
+    {
+      "id": "ncs-ai",
+      "year": 2026,
+      "title": {
+        "ko": "NCS 확인강사",
+        "en": "NCS-registered instructor"
+      },
+      "field": {
+        "ko": "인공지능",
+        "en": "Artificial intelligence"
+      }
+    }
+  ],
+  "interests": [
+    {
+      "id": "discretelearning",
+      "tag": "#DiscreteLearning",
+      "name": {
+        "ko": "이산·정수 학습",
+        "en": "Discrete & integer learning"
+      },
+      "description": {
+        "ko": "이산적인 표현과 연산으로 학습하는 신경망을 탐구합니다.",
+        "en": "Learning with discrete representations and operations."
+      },
+      "keywords": [
+        "Quantization",
+        "Discrete states"
       ]
     },
-    "jobs": {
-      "ko": [
-        {
-          "date": "2026.08-현재",
-          "course": "고양 스마트시티즌 · AI 활용 웹 제작",
-          "org_role": "에듀코어센터 · 강사"
-        },
-        {
-          "date": "2026.06-현재",
-          "course": "Codyssey",
-          "org_role": "모두의연구소 · PBL 퍼실리테이터"
-        },
-        {
-          "date": "2023.03-현재",
-          "course": "Python·C++ · 자료구조·알고리즘",
-          "org_role": "코더랜드 · 온라인 강사"
-        },
-        {
-          "date": "2026.07",
-          "course": "LG이노텍 · AI/AX Lv2",
-          "org_role": "엘리스코딩 · 강사"
-        },
-        {
-          "date": "2025",
-          "course": "T아카데미 · 알고리즘 특강",
-          "org_role": "민코딩 · 강사"
-        },
-        {
-          "date": "2025",
-          "course": "삼성 SDS · SW역량테스트 Pro",
-          "org_role": "민코딩 · 보조강사"
-        },
-        {
-          "date": "2025",
-          "course": "SW 동행 · AI 활용 웹앱 제작",
-          "org_role": "에듀코어센터 · 강사"
-        },
-        {
-          "date": "2023-2024",
-          "course": "SW 동행 · AI 활용 웹앱 제작",
-          "org_role": "엘리스코딩 · 강사"
-        },
-        {
-          "date": "2023-2024",
-          "course": "디지털 새싹 · 웹 프로그래밍",
-          "org_role": "엘리스코딩 · 강사"
-        },
-        {
-          "date": "2023",
-          "course": "정보과학 주문형 강좌",
-          "org_role": "고색고등학교 · 강사"
-        }
-      ],
-      "en": [
-        {
-          "date": "2026.08-Present",
-          "course": "Goyang Smart Citizen · AI-assisted web creation",
-          "org_role": "EduCore Center · Instructor"
-        },
-        {
-          "date": "2026.06-Present",
-          "course": "Codyssey",
-          "org_role": "MODULABS · PBL facilitator"
-        },
-        {
-          "date": "2023.03-Present",
-          "course": "Python & C++ · Data structures & algorithms",
-          "org_role": "Coderland · Online instructor"
-        },
-        {
-          "date": "2026.07",
-          "course": "LG Innotek · AI/AX Lv2",
-          "org_role": "Elice Coding · Instructor"
-        },
-        {
-          "date": "2025",
-          "course": "T Academy · Algorithms course",
-          "org_role": "Mincoding · Instructor"
-        },
-        {
-          "date": "2025",
-          "course": "Samsung SDS · SW competency test Pro",
-          "org_role": "Mincoding · Assistant instructor"
-        },
-        {
-          "date": "2025",
-          "course": "SW Donghaeng · AI-assisted web apps",
-          "org_role": "EduCore Center · Instructor"
-        },
-        {
-          "date": "2023-2024",
-          "course": "SW Donghaeng · AI-assisted web apps",
-          "org_role": "Elice Coding · Instructor"
-        },
-        {
-          "date": "2023-2024",
-          "course": "Digital Saessak · Web programming",
-          "org_role": "Elice Coding · Instructor"
-        },
-        {
-          "date": "2023",
-          "course": "Computer science elective course",
-          "org_role": "Gosaek High School · Instructor"
-        }
+    {
+      "id": "neurosymbolic",
+      "tag": "#NeuroSymbolic",
+      "name": {
+        "ko": "신경·기호 네트워크",
+        "en": "Neuro-symbolic networks"
+      },
+      "description": {
+        "ko": "논리 연산과 신경망 학습을 연결하는 방법을 연구합니다.",
+        "en": "Connecting logical operations with neural learning."
+      },
+      "keywords": [
+        "Logic networks",
+        "Symbolic operations"
       ]
     },
-    "interests": {
-      "ko": [
-        "이산·정수 학습",
-        "신경·기호 네트워크",
-        "적응형 신경망 구조"
-      ],
-      "en": [
-        "Discrete & integer learning",
-        "Neuro-symbolic networks",
-        "Adaptive neural structures"
+    {
+      "id": "adaptivenetworks",
+      "tag": "#AdaptiveNetworks",
+      "name": {
+        "ko": "적응형 신경망 구조",
+        "en": "Adaptive neural structures"
+      },
+      "description": {
+        "ko": "신경망의 연결 구조도 함께 학습할 수 있는지 살펴봅니다.",
+        "en": "Exploring how a network can learn its own connections."
+      },
+      "keywords": [
+        "Learnable wiring",
+        "Topology"
       ]
     }
-  }
+  ],
+  "teachingGroups": [
+    {
+      "id": "ai",
+      "label": "group.ai",
+      "shortLabel": "group.ai_short"
+    },
+    {
+      "id": "cs",
+      "label": "group.cs",
+      "shortLabel": "group.cs_short"
+    },
+    {
+      "id": "pbl",
+      "label": "group.pbl",
+      "shortLabel": "group.pbl",
+      "layout": "wide"
+    }
+  ],
+  "courses": {
+    "goyang": {
+      "group": "ai",
+      "title": {
+        "ko": "고양 스마트시티즌 · AI 활용 웹 제작",
+        "en": "Goyang Smart Citizen · AI-assisted web creation"
+      },
+      "note": {
+        "ko": "시민 대상 개인 웹페이지 제작 및 GitHub·Vercel 배포 실습.",
+        "en": "Personal website creation and deployment with GitHub and Vercel for citizens."
+      }
+    },
+    "codyssey": {
+      "group": "pbl",
+      "title": {
+        "ko": "Codyssey",
+        "en": "Codyssey"
+      },
+      "note": {
+        "ko": "PBL 학습 과정의 이슈 조율 및 학습 지원.\n추가 수행: 학습자 과제 지도 · 교양 세미나 개설·운영.",
+        "en": "Coordinating issues and supporting learning in the PBL process.\nAdditional work: assignment guidance and general-interest seminars."
+      }
+    },
+    "algorithms": {
+      "group": "cs",
+      "title": {
+        "ko": "Python·C++ · 자료구조·알고리즘",
+        "en": "Python & C++ · Data structures & algorithms"
+      },
+      "note": {
+        "ko": "프로그래밍·알고리즘 교육 및 정보올림피아드 수상 지도(2024–2026).",
+        "en": "Programming and algorithms instruction; coaching award-winning Informatics Olympiad students (2024–2026)."
+      }
+    },
+    "lginnotek": {
+      "group": "ai",
+      "title": {
+        "ko": "LG이노텍 · AI/AX Lv2",
+        "en": "LG Innotek · AI/AX Lv2"
+      },
+      "note": {
+        "ko": "학습 내용의 실제 업무 적용, 제안서 작성·평가 준비를 지원하고 과정 후 피드백을 제공했습니다.",
+        "en": "Supported workplace application, proposal writing and assessment preparation, with follow-up feedback."
+      }
+    },
+    "tacademy": {
+      "group": "cs",
+      "title": {
+        "ko": "T아카데미 · 알고리즘 특강",
+        "en": "T Academy · Algorithms course"
+      }
+    },
+    "sds": {
+      "group": "cs",
+      "title": {
+        "ko": "삼성 SDS · SW역량테스트 Pro",
+        "en": "Samsung SDS · SW competency test Pro"
+      }
+    },
+    "donghaeng": {
+      "group": "ai",
+      "title": {
+        "ko": "SW 동행 · AI 활용 웹앱 제작",
+        "en": "SW Donghaeng · AI-assisted web apps"
+      },
+      "note": {
+        "ko": "AI 활용 웹앱 제작 프로젝트 교육.",
+        "en": "Project-based education in AI-assisted web app creation."
+      }
+    },
+    "saessak": {
+      "group": "cs",
+      "title": {
+        "ko": "디지털 새싹 · 웹 프로그래밍",
+        "en": "Digital Saessak · Web programming"
+      }
+    },
+    "gosaek": {
+      "group": "cs",
+      "title": {
+        "ko": "정보과학 주문형 강좌",
+        "en": "Computer science elective course"
+      }
+    }
+  },
+  "teaching": [
+    {
+      "id": "goyang-educore-2026-08",
+      "course": "goyang",
+      "organization": "educore",
+      "role": "instructor",
+      "start": "2026-08",
+      "end": null
+    },
+    {
+      "id": "codyssey-modulabs-2026-06",
+      "course": "codyssey",
+      "organization": "modulabs",
+      "role": "facilitator",
+      "start": "2026-06",
+      "end": null
+    },
+    {
+      "id": "algorithms-coderland-2023-03",
+      "course": "algorithms",
+      "organization": "coderland",
+      "role": "online",
+      "start": "2023-03",
+      "end": null
+    },
+    {
+      "id": "lginnotek-elice-2026-07",
+      "course": "lginnotek",
+      "organization": "elice",
+      "role": "instructor",
+      "start": "2026-07",
+      "end": "2026-07"
+    },
+    {
+      "id": "tacademy-mincoding-2025",
+      "course": "tacademy",
+      "organization": "mincoding",
+      "role": "instructor",
+      "start": "2025",
+      "end": "2025"
+    },
+    {
+      "id": "sds-mincoding-2025",
+      "course": "sds",
+      "organization": "mincoding",
+      "role": "assistant",
+      "start": "2025",
+      "end": "2025"
+    },
+    {
+      "id": "donghaeng-educore-2025",
+      "course": "donghaeng",
+      "organization": "educore",
+      "role": "instructor",
+      "start": "2025",
+      "end": "2025"
+    },
+    {
+      "id": "donghaeng-elice-2023",
+      "course": "donghaeng",
+      "organization": "elice",
+      "role": "instructor",
+      "start": "2023",
+      "end": "2024"
+    },
+    {
+      "id": "saessak-elice-2023",
+      "course": "saessak",
+      "organization": "elice",
+      "role": "instructor",
+      "start": "2023",
+      "end": "2024"
+    },
+    {
+      "id": "gosaek-gosaek-2023",
+      "course": "gosaek",
+      "organization": "gosaek",
+      "role": "instructor",
+      "start": "2023",
+      "end": "2023"
+    }
+  ]
 }
