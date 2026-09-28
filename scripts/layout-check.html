@@ -19,4 +19,11 @@
   <section><h2>375 px</h2><iframe id="check-375" title="375 px portfolio" src="../index.html" width="375" height="900"></iframe></section>
   <section><h2>430 px</h2><iframe id="check-430" title="430 px portfolio" src="../index.html" width="430" height="900"></iframe></section>
 </main>
+<script>
+  // A fresh document avoids showing the previous deployment from the browser cache.
+  const previewVersion = new URLSearchParams(location.search).get('v') || Date.now();
+  document.querySelectorAll('iframe').forEach(frame => {
+    frame.src = '../index.html?preview=' + encodeURIComponent(previewVersion);
+  });
+</script>
 </html>
