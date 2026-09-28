@@ -24,12 +24,15 @@
         #snow-cv-portfolio .pair > [data-l] { grid-area: 1 / 1; min-width: 0; visibility: hidden; }
         #snow-cv-portfolio[data-language="ko"] .pair > [data-l="ko"],
         #snow-cv-portfolio[data-language="en"] .pair > [data-l="en"] { visibility: visible; }
-        #snow-cv-portfolio .masthead { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0 14px; }
-        #snow-cv-portfolio .brand { font-size: 15px; font-weight: 500; letter-spacing: -.2px; }
-        #snow-cv-portfolio .language { min-height: 48px; width: 100px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 6px; padding: 8px; font-size: 13px; }
-        #snow-cv-portfolio .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 0 0 14px; border-bottom: 1px solid var(--line); }
-        #snow-cv-portfolio .tab { min-width: 48px; min-height: 52px; border: 0; border-radius: 6px; padding: 8px 10px; font-size: 14px; line-height: 1.4; color: var(--secondary); }
-        #snow-cv-portfolio .tab[aria-selected="true"] { color: var(--on-selected); background: var(--selected); font-weight: 500; }
+        #snow-cv-portfolio .site-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: 18px 0 0; }
+        #snow-cv-portfolio .language-control { display: flex; align-items: center; padding-left: 20px; position: relative; }
+        #snow-cv-portfolio .language-control::before { content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 1px; background: var(--line); }
+        #snow-cv-portfolio .language { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; padding: 0; background: var(--paper); }
+        #snow-cv-portfolio .language-flags, #snow-cv-portfolio .language-flags img { width: 24px; height: 18px; }
+        #snow-cv-portfolio .language-flags img { display: block; border-radius: 2px; }
+        #snow-cv-portfolio .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); min-width: 0; gap: 8px; border-bottom: 1px solid var(--line); }
+        #snow-cv-portfolio .tab { min-width: 44px; min-height: 52px; border: 0; border-radius: 0; padding: 8px 10px; font-size: 14px; line-height: 1.4; color: var(--secondary); }
+        #snow-cv-portfolio .tab[aria-selected="true"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); font-weight: 500; }
         #snow-cv-portfolio .tab:hover:not([aria-selected="true"]),
         #snow-cv-portfolio .language:hover, #snow-cv-portfolio .action:hover { background: var(--tint); }
         #snow-cv-portfolio .mobile-only { display: none !important; }
@@ -135,10 +138,10 @@
           #snow-cv-portfolio { padding: 0 20px; font-size: 14px; }
           #snow-cv-portfolio .desktop-only { display: none !important; }
           #snow-cv-portfolio .mobile-only { display: block !important; }
-          #snow-cv-portfolio .masthead { padding: 12px 0 10px; }
-          #snow-cv-portfolio .language { width: 92px; }
-          #snow-cv-portfolio .tabs { gap: 6px; padding-bottom: 12px; }
-          #snow-cv-portfolio .tab { padding: 8px 2px; min-height: 52px; font-size: 12px; }
+          #snow-cv-portfolio .site-toolbar { gap: 10px; padding-top: 12px; }
+          #snow-cv-portfolio .language-control { padding-left: 10px; }
+          #snow-cv-portfolio .tabs { gap: 2px; }
+          #snow-cv-portfolio .tab { padding: 8px 1px; min-height: 48px; font-size: 12px; white-space: nowrap; }
           #snow-cv-portfolio .panel { padding: 24px 0 28px; }
           #snow-cv-portfolio .panel-heading { margin-bottom: 18px; gap: 10px; }
           #snow-cv-portfolio .panel-heading h2 { font-size: 23px; }
@@ -189,8 +192,6 @@
         }
         @container snow (max-width: 350px) {
           #snow-cv-portfolio { padding: 0 16px; }
-          #snow-cv-portfolio .tabs { gap: 4px; }
-          #snow-cv-portfolio .brand { font-size: 14px; }
           #snow-cv-portfolio .hero h1 { font-size: 32px; }
           #snow-cv-portfolio select { width: 130px; }
         }

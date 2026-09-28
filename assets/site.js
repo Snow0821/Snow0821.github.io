@@ -37,7 +37,8 @@
           node.setAttribute('aria-hidden', String(node.dataset.l !== language));
           if (!node.hasAttribute('lang')) node.lang = node.dataset.l;
         }
-        languageButton.setAttribute('aria-label', language === 'ko' ? 'Switch to English' : '한국어로 전환');
+        languageButton.setAttribute('aria-label', language === 'ko' ? '현재 언어: 한국어. Switch to English' : 'Current language: English. 한국어로 전환');
+        languageButton.setAttribute('title', language === 'ko' ? '한국어 · Switch to English' : 'English · 한국어로 전환');
         root.querySelector('[role="tablist"]').setAttribute('aria-label', language === 'ko' ? '포트폴리오' : 'Portfolio');
         for (const paper of root.querySelectorAll('.paper')) {
           const title = paper.querySelector('.paper-name').textContent;
@@ -129,4 +130,3 @@
       }
       applyLanguage('ko');
     })();
-  
