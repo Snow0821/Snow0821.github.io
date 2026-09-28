@@ -113,7 +113,7 @@
         #snow-cv-portfolio .cv-career { margin-top: 26px; }
         #snow-cv-portfolio .cv-group-label { color: var(--accent); font-size: 12px; margin: 17px 0 7px; }
         #snow-cv-portfolio .cv-job { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 7px 0; font-size: 13px; }
-        #snow-cv-portfolio .cv-date { color: var(--secondary); font-size: 11px; padding-top: 1px; }
+        #snow-cv-portfolio .cv-date { white-space: nowrap; color: var(--secondary); font-size: 11px; padding-top: 1px; }
         #snow-cv-portfolio .fold-toggle { width: 100%; min-width: 48px; min-height: 56px; padding: 12px 0; border: 0; text-align: left; align-items: center; justify-content: space-between; gap: 12px; font-size: 16px; font-weight: 500; }
         #snow-cv-portfolio .fold-toggle > .pair { flex: 1; }
         #snow-cv-portfolio .fold-sign { font-size: 21px; color: var(--accent); width: 24px; text-align: center; flex-shrink: 0; }
@@ -254,7 +254,7 @@
 #snow-cv-portfolio .brand-icon[data-brand="linkedin"] { width:22px; height:22px; background:var(--ink); mask: url("linkedin.svg") no-repeat center / contain; -webkit-mask: url("linkedin.svg") no-repeat center / contain; }
 #snow-cv-portfolio .brand-icon[data-brand="github"] { width:22px; height:22px; background:var(--ink); mask: url("github.svg") no-repeat center / contain; -webkit-mask: url("github.svg") no-repeat center / contain; }
 #snow-cv-portfolio .preview-line { display:grid; }
-#snow-cv-portfolio .degree-field { display:block; font-size:12px; font-weight:400; color:var(--secondary); margin-top:2px; }
+#snow-cv-portfolio .degree-type { display:block; font-size:12px; font-weight:400; color:var(--secondary); margin-top:2px; }
 #snow-cv-portfolio .contact-block { margin-bottom:14px; }
 #snow-cv-portfolio .contact-block h2 { font-size:15px; font-weight:500; color:var(--ink); }
 #snow-cv-portfolio .contact-email { display:inline-flex; align-items:center; min-height:48px; padding:8px 0; font-size:14px; color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
