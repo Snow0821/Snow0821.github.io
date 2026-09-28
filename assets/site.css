@@ -253,6 +253,7 @@
 
 #snow-cv-portfolio .brand-icon[data-brand="linkedin"] { width:22px; height:22px; background:var(--ink); mask: url("linkedin.svg") no-repeat center / contain; -webkit-mask: url("linkedin.svg") no-repeat center / contain; }
 #snow-cv-portfolio .brand-icon[data-brand="github"] { width:22px; height:22px; background:var(--ink); mask: url("github.svg") no-repeat center / contain; -webkit-mask: url("github.svg") no-repeat center / contain; }
+#snow-cv-portfolio .brand-icon[data-brand="scholar"] { width:22px; height:22px; background:var(--ink); mask: url("google-scholar.svg") no-repeat center / contain; -webkit-mask: url("google-scholar.svg") no-repeat center / contain; }
 #snow-cv-portfolio .preview-line { display:grid; }
 #snow-cv-portfolio .degree-type { display:block; font-size:12px; font-weight:400; color:var(--secondary); margin-top:2px; }
 #snow-cv-portfolio .contact-block { margin-bottom:14px; }
