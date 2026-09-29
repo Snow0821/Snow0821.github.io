@@ -42,6 +42,13 @@
       </section>
       <section class="panel" role="tabpanel" id="snow-panel-teaching" aria-labelledby="snow-tab-teaching" hidden>
         <div class="panel-heading"><h2>{{label:section.teaching_tab}}</h2><span class="aside-label">{{teaching_range}}</span></div>
+        <section class="learning-resources" aria-labelledby="learning-resources-heading">
+          <h3 id="learning-resources-heading">{{label:section.learning_resources}}</h3>
+          <a class="learning-resource cursor-interaction" href="learn/prompt-engineering/" hreflang="ko">
+            <span><strong>{{label:resource.prompt_engineering}}</strong><span class="resource-description">{{label:resource.prompt_engineering_description}}</span></span>
+            <span class="resource-arrow" aria-hidden="true">→</span>
+          </a>
+        </section>
         {{teaching_detail}}
         <div class="actions">{{teaching_link}}</div>
       </section>
