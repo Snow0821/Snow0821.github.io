@@ -211,10 +211,6 @@
     "gosaek": {
       "ko": "고색고등학교",
       "en": "Gosaek High School"
-    },
-    "hanalife": {
-      "ko": "하나생명",
-      "en": "Hana Life"
     }
   },
   "education": [
@@ -436,8 +432,8 @@
     "hanalife": {
       "group": "ai",
       "title": {
-        "ko": "하나생명 · AI 심화교육",
-        "en": "Hana Life · Advanced AI training"
+        "ko": "하나생명 · AI로 설계하는 데이터 서비스 실무(STEP 2)",
+        "en": "Hana Life · Practical Data Service Design with AI (STEP 2)"
       },
       "note": {
         "ko": "2026.10.14 · 업무 PoC 기획·개발 지도 및 프로젝트 피드백.",
@@ -529,7 +525,7 @@
     {
       "id": "hanalife-2026-10",
       "course": "hanalife",
-      "organization": "hanalife",
+      "organization": "elice",
       "role": "instructor",
       "start": "2026-10",
       "end": "2026-10"
