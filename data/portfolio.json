@@ -11,7 +11,7 @@
       "flag": "assets/flag-us.svg"
     }
   ],
-  "updated": "2026-09-28",
+  "updated": "2026-10-14",
   "profile": {
     "name": {
       "ko": "최순호",
@@ -211,6 +211,10 @@
     "gosaek": {
       "ko": "고색고등학교",
       "en": "Gosaek High School"
+    },
+    "hanalife": {
+      "ko": "하나생명",
+      "en": "Hana Life"
     }
   },
   "education": [
@@ -428,6 +432,17 @@
         "ko": "정보과학 주문형 강좌",
         "en": "Computer science elective course"
       }
+    },
+    "hanalife": {
+      "group": "ai",
+      "title": {
+        "ko": "하나생명 · AI 심화교육",
+        "en": "Hana Life · Advanced AI training"
+      },
+      "note": {
+        "ko": "2026.10.14 · 업무 PoC 기획·개발 지도 및 프로젝트 피드백.",
+        "en": "October 14, 2026 · Guided business PoC planning and development and provided project feedback."
+      }
     }
   },
   "teaching": [
@@ -510,6 +525,14 @@
       "role": "instructor",
       "start": "2023",
       "end": "2023"
+    },
+    {
+      "id": "hanalife-2026-10",
+      "course": "hanalife",
+      "organization": "hanalife",
+      "role": "instructor",
+      "start": "2026-10",
+      "end": "2026-10"
     }
   ]
 }
