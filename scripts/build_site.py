@@ -1,5 +1,6 @@
 """Compose the static page from small views and one shared content model."""
 import json
+import hashlib
 import re
 from content import ROOT, DATA, LANGUAGES, DEFAULT_LANGUAGE, LOCALES, localized, text, cv_filename, reference, bibtex, year_range, validate, write_if_changed
 from html_components import h, pair, label, mapped, preview, fold
@@ -45,6 +46,7 @@ def build():
     names=' · '.join(dict.fromkeys(localized(DATA['profile']['name'],lang) for lang in LANGUAGES))
     roles=' and '.join(localized(DATA['roles'][role],'en') for role in DATA['profile']['roles'])
     slots={
+        'css_version':hashlib.sha256((ROOT/'assets/site.css').read_bytes()).hexdigest()[:12],
         'default_language':h(DEFAULT_LANGUAGE),'portfolio_label':h(text('ui.portfolio',DEFAULT_LANGUAGE)),
         'page_title':h(names+' | Research & Teaching'),
         'meta_description':h(names+' — '+roles+'. Research interests, publications, teaching experience, and CV.'),
@@ -73,3 +75,4 @@ def build():
 
 if __name__=='__main__':
     build()
+

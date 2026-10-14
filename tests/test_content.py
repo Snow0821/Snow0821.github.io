@@ -13,6 +13,12 @@ import site_sections
 
 
 class SharedContentTests(unittest.TestCase):
+    def test_generated_page_versions_the_current_stylesheet(self):
+        import hashlib
+        root=Path(__file__).resolve().parents[1]
+        digest=hashlib.sha256((root/'assets/site.css').read_bytes()).hexdigest()[:12]
+        self.assertIn(f'assets/site.css?v={digest}', (root/'index.html').read_text())
+
     def test_icon_urls_resolve_beside_stylesheet(self):
         assets = Path(__file__).resolve().parents[1] / 'assets'
         urls = re.findall(r"--icon:url\('([^']+)'\)", site_sections.profile())
