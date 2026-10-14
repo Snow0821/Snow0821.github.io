@@ -146,6 +146,24 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: 16px; paddi
 .history-pbl .history-entry { padding-top: 16px; }
 .history-pbl .history-meta { max-width: 520px; }
 
+/* Program-level summaries retain their layout; detail rows open on demand. */
+.career-details { margin-top: 10px; }
+.career-details > summary { display: flex; align-items: center; gap: 7px; min-height: 36px; width: fit-content; color: var(--accent); font-size: 12px; list-style: none; }
+.career-details > summary::-webkit-details-marker { display: none; }
+.career-details > summary::before { content: "+"; font-size: 16px; width: 12px; }
+.career-details[open] > summary::before { content: "−"; }
+.career-details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.detail-count { font-size: 11px; color: var(--secondary); }
+.career-details ul { list-style: none; margin: 5px 0 0 5px; padding: 0 0 0 14px; border-left: 1px solid var(--line); }
+.career-details li { padding: 9px 0 12px; }
+.career-details li + li { border-top: 1px solid var(--line); }
+.career-details h5 { margin: 0; font-size: 13px; font-weight: 500; line-height: 1.6; }
+.career-detail-meta { margin-top: 2px; color: var(--accent); font-size: 11px; }
+.career-details li > p { margin-top: 5px; color: var(--secondary); font-size: 12px; }
+.career-detail-note { margin-top: 5px; color: var(--secondary); font-size: 11px; }
+.history-other { margin-top: 24px; }
+.career-scope { margin-top: 20px; color: var(--secondary); font-size: 11px; line-height: 1.7; }
+
 /* Responsive overrides live together. */
 @media (max-width: 720px) {
   #snow-cv-portfolio { padding: 0 20px; font-size: 14px; }
@@ -194,10 +212,11 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: 16px; paddi
   .history-group { border-top: 1px solid var(--line); }
   .history-meta { grid-template-columns: 1fr; gap: 4px; }
   .history-meta > :last-child { text-align: left; }
-  .history-pbl { margin-top: 0; }
+  .history-pbl, .history-other { margin-top: 0; }
   .footer { padding: 14px 0 18px; }
 }
 @media (max-width: 350px) {
   #snow-cv-portfolio { padding: 0 16px; }
   select { width: 130px; }
 }
+

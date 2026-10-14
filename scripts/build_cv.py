@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 from io import BytesIO
-from content import ROOT, DATA, LANGUAGES, authors, venue_details, localized, text, teaching_records, teaching_values, cv_filename, validate, write_if_changed
+from content import ROOT, DATA, LANGUAGES, authors, venue_details, localized, text, teaching_records, teaching_values, period, cv_filename, validate, write_if_changed
 from html import escape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, KeepTogether
 from reportlab.lib.styles import ParagraphStyle
@@ -37,7 +37,7 @@ def p(text, style='body', markup=False):
     return Paragraph(text if markup else escape(text), STYLES[style])
 
 def table(data, widths, header=True, pad=4):
-    t = Table(data, colWidths=widths, hAlign='LEFT')
+    t = Table(data, colWidths=widths, hAlign='LEFT', repeatRows=1 if header else 0)
     commands = [('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('LEFTPADDING', (0, 0), (-1, -1), 6),
                 ('RIGHTPADDING', (0, 0), (-1, -1), 6),
@@ -103,6 +103,19 @@ def build(lang):
                      p(value['course']), p(value['role'], 'small')])
     story.append(table(rows, [99, 105, WIDTH-294, 90], pad=4))
 
+    other=DATA.get('otherExperience', [])
+    if other:
+        story += section(tr('section.other_experience'))
+        rows=[]
+        for item in other:
+            body=[p(localized(item['title'], lang), 'field'),
+                  p(localized(item['role'], lang), 'small'),
+                  p(localized(item['description'], lang), 'small')]
+            if item.get('note'):
+                body.append(p(localized(item['note'], lang), 'small'))
+            rows.append([p(period(item, lang), 'small'), body])
+        story.append(table(rows, [99, WIDTH-99], header=False, pad=5))
+
     def footer(c, doc):
         c.setFont('CV', 7.5); c.setFillColor(MUTED)
         c.drawString(32, 16, DATA['updated'].replace('-', '.'))
@@ -115,3 +128,4 @@ if __name__ == '__main__':
     import sys
     for lang in sys.argv[1:] or LANGUAGES:
         build(lang)
+

@@ -46,5 +46,8 @@
   "ui.details": "{title} details",
   "ui.copied": "Copied.",
   "ui.copy_failed": "Text selected. Use the copy menu or Ctrl/Cmd+C.",
-  "ui.email": "Email {email}"
+  "ui.email": "Email {email}",
+  "label.career_details": "School & company details",
+  "section.other_experience": "Other experience & projects",
+  "label.detail_scope": "Details use confirmed activity months; year-only dates mean the month is unconfirmed. Overlapping school engagements are not added together as continuous employment or teaching hours."
 }

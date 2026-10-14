@@ -46,5 +46,8 @@
   "ui.details": "{title} 상세 보기",
   "ui.copied": "복사했습니다.",
   "ui.copy_failed": "텍스트를 선택했습니다. 복사 메뉴 또는 Ctrl/Cmd+C를 사용하세요.",
-  "ui.email": "이메일 {email}"
+  "ui.email": "이메일 {email}",
+  "label.career_details": "학교·업체별 상세 이력",
+  "section.other_experience": "기타 경력 · 프로젝트",
+  "label.detail_scope": "세부 이력은 확인된 활동월 기준입니다. 월이 확인되지 않은 항목은 연도만 표기했습니다. 같은 기간의 여러 학교 출강은 연속 재직이나 총시수로 합산하지 않았습니다."
 }

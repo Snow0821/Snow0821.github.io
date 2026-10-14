@@ -73,7 +73,30 @@ def teaching_entry(item, summary):
     course=DATA['courses'][item['course']]
     note=f'<p class="history-note">{pair(course["note"])}</p>' if course.get('note') else ''
     org_role={lang:f'{value["organization"]} · {value["role"]}' for lang,value in values.items()}
-    return f'<article class="history-entry" data-record data-teaching="{item["id"]}"><h4>{pair(field("course"))}</h4><div class="history-meta">{pair(org_role)}{pair(field("period"))}</div>{note}</article>'
+    details=teaching_details(item)
+    return f'<article class="history-entry" data-record data-teaching="{item["id"]}"><h4>{pair(field("course"))}</h4><div class="history-meta">{pair(org_role)}{pair(field("period"))}</div>{note}{details}</article>'
+
+
+def teaching_details(item):
+    records=item.get('details', [])
+    if not records:
+        return ''
+    rows=[]
+    for detail in records:
+        meta=mapped(lambda lang:f"{period(detail,lang)} · {localized(DATA['roles'][detail['role']],lang)}")
+        note=f'<p class="career-detail-note">{pair(detail["note"])}</p>' if detail.get('note') else ''
+        rows.append(f'<li data-career-detail="{h(detail["id"])}"><h5>{pair(detail["title"])}</h5><div class="career-detail-meta">{pair(meta)}</div><p>{pair(detail["curriculum"])}</p>{note}</li>')
+    return f'<details class="career-details"><summary class="cursor-interaction">{label("label.career_details")}<span class="detail-count">{len(records)}</span></summary><ul>{"".join(rows)}</ul></details>'
+
+
+def other_experience():
+    records=DATA.get('otherExperience', [])
+    rows=[]
+    for item in records:
+        note=f'<p class="career-detail-note">{pair(item["note"])}</p>' if item.get('note') else ''
+        rows.append(f'<article class="history-entry" data-other-experience="{h(item["id"])}"><h4>{pair(item["title"])}</h4><div class="history-meta">{pair(item["role"])}{pair(mapped(lambda lang:period(item,lang)))}</div><p class="history-note">{pair(item["description"])}</p>{note}</article>')
+    summary=preview(records[0]['title'],mapped(lambda lang:f"{period(records[0],lang)} · {localized(records[0]['role'],lang)}")) if records else ''
+    return fold('snow-history-other','section.other_experience',len(records),''.join(rows),summary,classes='history-group history-other',level=3) if records else ''
 
 
 def teaching_list(records, summary=False):
@@ -103,9 +126,11 @@ def teaching_detail():
         is_wide=group.get('layout') == 'wide'
         section=fold('snow-history-'+group['id'],group['label'],len(records),teaching_list(records),teaching_preview(records),classes='history-group'+(' history-pbl' if is_wide else ''),level=3,short_key=group['shortLabel'])
         (wide if is_wide else columns).append(section)
-    return '<div class="history-columns">'+''.join(columns)+'</div>'+''.join(wide)
+    scope=f'<p class="career-scope">{label("label.detail_scope")}</p>'
+    return '<div class="history-columns">'+''.join(columns)+'</div>'+''.join(wide)+other_experience()+scope
 
 
 def profile_link(link_id, label_key, primary=False):
     link=next(item for item in DATA['profile']['links'] if item['id']==link_id)
     return external_link(link['url'],label(label_key)+'<span aria-hidden="true">↗</span>','action'+(' primary' if primary else ''))
+

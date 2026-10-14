@@ -90,6 +90,21 @@ def validate():
         for date in [item['start'], item['end']]:
             require(date is None or re.fullmatch(r'\d{4}(?:-(?:0[1-9]|1[0-2]))?', date), f'Invalid date: {date}')
         require(item['end'] is None or item['end'] >= item['start'], f'Reversed period: {item["id"]}')
+    detail_ids=[]
+    for item in DATA['teaching']:
+        for detail in item.get('details', []):
+            detail_ids.append(detail['id'])
+            require(re.fullmatch(r'[a-zA-Z0-9_-]+', detail['id']), 'Invalid career detail ID')
+            require(detail['role'] in DATA['roles'], f'Unknown detail role: {detail["id"]}')
+            require(all(lang in detail[field] for field in ['title', 'curriculum'] for lang in LANGUAGES), f'Missing career detail translation: {detail["id"]}')
+    require(len(detail_ids)==len(set(detail_ids)), 'Duplicate career detail ID')
+    other_ids=[item['id'] for item in DATA.get('otherExperience', [])]
+    require(len(other_ids)==len(set(other_ids)), 'Duplicate other experience ID')
+    dated_details=[detail for item in DATA['teaching'] for detail in item.get('details', [])]
+    for item in dated_details+DATA.get('otherExperience', []):
+        for date in [item['start'], item['end']]:
+            require(date is None or re.fullmatch(r'\d{4}(?:-(?:0[1-9]|1[0-2]))?', date), f'Invalid career date: {date}')
+        require(item['end'] is None or item['end'] >= item['start'], f'Reversed career period: {item["id"]}')
     for paper in DATA['papers']:
         require(bool(paper['authors']), f'Missing authors: {paper["id"]}')
         require(all(author in DATA['authors'] for author in paper['authors']), f'Unknown author: {paper["id"]}')
@@ -145,3 +160,4 @@ def bibtex(paper):
     fields['url'] = paper['url']
     rows = [f'  {key:<9} = {{{value}}}' for key, value in fields.items()]
     return '@inproceedings{' + paper['citationKey'] + ',\n' + ',\n'.join(rows) + '\n}'
+
