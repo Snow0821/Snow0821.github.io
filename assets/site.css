@@ -91,6 +91,15 @@ a { color: inherit; text-decoration: none; }
 .cv-job { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 7px 0; font-size: 13px; }
 .cv-date { white-space: nowrap; color: var(--secondary); font-size: 11px; padding-top: 1px; }
 
+/* Current roles remain visible on HOME at every screen size. */
+.current-roles { margin-bottom: 28px; }
+.current-role-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; list-style: none; margin: 0; padding: 4px 0; }
+.current-role { min-width: 0; }
+.current-role h3 { font-size: 14px; line-height: 1.5; }
+.current-role-title { margin-top: 3px; font-size: 12px; color: var(--secondary); }
+.current-role-context { margin-top: 2px; font-size: 11px; color: var(--secondary); }
+.current-role-date { margin-top: 5px; font-size: 11px; color: var(--accent); }
+
 /* Publications and citations */
 .paper-list { border-top: 1px solid var(--line); }
 .paper { padding: 20px 0; }
@@ -186,6 +195,9 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: 16px; paddi
   .preview-title { color: var(--ink); font-weight: 500; }
   .cv-education { grid-template-columns: 42px minmax(0, 1fr); }
   .cv-paper { grid-template-columns: 43px minmax(0, 1fr); gap: 12px; }
+  .current-roles { margin: 0; padding: 20px 0; border-top: 1px solid var(--line); }
+  .current-role-list { grid-template-columns: 1fr; gap: 14px; }
+  .current-role + .current-role { border-top: 1px solid var(--line); padding-top: 14px; }
   .cv-job { grid-template-columns: 1fr; gap: 3px; padding: 12px 0; }
   .cv-group-label { margin-top: 12px; }
   .paper { padding: 17px 0; }

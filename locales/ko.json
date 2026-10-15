@@ -52,5 +52,6 @@
   "label.unclassified": "세부 과정 확인 중",
   "label.shared_period": "학교 전체 활동기간이며, 트랙별 실시월은 별도로 확인되지 않았습니다.",
   "label.course_scope": "학교별 확인된 과정으로 분류했습니다. 같은 사업은 관련 분야에 나누어 표시하며, 전체 경력 수에는 한 번만 포함합니다.",
-  "label.unclassified_note": "수행 사실은 확인했으며, 세부 과목을 확인한 뒤 분야를 정합니다."
+  "label.unclassified_note": "수행 사실은 확인했으며, 세부 과목을 확인한 뒤 분야를 정합니다.",
+  "section.current_roles": "현직"
 }

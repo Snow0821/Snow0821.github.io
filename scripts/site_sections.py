@@ -1,5 +1,5 @@
 """Profile, education, interests, and teaching views built from shared records."""
-from content import DATA, LANGUAGES, DEFAULT_LANGUAGE, localized, text, cv_filename, teaching_records, teaching_values, teaching_title, period
+from content import DATA, LANGUAGES, DEFAULT_LANGUAGE, localized, text, cv_filename, teaching_records, teaching_values, teaching_title, current_role_records, period
 from html_components import h, pair, label, mapped, preview, fold, external_link, asset_icon
 
 
@@ -52,6 +52,19 @@ def interest_summary():
 
 def interest_detail():
     return ''.join(f'<article class="interest" data-block><span class="interest-tag" lang="en">{h(item["tag"])}</span><h3>{pair(item["name"])}</h3><p>{pair(item["description"])}</p><div class="keywords desktop-only" lang="en">{h(" · ".join(item["keywords"]))}</div></article>' for item in DATA['interests'])
+
+
+def current_roles():
+    records = current_role_records()
+    if not records:
+        return ''
+    rows = []
+    for item in records:
+        organization = DATA['organizations'][item['organization']]
+        dates = mapped(lambda lang: period(item, lang))
+        context = f'<p class="current-role-context">{pair(item["context"])}</p>' if item.get('context') else ''
+        rows.append(f'<li class="current-role" data-current-role="{h(item["id"])}"><h3>{pair(organization)}</h3><p class="current-role-title">{pair(item["title"])}</p>{context}<p class="current-role-date">{pair(dates)}</p></li>')
+    return f'<section class="current-roles" aria-labelledby="snow-current-roles-heading" data-block><h2 class="cv-heading" id="snow-current-roles-heading">{label("section.current_roles")}</h2><ul class="current-role-list">{"".join(rows)}</ul></section>'
 
 
 def teaching_preview(records):

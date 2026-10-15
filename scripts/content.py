@@ -68,6 +68,18 @@ def teaching_records(group=None):
     return sorted(records, key=lambda item: (item['end'] is None, item['start']), reverse=True)
 
 
+def current_role_records():
+    """Resolve explicitly curated roles; a current course is not a new job."""
+    teaching = {item['id']: item for item in DATA['teaching']}
+    records = []
+    for item in DATA.get('currentRoles', []):
+        source = teaching[item['teaching']] if item.get('teaching') else item
+        if source['end'] is None:
+            records.append(dict(item, organization=source['organization'],
+                                start=source['start'], end=source['end']))
+    return sorted(records, key=lambda item: item['start'], reverse=True)
+
+
 def teaching_title(item):
     return item.get('viewTitle', DATA['courses'][item['course']]['title'])
 
@@ -120,6 +132,22 @@ def validate():
         ids = [item['id'] for item in DATA[collection]]
         require(len(ids) == len(set(ids)), f'Duplicate ID in {collection}')
         require(all(re.fullmatch(r'[a-zA-Z0-9_-]+', item) for item in ids), f'Invalid ID in {collection}')
+    current_roles = DATA.get('currentRoles', [])
+    require(len({item['id'] for item in current_roles}) == len(current_roles), 'Duplicate current role ID')
+    teaching_ids = {item['id'] for item in DATA['teaching']}
+    for item in current_roles:
+        require(re.fullmatch(r'[a-zA-Z0-9_-]+', item['id']), 'Invalid current role ID')
+        require(all(lang in item['title'] for lang in LANGUAGES), f'Missing current role translation: {item["id"]}')
+        if item.get('context'):
+            require(all(lang in item['context'] for lang in LANGUAGES), f'Missing current role context translation: {item["id"]}')
+        if item.get('teaching'):
+            require(item['teaching'] in teaching_ids, f'Unknown current role teaching reference: {item["id"]}')
+            require(not any(key in item for key in ['organization', 'start', 'end']), f'Duplicated current role facts: {item["id"]}')
+        else:
+            require(item['organization'] in DATA['organizations'], f'Unknown current role organization: {item["id"]}')
+            require(bool(re.fullmatch(r'\d{4}-(?:0[1-9]|1[0-2])', item['start'])), f'Invalid current role start: {item["id"]}')
+            require(item['end'] is None or bool(re.fullmatch(r'\d{4}-(?:0[1-9]|1[0-2])', item['end'])), f'Invalid current role end: {item["id"]}')
+            require(item['end'] is None or item['end'] >= item['start'], f'Reversed current role period: {item["id"]}')
     groups = {group['id'] for group in DATA['teachingGroups']}
     for key, course in DATA['courses'].items():
         require(course['group'] in groups or (course.get('classifyDetails') and course['group'] is None), f'Unknown teaching group: {key}')

@@ -52,6 +52,7 @@ def build():
         'page_title':h(names+' | Research & Teaching'),
         'meta_description':h(names+' — '+roles+'. Research interests, publications, teaching experience, and CV.'),
         'navigation':navigation(),'language_control':language_control(),
+        'current_roles':sections.current_roles(),
         'profile':sections.profile(),'education':sections.education(),'qualifications':sections.qualifications(),
         'interest_summary':sections.interest_summary(),'interest_detail':sections.interest_detail(),
         'publication_summary':fold('snow-cv-papers','section.publications',len(papers),'\n'.join(map(publications.summary,papers)),publication_preview),

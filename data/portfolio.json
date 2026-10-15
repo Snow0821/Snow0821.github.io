@@ -1280,5 +1280,45 @@
         "en": "Mobile-game level design, story, balancing, probability and monetization design."
       }
     }
+  ],
+  "currentRoles": [
+    {
+      "id": "educore",
+      "teaching": "goyang-educore-2026-08",
+      "title": {
+        "ko": "고양 스마트시티즌 강사",
+        "en": "Goyang Smart Citizen instructor"
+      }
+    },
+    {
+      "id": "modulabs",
+      "teaching": "codyssey-modulabs-2026-06",
+      "title": {
+        "ko": "PBL 퍼실리테이터",
+        "en": "PBL facilitator"
+      },
+      "context": {
+        "ko": "코디세이 · AI Native 과정",
+        "en": "Codyssey · AI Native course"
+      }
+    },
+    {
+      "id": "coderland",
+      "teaching": "algorithms-coderland-2023-03",
+      "title": {
+        "ko": "온라인 프로그래밍 강사",
+        "en": "Online programming instructor"
+      }
+    },
+    {
+      "id": "elice",
+      "organization": "elice",
+      "start": "2023-01",
+      "end": null,
+      "title": {
+        "ko": "프리랜서 강사",
+        "en": "Freelance instructor"
+      }
+    }
   ]
 }
