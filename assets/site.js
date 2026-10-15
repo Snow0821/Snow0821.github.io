@@ -48,6 +48,26 @@
     }
   }
 
+  function initCareerDetails() {
+    for (const button of root.querySelectorAll('.career-toggle')) {
+      const entry = button.closest('.history-entry');
+      const detail = document.getElementById(button.getAttribute('aria-controls'));
+      function updateLabel() {
+        const title = entry.querySelector(`h4 [data-l="${root.lang}"]`).textContent;
+        const open = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-label', message(open ? 'collapse_career' : 'expand_career', {title}));
+      }
+      button.addEventListener('click', () => {
+        const open = button.getAttribute('aria-expanded') !== 'true';
+        button.setAttribute('aria-expanded', String(open));
+        button.querySelector('.career-sign').textContent = open ? '−' : '+';
+        detail.hidden = !open;
+        updateLabel();
+      });
+      root.addEventListener('languagechange', updateLabel);
+    }
+  }
+
   function initPublications() {
     const papers = [...root.querySelectorAll('.paper')];
     const citations = [...root.querySelectorAll('.citation')];
@@ -143,6 +163,7 @@
 
   initTabs();
   initDisclosures();
+  initCareerDetails();
   initPublications();
   initLanguage();
 })();

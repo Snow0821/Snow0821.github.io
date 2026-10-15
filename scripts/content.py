@@ -75,7 +75,7 @@ def validate():
     require(DEFAULT_LANGUAGE in LANGUAGES, 'Unknown default language')
     for lang in LANGUAGES:
         require(set(LOCALES[lang]) == set(LOCALES[DEFAULT_LANGUAGE]), f'Locale keys differ: {lang}')
-        runtime_keys = {'portfolio', 'download_cv', 'current_language', 'switch_to', 'switched', 'details', 'copied', 'copy_failed', 'email'}
+        runtime_keys = {'portfolio', 'download_cv', 'current_language', 'switch_to', 'switched', 'details', 'copied', 'copy_failed', 'email', 'expand_career', 'collapse_career'}
         require(all('ui.'+key in LOCALES[lang] for key in runtime_keys), f'Missing interface message: {lang}')
     for collection in ['education', 'qualifications', 'interests', 'papers', 'teaching', 'teachingGroups']:
         ids = [item['id'] for item in DATA[collection]]

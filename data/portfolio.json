@@ -343,18 +343,17 @@
     {
       "id": "ai",
       "label": "group.ai",
-      "shortLabel": "group.ai_short"
+      "shortLabel": "group.ai"
     },
     {
-      "id": "cs",
-      "label": "group.cs",
-      "shortLabel": "group.cs_short"
+      "id": "data",
+      "label": "group.data",
+      "shortLabel": "group.data"
     },
     {
-      "id": "pbl",
-      "label": "group.pbl",
-      "shortLabel": "group.pbl",
-      "layout": "wide"
+      "id": "programming",
+      "label": "group.programming",
+      "shortLabel": "group.programming"
     }
   ],
   "courses": {
@@ -370,7 +369,7 @@
       }
     },
     "codyssey": {
-      "group": "pbl",
+      "group": "programming",
       "title": {
         "ko": "Codyssey",
         "en": "Codyssey"
@@ -381,7 +380,7 @@
       }
     },
     "algorithms": {
-      "group": "cs",
+      "group": "programming",
       "title": {
         "ko": "Python·C++ · 자료구조·알고리즘",
         "en": "Python & C++ · Data structures & algorithms"
@@ -403,14 +402,14 @@
       }
     },
     "tacademy": {
-      "group": "cs",
+      "group": "programming",
       "title": {
         "ko": "T아카데미 · 알고리즘 특강",
         "en": "T Academy · Algorithms course"
       }
     },
     "sds": {
-      "group": "cs",
+      "group": "programming",
       "title": {
         "ko": "삼성 SDS · SW역량테스트 Pro",
         "en": "Samsung SDS · SW competency test Pro"
@@ -428,7 +427,7 @@
       }
     },
     "saessak": {
-      "group": "cs",
+      "group": "programming",
       "title": {
         "ko": "디지털 새싹 · 웹·데이터·AI 교육",
         "en": "Digital Saessak · Web, data & AI education"
@@ -439,7 +438,7 @@
       }
     },
     "gosaek": {
-      "group": "cs",
+      "group": "programming",
       "title": {
         "ko": "정보과학 주문형 강좌",
         "en": "Computer science elective course"
@@ -457,7 +456,7 @@
       }
     },
     "donghaeng-data": {
-      "group": "ai",
+      "group": "data",
       "title": {
         "ko": "SW 동행 · 데이터·Python 프로젝트",
         "en": "SW Donghaeng · Data & Python projects"
@@ -490,7 +489,7 @@
       }
     },
     "lgcns-coding": {
-      "group": "cs",
+      "group": "programming",
       "title": {
         "ko": "LG CNS · 자녀코딩스쿨",
         "en": "LG CNS · Coding School"

@@ -46,6 +46,7 @@ def build():
     names=' · '.join(dict.fromkeys(localized(DATA['profile']['name'],lang) for lang in LANGUAGES))
     roles=' and '.join(localized(DATA['roles'][role],'en') for role in DATA['profile']['roles'])
     slots={
+        'js_version':hashlib.sha256((ROOT/'assets/site.js').read_bytes()).hexdigest()[:12],
         'css_version':hashlib.sha256((ROOT/'assets/site.css').read_bytes()).hexdigest()[:12],
         'default_language':h(DEFAULT_LANGUAGE),'portfolio_label':h(text('ui.portfolio',DEFAULT_LANGUAGE)),
         'page_title':h(names+' | Research & Teaching'),
@@ -57,7 +58,7 @@ def build():
         'publication_detail':'\n'.join(map(publications.detail,papers)),
         'publication_range':f'{year_range(papers)} · {len(papers)}',
         'teaching_summary':sections.teaching_summary(),'teaching_detail':sections.teaching_detail(),
-        'teaching_range':f'{year_range(DATA["teaching"],teaching=True)} · {len(DATA["teaching"])}',
+        'teaching_range':f'{year_range(DATA["teaching"]+DATA.get("otherExperience",[]),teaching=True)} · {len(DATA["teaching"])+len(DATA.get("otherExperience",[]))}',
         'github_link':sections.profile_link('github','action.github'),
         'teaching_link':sections.profile_link('linkedin','action.teaching_inquiries',True),
         'last_updated':label('label.updated')+f'<time datetime="{h(DATA["updated"])}">{h(DATA["updated"].replace("-","."))}</time>',

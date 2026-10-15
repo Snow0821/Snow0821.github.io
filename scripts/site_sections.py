@@ -74,7 +74,14 @@ def teaching_entry(item, summary):
     note=f'<p class="history-note">{pair(course["note"])}</p>' if course.get('note') else ''
     org_role={lang:f'{value["organization"]} · {value["role"]}' for lang,value in values.items()}
     details=teaching_details(item)
-    return f'<article class="history-entry" data-record data-teaching="{item["id"]}"><h4>{pair(field("course"))}</h4><div class="history-meta">{pair(org_role)}{pair(field("period"))}</div>{note}{details}</article>'
+    toggle=career_toggle(item['id'],field('course')) if details else ''
+    return f'<article class="history-entry" data-record data-teaching="{item["id"]}"><div class="history-title"><h4>{pair(field("course"))}</h4>{toggle}</div><div class="history-meta">{pair(org_role)}{pair(field("period"))}</div>{note}{details}</article>' 
+
+
+def career_toggle(record_id, title):
+    target='snow-career-'+record_id
+    aria=text('ui.expand_career',DEFAULT_LANGUAGE,title=localized(title,DEFAULT_LANGUAGE))
+    return f'<button type="button" class="career-toggle cursor-interaction" aria-expanded="false" aria-controls="{h(target)}" aria-label="{h(aria)}"><span class="career-sign" aria-hidden="true">+</span></button>'
 
 
 def teaching_details(item):
@@ -86,17 +93,24 @@ def teaching_details(item):
         meta=mapped(lambda lang:f"{period(detail,lang)} · {localized(DATA['roles'][detail['role']],lang)}")
         note=f'<p class="career-detail-note">{pair(detail["note"])}</p>' if detail.get('note') else ''
         rows.append(f'<li data-career-detail="{h(detail["id"])}"><h5>{pair(detail["title"])}</h5><div class="career-detail-meta">{pair(meta)}</div><p>{pair(detail["curriculum"])}</p>{note}</li>')
-    return f'<details class="career-details"><summary class="cursor-interaction">{label("label.career_details")}<span class="detail-count">{len(records)}</span></summary><ul>{"".join(rows)}</ul></details>'
+    return f'<div class="career-details" id="snow-career-{h(item["id"])}" hidden><ul>{"".join(rows)}</ul></div>'
 
 
-def other_experience():
+def other_experience(summary=False):
     records=DATA.get('otherExperience', [])
     rows=[]
     for item in records:
+        date=pair(mapped(lambda lang:period(item,lang)))
+        if summary:
+            rows.append(f'<article class="cv-job" data-record data-other-experience="{h(item["id"])}"><span class="cv-date">{date}</span><div><strong>{pair(item["title"])}</strong><p class="cv-sub">{pair(item["role"])}</p></div></article>')
+            continue
         note=f'<p class="career-detail-note">{pair(item["note"])}</p>' if item.get('note') else ''
-        rows.append(f'<article class="history-entry" data-other-experience="{h(item["id"])}"><h4>{pair(item["title"])}</h4><div class="history-meta">{pair(item["role"])}{pair(mapped(lambda lang:period(item,lang)))}</div><p class="history-note">{pair(item["description"])}</p>{note}</article>')
-    summary=preview(records[0]['title'],mapped(lambda lang:f"{period(records[0],lang)} · {localized(records[0]['role'],lang)}")) if records else ''
-    return fold('snow-history-other','section.other_experience',len(records),''.join(rows),summary,classes='history-group history-other',level=3) if records else ''
+        details=f'<div class="career-details" id="snow-career-{h(item["id"])}" hidden><p class="history-note">{pair(item["description"])}</p>{note}</div>'
+        rows.append(f'<article class="history-entry" data-other-experience="{h(item["id"])}"><div class="history-title"><h4>{pair(item["title"])}</h4>{career_toggle(item["id"],item["title"])}</div><div class="history-meta">{pair(item["role"])}{date}</div>{details}</article>')
+    if summary:
+        return ''.join(rows)
+    summary_html=preview(records[0]['title'],mapped(lambda lang:f"{period(records[0],lang)} · {localized(records[0]['role'],lang)}")) if records else ''
+    return fold('snow-history-development','section.other_experience',len(records),''.join(rows),summary_html,classes='history-group history-development',level=3) if records else ''
 
 
 def teaching_list(records, summary=False):
@@ -113,21 +127,27 @@ def teaching_list(records, summary=False):
 
 def teaching_summary():
     records=teaching_records()
-    return fold('snow-cv-career','section.teaching',len(records),teaching_list(records,True),teaching_preview(records),classes='cv-section cv-career',short_key='section.teaching_tab')
+    groups=[]
+    for group in DATA['teachingGroups']:
+        selected=teaching_records(group['id'])
+        if selected:
+            groups.append(f'<h3 class="cv-group-label">{label(group["label"])}</h3>'+''.join(teaching_entry(item,True) for item in selected))
+    if DATA.get('otherExperience'):
+        groups.append(f'<h3 class="cv-group-label">{label("section.other_experience")}</h3>'+other_experience(summary=True))
+    count=len(records)+len(DATA.get('otherExperience',[]))
+    return fold('snow-cv-career','section.teaching',count,''.join(groups),teaching_preview(records),classes='cv-section cv-career',short_key='section.teaching_tab')
 
 
 def teaching_detail():
-    columns=[]
-    wide=[]
+    groups=[]
     for group in DATA['teachingGroups']:
         records=teaching_records(group['id'])
         if not records:
             continue
-        is_wide=group.get('layout') == 'wide'
-        section=fold('snow-history-'+group['id'],group['label'],len(records),teaching_list(records),teaching_preview(records),classes='history-group'+(' history-pbl' if is_wide else ''),level=3,short_key=group['shortLabel'])
-        (wide if is_wide else columns).append(section)
+        groups.append(fold('snow-history-'+group['id'],group['label'],len(records),teaching_list(records),teaching_preview(records),classes='history-group',level=3,short_key=group['shortLabel']))
+    groups.append(other_experience())
     scope=f'<p class="career-scope">{label("label.detail_scope")}</p>'
-    return '<div class="history-columns">'+''.join(columns)+'</div>'+''.join(wide)+other_experience()+scope
+    return '<div class="history-columns">'+''.join(groups)+'</div>'+scope
 
 
 def profile_link(link_id, label_key, primary=False):

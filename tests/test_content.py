@@ -48,12 +48,55 @@ class SharedContentTests(unittest.TestCase):
     def test_program_details_are_additive_and_not_in_home_summary(self):
         detail=site_sections.teaching_detail()
         summary=site_sections.teaching_summary()
-        self.assertIn('학교·업체별 상세 이력', detail)
+        self.assertNotIn('학교·업체별 상세 이력', detail)
+        self.assertIn('class="career-toggle cursor-interaction"', detail)
         self.assertIn('data-career-detail="jeohyeon"', detail)
         self.assertNotIn('data-career-detail=', summary)
-        self.assertEqual(detail.count('class="career-details"'), len(DATA['teaching']))
+        self.assertEqual(detail.count('class="career-details"'), len(DATA['teaching'])+len(DATA['otherExperience']))
         expected=sum(len(item.get('details', [])) for item in DATA['teaching'])
         self.assertEqual(detail.count('data-career-detail='), expected)
+
+    def test_four_themes_preserve_every_program_once(self):
+        from content import teaching_records
+        self.assertEqual([group['id'] for group in DATA['teachingGroups']], ['ai','data','programming'])
+        self.assertEqual([len(teaching_records(group['id'])) for group in DATA['teachingGroups']], [6,1,7])
+        self.assertEqual(DATA['courses']['donghaeng-data']['group'], 'data')
+        self.assertEqual(DATA['courses']['algorithms']['group'], 'programming')
+        self.assertEqual(DATA['courses']['codyssey']['group'], 'programming')
+        self.assertEqual(DATA['courses']['hanalife']['group'], 'ai')
+        detail=site_sections.teaching_detail()
+        summary=site_sections.teaching_summary()
+        self.assertEqual(detail.count('class="history-group'),4)
+        for item in DATA['teaching']:
+            for output in [summary,detail]:
+                self.assertEqual(output.count(f'data-teaching="{item["id"]}"'),1)
+        for item in DATA['otherExperience']:
+            for output in [summary,detail]:
+                self.assertEqual(output.count(f'data-other-experience="{item["id"]}"'),1)
+        self.assertEqual(detail.count('data-career-detail='),30)
+        self.assertIn('<small>17</small>',summary)
+        self.assertEqual([len(item['details']) for item in DATA['teaching'] if item['course'] in ['saessak','donghaeng-data']], [5,7])
+
+    def test_simple_career_buttons_have_unique_accessible_targets(self):
+        output=site_sections.teaching_detail()
+        buttons=re.findall(r'<button type="button" class="career-toggle cursor-interaction"([^>]+)>(.*?)</button>',output)
+        self.assertEqual(len(buttons),17)
+        targets=[]
+        for attrs,body in buttons:
+            self.assertIn('aria-expanded="false"',attrs)
+            self.assertIn('aria-label="',attrs)
+            target=re.search(r'aria-controls="([^"]+)"',attrs)[1]
+            targets.append(target)
+            self.assertEqual(output.count(f'id="{target}" hidden'),1)
+            self.assertEqual(body,'<span class="career-sign" aria-hidden="true">+</span>')
+        self.assertEqual(len(targets),len(set(targets)))
+        self.assertNotIn('<summary',output)
+
+    def test_generated_page_versions_the_current_script(self):
+        import hashlib
+        root=Path(__file__).resolve().parents[1]
+        digest=hashlib.sha256((root/'assets/site.js').read_bytes()).hexdigest()[:12]
+        self.assertIn(f'assets/site.js?v={digest}',(root/'index.html').read_text())
 
     def test_goyang_has_three_distinct_courses_with_verified_months(self):
         item=next(item for item in DATA['teaching'] if item['id']=='goyang-educore-2026-08')

@@ -132,28 +132,23 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: 16px; paddi
 .learning-resource:hover strong { text-decoration: underline; text-underline-offset: 4px; }
 .resource-description { display: block; margin-top: 5px; color: var(--secondary); font-size: 12px; }
 .resource-arrow { color: var(--accent); text-align: center; }
-.history-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.history-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
 .history-group > .desktop-only { border-top: 2px solid var(--line); border-bottom: 0; padding-top: 16px; }
 .history-group h3 { font-size: 19px; line-height: 1.4; }
 .history-status { color: var(--accent); font-size: 12px; margin: 18px 0 8px; }
 .history-entry { padding: 10px 0 14px; }
 .history-entry + .history-entry { border-top: 1px solid var(--line); }
-.history-entry h4 { font-size: 15px; line-height: 1.5; margin-bottom: 6px; }
+.history-title { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.history-title h4 { flex: 1; min-width: 0; font-size: 15px; line-height: 1.5; padding-top: 10px; }
+.career-toggle { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; padding: 0; color: var(--accent); }
+.career-toggle:hover { background: var(--tint); }
+.career-sign { font-size: 21px; line-height: 1; }
 .history-meta { display: grid; grid-template-columns: minmax(0, 1fr) 112px; gap: 12px; font-size: 12px; color: var(--secondary); }
 .history-meta > :last-child { text-align: right; }
 .history-note { color: var(--secondary); font-size: 13px; margin-top: 9px; }
-.history-pbl { margin-top: 24px; }
-.history-pbl .history-entry { padding-top: 16px; }
-.history-pbl .history-meta { max-width: 520px; }
 
 /* Program-level summaries retain their layout; detail rows open on demand. */
 .career-details { margin-top: 10px; }
-.career-details > summary { display: flex; align-items: center; gap: 7px; min-height: 36px; width: fit-content; color: var(--accent); font-size: 12px; list-style: none; }
-.career-details > summary::-webkit-details-marker { display: none; }
-.career-details > summary::before { content: "+"; font-size: 16px; width: 12px; }
-.career-details[open] > summary::before { content: "−"; }
-.career-details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.detail-count { font-size: 11px; color: var(--secondary); }
 .career-details ul { list-style: none; margin: 5px 0 0 5px; padding: 0 0 0 14px; border-left: 1px solid var(--line); }
 .career-details li { padding: 9px 0 12px; }
 .career-details li + li { border-top: 1px solid var(--line); }
@@ -161,7 +156,6 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: 16px; paddi
 .career-detail-meta { margin-top: 2px; color: var(--accent); font-size: 11px; }
 .career-details li > p { margin-top: 5px; color: var(--secondary); font-size: 12px; }
 .career-detail-note { margin-top: 5px; color: var(--secondary); font-size: 11px; }
-.history-other { margin-top: 24px; }
 .career-scope { margin-top: 20px; color: var(--secondary); font-size: 11px; line-height: 1.7; }
 
 /* Responsive overrides live together. */
@@ -212,7 +206,6 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: 16px; paddi
   .history-group { border-top: 1px solid var(--line); }
   .history-meta { grid-template-columns: 1fr; gap: 4px; }
   .history-meta > :last-child { text-align: left; }
-  .history-pbl, .history-other { margin-top: 0; }
   .footer { padding: 14px 0 18px; }
 }
 @media (max-width: 350px) {

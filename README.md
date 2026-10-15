@@ -20,7 +20,7 @@ GitHub Pages에서 제공하는 한·영 포트폴리오입니다. 방문자에�
 
 ## 학습 자료
 
-강의 이력 탭의 **학습 자료**에서 인터랙티브 개념 지도로 이동할 수 있습니다.
+경력 탭의 **학습 자료**에서 인터랙티브 개념 지도로 이동할 수 있습니다.
 
 - 공개 주소: <https://snow0821.github.io/learn/prompt-engineering/>
 - 내용과 동작: `learn/prompt-engineering/index.html`을 직접 편집합니다. 별도 빌드나 외부 스크립트 없이 동작하는 정적 페이지입니다.
@@ -37,17 +37,20 @@ GitHub Pages에서 제공하는 한·영 포트폴리오입니다. 방문자에�
 
 ### 학교·업체별 상세 이력
 
-기존 `teaching` 항목의 `details` 배열에 학교·업체(`title`), 활동월(`start`, `end`), 역할 ID(`role`), 커리큘럼(`curriculum`)을 기록합니다. 상세 탭에서 사업별 항목 아래 펼침 영역으로 표시하며 홈과 PDF는 사업 단위 요약을 유지합니다. `note`는 선택 항목입니다. 사업에 속하지 않는 개발·프로젝트 경력은 `otherExperience`에 별도로 기록합니다.
+기존 `teaching` 항목의 `details` 배열에 학교·업체(`title`), 활동월(`start`, `end`), 역할 ID(`role`), 커리큘럼(`curriculum`)을 기록합니다. 경력 탭에서 각 사업 제목 옆 `+` 버튼으로 세부 이력을 펼칩니다. 다시 누르면 `−`에서 `+`로 돌아오며 접힙니다. 키보드 Enter·Space도 지원합니다. 홈과 PDF는 사업 단위 요약을 유지합니다. `note`는 선택 항목입니다. 사업에 속하지 않는 개발·프로젝트 경력은 `otherExperience`에 별도로 기록합니다.
+
+`teachingGroups`는 인공지능 교육, 데이터 교육, 프로그래밍·자료구조·알고리즘 교육 순서이며, `otherExperience`는 네 번째 개발 경력으로 표시합니다. 홈·경력 탭·한영 CV는 같은 분류를 사용합니다. 자료구조는 프로그래밍 분야에 포함합니다. PBL 학습지원은 교육으로, 여러 주제를 다룬 사업은 원래 사업과 세부 커리큘럼을 보존해 한 곳에만 배치합니다.
 
 확인된 활동월만 사용하고 월이 불명확하면 연도만 적습니다. 배정·제안만 확인된 활동이나 비공개 증빙 링크는 공개 데이터에 포함하지 않습니다.
 
 ## 생성과 점검
 
-웹만 수정했다면 Python 표준 라이브러리만 있으면 됩니다.
+웹 생성에는 Python 표준 라이브러리만 있으면 됩니다. 펼침·접힘 UI 회귀 테스트에는 Node.js를 사용합니다.
 
 ```sh
 python3 scripts/build.py --site-only
 python3 -m unittest discover -s tests
+node tests/test_ui.js
 ```
 
 CV까지 함께 갱신하려면 `reportlab`을 설치하고 `NanumGothic-Regular.ttf`, `NanumGothic-Bold.ttf`가 있는 폴더를 지정합니다.

@@ -96,12 +96,17 @@ def build(lang):
         story.append(KeepTogether([t]))
 
     story += section(tr('section.teaching'))
-    rows = [[p(tr(key), 'label') for key in ['label.period', 'label.org', 'label.course', 'label.role']]]
-    for item in teaching_records():
-        value = teaching_values(item, lang)
-        rows.append([p(value['period'].replace('–', ' - '), 'small'), p(value['organization'], 'small'),
-                     p(value['course']), p(value['role'], 'small')])
-    story.append(table(rows, [99, 105, WIDTH-294, 90], pad=4))
+    for group in DATA['teachingGroups']:
+        records=teaching_records(group['id'])
+        if not records:
+            continue
+        group_heading=[Spacer(1, 5), p(tr(group['label']), 'field'), Spacer(1, 3)]
+        rows = [[p(tr(key), 'label') for key in ['label.period', 'label.org', 'label.course', 'label.role']]]
+        for item in records:
+            value = teaching_values(item, lang)
+            rows.append([p(value['period'].replace('–', ' - '), 'small'), p(value['organization'], 'small'),
+                         p(value['course']), p(value['role'], 'small')])
+        story.append(KeepTogether(group_heading+[table(rows, [99, 105, WIDTH-294, 90], pad=4)]))
 
     other=DATA.get('otherExperience', [])
     if other:
