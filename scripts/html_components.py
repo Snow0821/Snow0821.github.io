@@ -38,15 +38,20 @@ def preview(title, detail, markup=False):
     return f'<p class="fold-preview">{pair(title,"preview-title",markup)}{pair(detail,"preview-line")}</p>'
 
 
-def fold(section_id, key, count, content, preview_html='', *, classes='cv-section', level=2, short_key=None):
+def fold(section_id, key, count, content, preview_html='', *, classes='cv-section', level=2, short_key=None, heading_tags=''):
     heading=mapped(lambda lang: h(text(key,lang)))
     compact=mapped(lambda lang:h(text(short_key or key,lang)))
     badge=f' <small>{count}</small>' if count is not None else ''
     heading={lang:value+badge for lang,value in heading.items()}
     compact={lang:value+badge for lang,value in compact.items()}
+    heading_content = pair(heading,markup=True)+heading_tags
+    compact_content = pair(compact,markup=True)
+    if heading_tags:
+        compact_content = '<span class="fold-title-group">'+compact_content+heading_tags+'</span>'
+    heading_class = ' has-heading-tags' if heading_tags else ''
     return f'''<section class="{classes} fold-section" data-expanded="false" data-block>
-<h{level} class="cv-heading desktop-only">{pair(heading,markup=True)}</h{level}>
-<button type="button" class="fold-toggle mobile-only cursor-interaction" aria-expanded="false" aria-controls="{section_id}">{pair(compact,markup=True)}<span class="fold-sign" aria-hidden="true">+</span></button>
+<h{level} class="cv-heading desktop-only{heading_class}">{heading_content}</h{level}>
+<button type="button" class="fold-toggle mobile-only cursor-interaction" aria-expanded="false" aria-controls="{section_id}">{compact_content}<span class="fold-sign" aria-hidden="true">+</span></button>
 {preview_html}<div class="fold-content" id="{section_id}">{content}</div>
 </section>'''
 

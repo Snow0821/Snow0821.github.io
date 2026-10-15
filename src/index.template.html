@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{meta_description}}">
 <title>{{page_title}}</title>
+<style id="snow-design-tokens">{{design_tokens}}</style>
 <link rel="stylesheet" href="assets/site.css?v={{css_version}}">
 <script src="assets/site.js?v={{js_version}}" defer></script>
 </head>
@@ -23,7 +24,6 @@
             {{profile}}
             {{education}}
             {{qualifications}}
-            {{interest_summary}}
           </aside>
           <div class="cv-main">
             {{current_roles}}
@@ -33,13 +33,8 @@
         </div>
       </section>
       <section class="panel" role="tabpanel" id="snow-panel-publications" aria-labelledby="snow-tab-publications" hidden>
-        <div class="panel-heading"><h2>{{label:section.publications}}</h2><span class="aside-label">{{publication_range}}</span></div>
+        <div class="panel-heading"><div class="research-heading"><h2>{{label:section.publications}}</h2>{{research_topics}}</div><span class="aside-label">{{publication_range}}</span></div>
         <div class="paper-list">{{publication_detail}}</div>
-      </section>
-      <section class="panel" role="tabpanel" id="snow-panel-interests" aria-labelledby="snow-tab-interests" hidden>
-        <div class="panel-heading"><h2>{{label:section.interests}}</h2></div>
-        <div class="interest-list">{{interest_detail}}</div>
-        <div class="actions">{{github_link}}</div>
       </section>
       <section class="panel" role="tabpanel" id="snow-panel-teaching" aria-labelledby="snow-tab-teaching" hidden>
         <div class="panel-heading"><h2>{{label:section.teaching_tab}}</h2><span class="aside-label">{{teaching_range}}</span></div>

@@ -53,7 +53,7 @@
       const entry = button.closest('.history-entry');
       const detail = document.getElementById(button.getAttribute('aria-controls'));
       function updateLabel() {
-        const title = entry.querySelector(`h4 [data-l="${root.lang}"]`).textContent;
+        const title = button.getAttribute(`data-title-${root.lang}`) || entry.querySelector(`h4 [data-l="${root.lang}"]`).textContent;
         const open = button.getAttribute('aria-expanded') === 'true';
         button.setAttribute('aria-label', message(open ? 'collapse_career' : 'expand_career', {title}));
       }

@@ -6,11 +6,12 @@ from content import ROOT, DATA, LANGUAGES, DEFAULT_LANGUAGE, LOCALES, localized,
 from html_components import h, pair, label, mapped, preview, fold
 import site_sections as sections
 import publications
+from design import css_tokens
 
 
 def navigation():
     tabs=[]
-    for key,full,short in [('home','nav.home',None),('interests','nav.interests','nav.interests_short'),('publications','nav.publications','nav.publications_short'),('teaching','nav.teaching',None)]:
+    for key,full,short in [('home','nav.home',None),('publications','nav.publications','nav.publications_short'),('teaching','nav.teaching',None)]:
         selected=key=='home'
         title=label(full) if not short else f'<span class="desktop-only">{label(full)}</span><span class="mobile-only">{label(short)}</span>'
         tabs.append(f'<button type="button" class="tab cursor-interaction" id="snow-tab-{key}" role="tab" aria-selected="{str(selected).lower()}" aria-controls="snow-panel-{key}" data-tab="{key}" tabindex="{0 if selected else -1}">{title}</button>')
@@ -46,16 +47,17 @@ def build():
     names=' · '.join(dict.fromkeys(localized(DATA['profile']['name'],lang) for lang in LANGUAGES))
     roles=' and '.join(localized(DATA['roles'][role],'en') for role in DATA['profile']['roles'])
     slots={
+        'design_tokens':css_tokens(),
         'js_version':hashlib.sha256((ROOT/'assets/site.js').read_bytes()).hexdigest()[:12],
         'css_version':hashlib.sha256((ROOT/'assets/site.css').read_bytes()).hexdigest()[:12],
         'default_language':h(DEFAULT_LANGUAGE),'portfolio_label':h(text('ui.portfolio',DEFAULT_LANGUAGE)),
         'page_title':h(names+' | Research & Teaching'),
-        'meta_description':h(names+' — '+roles+'. Research interests, publications, teaching experience, and CV.'),
+        'meta_description':h(names+' — '+roles+'. Research activities, teaching experience, and CV.'),
         'navigation':navigation(),'language_control':language_control(),
         'current_roles':sections.current_roles(),
         'profile':sections.profile(),'education':sections.education(),'qualifications':sections.qualifications(),
-        'interest_summary':sections.interest_summary(),'interest_detail':sections.interest_detail(),
-        'publication_summary':fold('snow-cv-papers','section.publications',len(papers),'\n'.join(map(publications.summary,papers)),publication_preview),
+        'publication_summary':fold('snow-cv-papers','section.publications',len(papers),'\n'.join(map(publications.summary,papers)),publication_preview,heading_tags=publications.research_tags()),
+        'research_topics':publications.research_tags(),
         'publication_detail':'\n'.join(map(publications.detail,papers)),
         'publication_range':f'{year_range(papers)} · {len(papers)}',
         'teaching_summary':sections.teaching_summary(),'teaching_detail':sections.teaching_detail(),

@@ -48,4 +48,7 @@ assert.equal(panels.education.hidden, true);
 for (let index = 0; index < 6; index++) buttons[1].listeners.click();
 assert.equal(buttons[1].attrs['aria-expanded'], 'false');
 assert.equal(panels.development.hidden, true);
+buttons[0].attrs['data-title-en'] = 'Program · Course';
+languageListeners.forEach(callback => callback());
+assert.equal(buttons[0].attrs['aria-label'], 'Expand details for Program · Course');
 console.log('Career disclosure tests passed: open, close, repeated clicks, independent state, KO/EN labels.');

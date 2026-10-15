@@ -1,0 +1,57 @@
+{
+  "palette": {
+    "light": {
+      "paper": "#FAF8F4",
+      "ink": "#303735",
+      "secondary": "#48525C",
+      "line": "#D4DCD7",
+      "accent": "#253B53",
+      "tint": "#E0EFE9",
+      "selected": "#253B53",
+      "on-selected": "#FFFFFF",
+      "beige": "#EFE7DA",
+      "tag-border": "#A2B2AB"
+    },
+    "dark": {
+      "paper": "#222831",
+      "ink": "#F1F0EC",
+      "secondary": "#C2CBD4",
+      "line": "#4A5764",
+      "accent": "#B9CDE0",
+      "tint": "#2D403B",
+      "selected": "#D4E2ED",
+      "on-selected": "#253B53",
+      "beige": "#403B33",
+      "tag-border": "#8DABA0"
+    }
+  },
+  "typography": {
+    "webBody": 16,
+    "webSecondary": 14,
+    "webTitle": "\"Nanum Myeongjo\", \"Noto Serif KR\", Georgia, \"Batang\", serif",
+    "webBodyFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Noto Sans KR\", sans-serif",
+    "pdfBody": 10,
+    "pdfSecondary": 9,
+    "pdfLeading": 13.5,
+    "pdfSecondaryLeading": 12.5,
+    "pdfHeadingFamily": "NanumMyeongjo",
+    "pdfBodyFamily": "NanumGothic"
+  },
+  "spacing": {
+    "unit": 4,
+    "section": 32,
+    "row": 16
+  },
+  "teachingColumns": [
+    19,
+    23,
+    58
+  ],
+  "paletteStatus": "provisional; refine colors, pattern and texture with the user later",
+  "identityPalette": {
+    "mint": "#A8CFC3",
+    "beige": "#E8DFD0",
+    "white": "#FFFFFF",
+    "charcoal": "#303735"
+  }
+}
