@@ -15,8 +15,13 @@ def main():
     build_site()
     if not args.site_only:
         for lang in LANGUAGES:
-            build_cv(lang)
+            if lang == 'ko':
+                from build_editorial_cv import build as build_editorial_cv
+                build_editorial_cv()
+            else:
+                build_cv(lang)
 
 
 if __name__=='__main__':
     main()
+

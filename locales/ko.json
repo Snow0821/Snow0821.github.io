@@ -56,10 +56,11 @@
   "section.activities": "기타 활동",
   "section.teaching_history": "교육 경력",
   "section.education_qualifications": "학위·자격",
-  "label.org_program": "기관·사업명",
+  "label.org_program": "프로그램·기관",
   "group.ai_data": "인공지능·데이터 교육",
   "label.first_author": "제1저자",
   "label.program_course": "사업·과정",
   "label.activity": "활동",
-  "label.role_course": "역할·과정"
+  "label.role_course": "대상·강의 내용",
+  "label.operator": "운영"
 }

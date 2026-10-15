@@ -19,17 +19,17 @@
     </header>
     <main>
       <section class="panel" role="tabpanel" id="snow-panel-home" aria-labelledby="snow-tab-home">
+        <div class="home-profile">{{profile}}</div>
         <div class="cv-layout">
+          <div class="cv-main">{{current_roles}}</div>
           <aside class="cv-sidebar">
-            {{profile}}
             {{education}}
             {{qualifications}}
           </aside>
-          <div class="cv-main">
-            {{current_roles}}
-            {{publication_summary}}
-            {{teaching_summary}}
-          </div>
+        </div>
+        <div class="cv-body">
+          {{publication_summary}}
+          {{teaching_summary}}
         </div>
       </section>
       <section class="panel" role="tabpanel" id="snow-panel-publications" aria-labelledby="snow-tab-publications" hidden>

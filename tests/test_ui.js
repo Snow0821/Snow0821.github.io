@@ -10,14 +10,15 @@ const messages = {
 };
 const panels = {};
 const languageListeners = [];
-const buttons = ['education', 'development'].map(id => {
+const buttons = ['education', 'development', 'current'].map(id => {
   const attrs = {'aria-expanded': 'false', 'aria-controls': id};
+  if (id === 'current') Object.assign(attrs, {'data-title-ko': '현재 강의', 'data-title-en': 'Current teaching'});
   const listeners = {};
   const sign = {textContent: '+'};
   panels[id] = {hidden: true};
   return {
     attrs, listeners, sign,
-    closest: () => ({querySelector: selector => ({textContent: selector.includes('"ko"') ? '과정' : 'Course'})}),
+    closest: () => id === 'current' ? null : ({querySelector: selector => ({textContent: selector.includes('"ko"') ? '과정' : 'Course'})}),
     getAttribute: key => attrs[key],
     setAttribute: (key, value) => { attrs[key] = value; },
     querySelector: () => sign,
@@ -51,4 +52,11 @@ assert.equal(panels.development.hidden, true);
 buttons[0].attrs['data-title-en'] = 'Program · Course';
 languageListeners.forEach(callback => callback());
 assert.equal(buttons[0].attrs['aria-label'], 'Expand details for Program · Course');
+buttons[2].listeners.click();
+assert.equal(panels.current.hidden, false);
+assert.equal(buttons[2].attrs['aria-label'], 'Collapse details for Current teaching');
+root.lang = 'ko'; languageListeners.forEach(callback => callback());
+assert.equal(buttons[2].attrs['aria-label'], '현재 강의 세부 이력 접기');
+buttons[2].listeners.click();
+assert.equal(panels.current.hidden, true);
 console.log('Career disclosure tests passed: open, close, repeated clicks, independent state, KO/EN labels.');

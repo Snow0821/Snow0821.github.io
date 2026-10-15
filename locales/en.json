@@ -56,10 +56,11 @@
   "section.activities": "Other Activities",
   "section.teaching_history": "Teaching Experience",
   "section.education_qualifications": "Degrees & Qualifications",
-  "label.org_program": "Institution / Program",
+  "label.org_program": "Program / Institution",
   "group.ai_data": "AI & Data Education",
   "label.first_author": "First author",
   "label.program_course": "Program / Course",
   "label.activity": "Activity",
-  "label.role_course": "Role / Course"
+  "label.role_course": "Audience / Teaching",
+  "label.operator": "Operator"
 }

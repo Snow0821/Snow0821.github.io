@@ -28,13 +28,34 @@ class CompactPresentationTests(unittest.TestCase):
             self.assertIn('고양 스마트시티즌',provider)
             self.assertIn('에듀코어센터',provider)
             self.assertIn('AI 웹 제작 과정',course)
-            self.assertIn('class="teaching-role"',course)
+            self.assertNotIn('class="teaching-role"',course)  # Generic instructor label is redundant.
             self.assertNotIn('고양 스마트시티즌',course.split('class="teaching-course-title"')[1].split('</h4>' if not summary else '</strong>')[0])
         lg=next(row for row in teaching_records() if row['course']=='lgcns-coding')
-        self.assertEqual(teaching_columns(lg,'en')['provider'],'LG CNS')
+        self.assertEqual(teaching_columns(lg,'en')['provider'],'')
+        self.assertEqual(teaching_columns(lg,'en')['audience'],'LG CNS employees’ children')
         self.assertEqual(teaching_columns(lg,'en')['subject'],'Children’s Coding School')
         hana=next(row for row in teaching_records() if row['course']=='hanalife')
         self.assertEqual(teaching_columns(hana,'en')['organization'],'Elice Coding')
+
+    def test_verified_enterprise_context_preserves_client_and_program_separation(self):
+        from content import teaching_columns
+        hana=next(row for row in teaching_records() if row['course']=='hanalife')
+        values=teaching_columns(hana,'ko')
+        self.assertEqual(values['provider'],'K-하이테크플랫폼')
+        self.assertEqual(values['audience'],'하나생명 임직원')
+        self.assertEqual(values['organizationLabel'],'운영: 엘리스그룹')
+        self.assertEqual(values['subject'],'AI로 설계하는 데이터 서비스 실무(STEP 2)')
+        self.assertIn('PRD',hana['summary']['ko'])
+        lg=next(row for row in teaching_records() if row['course']=='lginnotek')
+        self.assertEqual(teaching_columns(lg,'ko')['provider'],'')
+        self.assertEqual(teaching_columns(lg,'ko')['audience'],'LG이노텍 임직원')
+        self.assertEqual(teaching_columns(lg,'ko')['subject'],'AI·AX Lv2 집체교육')
+        self.assertEqual(lg['details'][0]['note']['ko'],'계약상 56시간.')
+        self.assertNotIn('56',lg['summary']['ko'])
+        for row in [hana,lg]:
+            self.assertEqual(row['organization'],'elice')
+            self.assertNotIn('source_refs',str(row))
+            self.assertNotIn('mail.google.com',str(row))
 
     def test_editorial_cv_uses_readable_type_and_verified_contact(self):
         try:
@@ -49,13 +70,13 @@ class CompactPresentationTests(unittest.TestCase):
 
     def test_verified_duty_summaries_are_shared_without_numeric_claims(self):
         selected = [row for row in teaching_records() if row.get('summary')]
-        self.assertEqual({row['id'] for row in selected}, {'codyssey-modulabs-2026-06','hanalife-2026-10'})
+        self.assertEqual({row['id'] for row in selected}, {row['id'] for row in DATA['teaching']})
         for row in selected:
             for lang in ['ko','en']:
-                self.assertFalse(any(character.isdigit() for character in row['summary'][lang]))
+                self.assertNotRegex(row['summary'][lang], r'\d+\s*(?:hours|시간|learners|teams|명)')
                 self.assertIn(row['summary'][lang], site_sections.teaching_entry(row, True))
                 self.assertIn(row['summary'][lang], site_sections.teaching_entry(row, False))
-        self.assertEqual(DATA['roles']['materials']['en'], 'Teaching materials writing & revision')
+        self.assertNotIn('materials', DATA['roles'])
 
     def test_confirmed_first_authorship_reaches_both_web_views_and_cv_values(self):
         from content import authors, display_authors
@@ -163,6 +184,7 @@ class CompactPresentationTests(unittest.TestCase):
             self.assertEqual(len(rows), 1)
             for program in {detail['programTitle'][lang] for detail in row['details']}:
                 self.assertIn(program, courses)
+                self.assertIn(program, html)
             self.assertNotIn('2025.', courses)
             for school in row['details']:
                 self.assertIn(school['title'][lang], courses)
@@ -174,19 +196,19 @@ class CompactPresentationTests(unittest.TestCase):
         by_id = {item['id']:item for item in teaching_records()}
         expected = {
             'donghaeng-educore-2025':'에듀코어센터 / 청소년 SW동행',
-            'donghaeng-elice-2023':'엘리스코딩 / SW동행',
+            'donghaeng-elice-2023':'엘리스그룹 / SW동행',
             'goyang-educore-2026-08':'에듀코어센터 / 고양 스마트시티즌',
             'codyssey-modulabs-2026-06':'모두의연구소 / 코디세이',
         }
         for record,heading in expected.items():
             self.assertEqual(teaching_heading(by_id[record], 'ko'), heading)
-            for output in [site_sections.teaching_summary(), site_sections.teaching_detail()]:
+            for output in [site_sections.teaching_summary()+site_sections.current_roles(), site_sections.teaching_detail()+site_sections.current_roles()]:
                 for part in heading.split(' / '):
                     self.assertIn(part, output)
         self.assertEqual(teaching_subject(by_id['codyssey-modulabs-2026-06'],'ko'), 'AI Native 과정')
         self.assertEqual(teaching_heading(by_id['algorithms-coderland-2023-03'],'ko'), '코더랜드')
         self.assertEqual(len(by_id), 14)
-        self.assertEqual(sum(len(row['details']) for row in by_id.values()), 30)
+        self.assertEqual(sum(len(row['details']) for row in by_id.values()), 31)
 
     def test_program_name_edit_propagates_and_requires_both_languages(self):
         changed = {'ko':'새 사업명','en':'Updated program'}

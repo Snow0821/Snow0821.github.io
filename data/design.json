@@ -1,16 +1,21 @@
 {
   "palette": {
     "light": {
-      "paper": "#FAF8F4",
-      "ink": "#303735",
-      "secondary": "#48525C",
-      "line": "#D4DCD7",
-      "accent": "#253B53",
-      "tint": "#E0EFE9",
-      "selected": "#253B53",
+      "paper": "#FFFFFF",
+      "ink": "#303B40",
+      "secondary": "#526267",
+      "line": "#DBE3DF",
+      "accent": "#203C4B",
+      "tint": "#F0F6F2",
+      "selected": "#203C4B",
       "on-selected": "#FFFFFF",
-      "beige": "#EFE7DA",
-      "tag-border": "#A2B2AB"
+      "beige": "#F5F1E9",
+      "tag-border": "#A2B2AB",
+      "control-border": "#78847E",
+      "camel": "#B68D64",
+      "table-meta": "#FAF8F4",
+      "table-body": "#FFFFFF",
+      "date": "#4A7063"
     },
     "dark": {
       "paper": "#222831",
@@ -22,36 +27,51 @@
       "selected": "#D4E2ED",
       "on-selected": "#253B53",
       "beige": "#403B33",
-      "tag-border": "#8DABA0"
+      "tag-border": "#8DABA0",
+      "control-border": "#84958F",
+      "camel": "#B68D64",
+      "table-meta": "#37392F",
+      "table-body": "#293B35",
+      "date": "#B7CFC1"
     }
   },
   "typography": {
     "webBody": 16,
     "webSecondary": 14,
     "webTitle": "\"Nanum Myeongjo\", \"Noto Serif KR\", Georgia, \"Batang\", serif",
-    "webBodyFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Noto Sans KR\", sans-serif",
+    "webBodyFamily": "\"Nanum Gothic\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
     "pdfBody": 10,
     "pdfSecondary": 9,
     "pdfLeading": 13.5,
     "pdfSecondaryLeading": 12.5,
     "pdfHeadingFamily": "NanumMyeongjo",
-    "pdfBodyFamily": "NanumGothic"
+    "pdfBodyFamily": "NanumGothic",
+    "webHeadingWeight": 700,
+    "pdfRegularFile": "NanumGothic-Regular.ttf",
+    "pdfBoldFile": "NanumGothic-Bold.ttf",
+    "pdfHeadingFile": "NanumMyeongjo-Bold.ttf"
   },
   "spacing": {
     "unit": 4,
-    "section": 32,
-    "row": 16
+    "section": 44,
+    "row": 22
   },
   "teachingColumns": [
-    19,
-    23,
-    58
+    18,
+    22,
+    60
   ],
-  "paletteStatus": "provisional; refine colors, pattern and texture with the user later",
+  "paletteStatus": "approved refined B editorial: white paper, serif headings, thin camel rules, restrained mint and beige accents",
   "identityPalette": {
     "mint": "#A8CFC3",
     "beige": "#E8DFD0",
     "white": "#FFFFFF",
     "charcoal": "#303735"
+  },
+  "paletteCandidates": {},
+  "radius": {
+    "webPanel": 0,
+    "webTable": 0,
+    "pdfPanel": 5
   }
 }

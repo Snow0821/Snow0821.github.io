@@ -1,25 +1,38 @@
 """HOME current roles stay distinct from course and employment histories."""
 import copy
+import re
 import sys
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from content import DATA, LANGUAGES, current_role_records, period, validate
+from content import DATA, LANGUAGES, current_role_records, teaching_history_records, period, validate
 import site_sections
 
 
 class CurrentRoleTests(unittest.TestCase):
     def test_exact_curated_roles_and_months(self):
         rows = current_role_records()
-        self.assertEqual([row['id'] for row in rows], ['educore', 'modulabs', 'coderland', 'elice'])
-        self.assertEqual([row['start'] for row in rows], ['2026-08', '2026-06', '2023-03', '2023-01'])
+        self.assertEqual([row['id'] for row in rows], ['educore', 'modulabs', 'coderland'])
+        self.assertEqual([row['start'] for row in rows], ['2026-08', '2026-06', '2023-03'])
         self.assertTrue(all(row['end'] is None for row in rows))
-        self.assertEqual(rows[-1]['title'], {'ko': '프리랜서 강사', 'en': 'Freelance instructor'})
         for row in rows:
             self.assertTrue(all(lang in row['title'] for lang in LANGUAGES))
         self.assertEqual(len(DATA['teaching']), 14)
+
+    def test_elice_onboarding_is_not_displayed_as_continuous_employment(self):
+        row=next(row for row in DATA['currentRoles'] if row['id']=='elice')
+        self.assertFalse(row['display'])
+        self.assertEqual(row['periodBasis'],'selection_and_onboarding')
+        self.assertEqual(period(row,'ko'),'2023.01 · 선발·온보딩')
+        self.assertEqual(period(row,'en'),'2023.01 · Selection / onboarding')
+        output=site_sections.current_roles()
+        self.assertNotIn('2023.01–현재',output)
+        self.assertNotIn('2023.01–Present',output)
+        self.assertNotIn('프로젝트별 프리랜서 강사',output)
+        self.assertNotIn('Project-based freelance instructor',output)
+        self.assertNotIn('2023.01',output)
 
     def test_linked_dates_reuse_source_and_closed_role_disappears(self):
         records = copy.deepcopy(DATA['teaching'])
@@ -43,9 +56,9 @@ class CurrentRoleTests(unittest.TestCase):
             self.assertEqual(period(row, 'ko'), f'{start}–2026.10 (10월 종료 예정)')
             self.assertEqual(period(row, 'en'), f'{start}–2026.10 (Planned end: October)')
         self.assertTrue(all(row['plannedEnd'] is None for row in rows[2:]))
-        detail = site_sections.teaching_detail()
-        self.assertIn('2026.06–2026.10 (10월 종료 예정)', detail)
-        self.assertIn('2026.08–2026.10 (10월 종료 예정)', detail)
+        detail = site_sections.current_roles()
+        self.assertIn('2026.06–2026.10', detail)
+        self.assertIn('2026.08–2026.10', detail)
         self.assertNotIn('2026.06–현재', detail)
         self.assertNotIn('2026.08–현재', detail)
 
@@ -61,21 +74,22 @@ class CurrentRoleTests(unittest.TestCase):
 
     def test_home_section_is_separate_bilingual_and_not_collapsed(self):
         output = site_sections.current_roles()
-        self.assertEqual(output.count('data-current-role='), 4)
+        self.assertEqual(output.count('data-current-role='), 3)
         self.assertIn('현재 활동', output)
         self.assertIn('Current Activities', output)
         self.assertNotIn('fold-section', output)
         self.assertNotIn('data-teaching=', output)
-        self.assertNotIn('data-career-detail=', output)
+        self.assertEqual(output.count('data-career-detail='), 5)
         page = (Path(__file__).resolve().parents[1] / 'index.html').read_text()
         self.assertLess(page.index('class="current-roles"'), page.index('id="snow-cv-papers"'))
         self.assertLess(page.index('class="current-roles"'), page.index('id="snow-cv-career"'))
-        self.assertEqual(page.count('data-current-role='), 4)
+        self.assertEqual(page.count('data-current-role='), 3)
 
     def test_current_summary_uses_dates_only_without_changing_status(self):
         output = site_sections.current_roles()
-        self.assertNotIn('종료 예정', output)
-        self.assertNotIn('Planned end', output)
+        dates=''.join(re.findall(r'<p class="current-role-date">(.*?)</p>',output))
+        self.assertNotIn('종료 예정', dates)
+        self.assertNotIn('Planned end', dates)
         self.assertIn('2026.08–2026.10', output)
         self.assertIn('2026.06–2026.10', output)
         self.assertLess(output.index('class="current-role-date"'), output.index('<h3>'))
@@ -95,7 +109,8 @@ class CurrentRoleTests(unittest.TestCase):
         self.assertIn('class="current-role-context"', home)
         history = site_sections.teaching_detail()
         self.assertIn('AI', history)
-        self.assertIn('Codex', history)
+        self.assertNotIn('data-teaching="goyang-educore-2026-08"', history)
+        self.assertIn('Codex', home)
 
     def test_missing_or_duplicate_role_references_stop_build(self):
         records = copy.deepcopy(DATA['currentRoles'])
@@ -120,6 +135,32 @@ class CurrentRoleTests(unittest.TestCase):
         del records[-1]['title']['en']
         with patch.dict(DATA, currentRoles=records), self.assertRaisesRegex(ValueError, 'Missing current role translation'):
             validate()
+
+    def test_current_sources_are_not_repeated_in_histories_but_details_survive(self):
+        history_ids={row['id'] for row in teaching_history_records()}
+        self.assertEqual(len(history_ids),9)
+        current=site_sections.current_roles()
+        for row in current_role_records():
+            self.assertNotIn(row['teaching'],history_ids)
+            for render in [site_sections.teaching_summary(),site_sections.teaching_detail()]:
+                self.assertNotIn(f'data-teaching="{row["teaching"]}"',render)
+            for lang in LANGUAGES:
+                self.assertIn(row['summary'][lang],current)
+            for detail in row['courseRecord']['details']:
+                self.assertEqual(current.count(f'data-career-detail="{detail["id"]}"'),1)
+        self.assertEqual(len(DATA['teaching']),14)
+        self.assertEqual(sum(len(row['details']) for row in DATA['teaching']),31)
+
+    def test_completed_current_program_returns_to_history_without_data_copy(self):
+        records=copy.deepcopy(DATA['teaching'])
+        row=next(row for row in records if row['id']=='goyang-educore-2026-08')
+        row['end']='2026-10'
+        row.pop('plannedEnd')
+        with patch.dict(DATA,teaching=records):
+            self.assertNotIn('educore',[row['id'] for row in current_role_records()])
+            self.assertEqual(sum(item['id']==row['id'] for item in teaching_history_records()),1)
+            for output in [site_sections.teaching_summary(),site_sections.teaching_detail()]:
+                self.assertEqual(output.count(f'data-teaching="{row["id"]}"'),1)
 
     def test_empty_current_roles_omit_section(self):
         with patch.dict(DATA, currentRoles=[]):

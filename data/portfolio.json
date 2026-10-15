@@ -18,12 +18,12 @@
       "en": "Choi Soon Ho"
     },
     "roles": [
-      "researcher",
-      "instructor"
+      "instructor",
+      "researcher"
     ],
     "intro": {
-      "ko": "신경망의 구조와 연산을 연구하고,\n컴퓨터공학과 AI 활용을 가르칩니다.",
-      "en": "I study neural structures and operations, and teach computer science and applied AI."
+      "ko": "프로그래밍과 AI 활용을 가르치며,\n신경망의 구조와 연산을 연구합니다.",
+      "en": "I teach programming and applied AI, and study neural structures and operations."
     },
     "email": "sosaror@gmail.com",
     "cvFilename": "Choi-Soon-Ho-CV-{language}.pdf",
@@ -136,7 +136,12 @@
           "en": "Operand Selection"
         }
       ],
-      "authorRole": "first"
+      "authorRole": "first",
+      "authorOverrides": {
+        "choi": {
+          "name": "Soon Ho Choi"
+        }
+      }
     },
     {
       "id": "2025",
@@ -166,7 +171,17 @@
           "en": "Vision Transformers"
         }
       ],
-      "authorRole": "first"
+      "authorRole": "first",
+      "authorOverrides": {
+        "choi": {
+          "name": "Soon Ho Choi"
+        },
+        "yoon": {
+          "name": "Soo Yeon Yoon",
+          "bibtex": "Yoon, Soo Yeon",
+          "initials": "S. Y. Yoon"
+        }
+      }
     },
     {
       "id": "2024",
@@ -223,10 +238,6 @@
     "lead": {
       "ko": "주강사",
       "en": "Lead instructor"
-    },
-    "materials": {
-      "ko": "교육자료 작성·수정",
-      "en": "Teaching materials writing & revision"
     }
   },
   "organizations": {
@@ -288,8 +299,8 @@
       "id": "bachelors",
       "year": 2019,
       "field": {
-        "ko": "컴퓨터공학",
-        "en": "Computer Science"
+        "ko": "컴퓨터공학·전자공학",
+        "en": "Computer Science and Electrical Engineering"
       },
       "degree": {
         "ko": "공학사",
@@ -434,19 +445,23 @@
     "lginnotek": {
       "group": "ai",
       "title": {
-        "ko": "LG이노텍 · AI/AX Lv2",
-        "en": "LG Innotek · AI/AX Lv2"
+        "ko": "AI·AX Lv2 집체교육",
+        "en": "AI/AX Lv2 classroom training"
       },
       "note": {
-        "ko": "학습 내용의 실제 업무 적용, 제안서 작성·평가 준비를 지원하고 과정 후 피드백을 제공했습니다.",
-        "en": "Supported workplace application, proposal writing and assessment preparation, with follow-up feedback."
+        "ko": "AI·AX 강의·실습, 현업 과제 계획 수립·발표에 대한 피드백.",
+        "en": "AI/AX instruction and practice, with feedback on workplace project plans and presentations."
+      },
+      "client": {
+        "ko": "LG이노텍",
+        "en": "LG Innotek"
       }
     },
     "tacademy": {
       "group": "programming",
       "title": {
-        "ko": "T아카데미 · 알고리즘 특강",
-        "en": "T Academy · Algorithms course"
+        "ko": "T아카데미 · 코딩테스트 특강",
+        "en": "T Academy · Coding-test preparation course"
       },
       "program": {
         "ko": "T아카데미",
@@ -513,19 +528,31 @@
     "gosaek": {
       "group": "programming",
       "title": {
-        "ko": "정보과학 주문형 강좌",
-        "en": "Computer science elective course"
+        "ko": "정보과학",
+        "en": "Computer Science"
+      },
+      "program": {
+        "ko": "주문형강좌",
+        "en": "Customized Elective Program"
       }
     },
     "hanalife": {
       "group": "ai",
       "title": {
-        "ko": "하나생명 · AI로 설계하는 데이터 서비스 실무(STEP 2)",
-        "en": "Hana Life · Practical Data Service Design with AI (STEP 2)"
+        "ko": "AI로 설계하는 데이터 서비스 실무(STEP 2)",
+        "en": "Practical Data Service Design with AI (STEP 2)"
       },
       "note": {
         "ko": "2026.10.14 · 업무 PoC 기획·개발 지도 및 프로젝트 피드백.",
         "en": "October 14, 2026 · Guided business PoC planning and development and provided project feedback."
+      },
+      "program": {
+        "ko": "K-하이테크플랫폼",
+        "en": "K-High-Tech Platform"
+      },
+      "client": {
+        "ko": "하나생명",
+        "en": "Hana Life"
       }
     },
     "donghaeng-data": {
@@ -561,23 +588,39 @@
     "paju": {
       "group": "ai",
       "title": {
-        "ko": "파주시청 · 생성형 AI 활용 교육",
-        "en": "Paju City Hall · Generative AI"
+        "ko": "생성형 AI 기반 공공 홍보 및 행정 보고서 실무 과정",
+        "en": "Generative AI for Public Communications and Administrative Reports"
       },
       "note": {
         "ko": "생성형 AI 문서·콘텐츠 제작 실습 지원.",
         "en": "Support for generative-AI document and content creation."
+      },
+      "client": {
+        "ko": "파주시청",
+        "en": "Paju City Hall"
+      },
+      "program": {
+        "ko": "생성형 AI 활용 실무역량 강화 교육",
+        "en": "Practical Generative-AI Skills Training"
       }
     },
     "ai-workshop": {
       "group": "ai",
       "title": {
         "ko": "손쉽게 공부하는 인공지능 · 강사 워크숍",
-        "en": "Easy-to-learn AI · Instructor workshop"
+        "en": "Easy-to-Learn Artificial Intelligence · Instructor Workshop"
       },
       "note": {
-        "ko": "겨울방학 강사 대상 사전 원격교육 자료 제작.",
-        "en": "Materials for winter instructor pre-training."
+        "ko": "디지털새싹 2024년도 3기 · 겨울방학 강사 대상 사전 원격교육.",
+        "en": "Digital Saessak 2024, Round 3 · Remote pre-training for winter-program instructors."
+      },
+      "program": {
+        "ko": "디지털새싹 2024년도 3기",
+        "en": "Digital Saessak · 2024, Round 3"
+      },
+      "eventTitle": {
+        "ko": "겨울방학 강사대상 사전 원격교육(손쉽게 공부하는 인공지능)",
+        "en": "Remote Pre-Training for Winter-Program Instructors (Easy-to-Learn Artificial Intelligence)"
       }
     },
     "lgcns-coding": {
@@ -639,8 +682,8 @@
           "end": null,
           "role": "instructor",
           "curriculum": {
-            "ko": "시민 대상 Codex 업무 비서 제작 교육 및 실습 교안 구성.",
-            "en": "Citizen training in building Codex work assistants and preparation of hands-on teaching materials."
+            "ko": "시민 대상 Codex 업무 비서 제작 교육.",
+            "en": "Taught citizens to build Codex work assistants."
           },
           "note": {
             "ko": "2026.10 과정 진행 중 · 10월 종료 예정.",
@@ -649,7 +692,25 @@
           "plannedEnd": "2026-10"
         }
       ],
-      "plannedEnd": "2026-10"
+      "plannedEnd": "2026-10",
+      "summary": {
+        "ko": "AI 웹 제작·배포, LLM 에이전트 활용 및 Codex 업무 비서 제작 교육.",
+        "en": "Taught AI-assisted web development and deployment, LLM agents and Codex work-assistant creation."
+      },
+      "operator": {
+        "ko": "에듀코어센터",
+        "en": "EduCore Center"
+      },
+      "relationships": [
+        {
+          "role": "program_body",
+          "name": {
+            "ko": "고양특례시·고양산업진흥원",
+            "en": "Goyang City · Goyang Industry Promotion Agency"
+          },
+          "summary": false
+        }
+      ]
     },
     {
       "id": "codyssey-modulabs-2026-06",
@@ -669,17 +730,43 @@
           "end": null,
           "role": "facilitator",
           "curriculum": {
-            "ko": "PBL 학습 과정의 이슈 조율, 학습·과제 수행 지원, 교양 세미나 개설·운영.",
-            "en": "Coordinated issues during PBL learning, supported learning and assignment work, and organized and facilitated general-interest seminars."
+            "ko": "PBL 학습 이슈 조율·과제 수행 지원·교양 세미나 개설·운영.",
+            "en": "Coordinated PBL learning issues, supported assignments, and organized and ran general-interest seminars."
           },
           "plannedEnd": "2026-10"
         }
       ],
       "plannedEnd": "2026-10",
       "summary": {
-        "ko": "PBL 이슈 조율·학습 및 과제 수행 지원·교양 세미나 개설·운영.",
-        "en": "PBL issue coordination, learning and assignment support, and general-interest seminars."
-      }
+        "ko": "학습 이슈 조율·과제 수행 지원·교양 세미나 개설·운영.",
+        "en": "Coordinated learning issues, supported assignments, and organized and ran general-interest seminars."
+      },
+      "relationships": [
+        {
+          "role": "program_institution",
+          "name": {
+            "ko": "이노베이션아카데미",
+            "en": "Innovation Academy"
+          },
+          "summary": true
+        },
+        {
+          "role": "support",
+          "name": {
+            "ko": "과학기술정보통신부·정보통신기획평가원(IITP)",
+            "en": "Ministry of Science and ICT · IITP"
+          },
+          "summary": false
+        },
+        {
+          "role": "affiliation",
+          "name": {
+            "ko": "모두의연구소",
+            "en": "MODULABS"
+          },
+          "summary": false
+        }
+      ]
     },
     {
       "id": "algorithms-coderland-2023-03",
@@ -703,7 +790,15 @@
             "en": "Python, C++, data structures and algorithms, individual learning support, and Informatics Olympiad preparation (2024–2026)."
           }
         }
-      ]
+      ],
+      "summary": {
+        "ko": "Python·C++ 자료구조·알고리즘, 개별 학습·정보올림피아드 대비 지도.",
+        "en": "Python/C++ data structures and algorithms, individual tutoring and Informatics Olympiad preparation."
+      },
+      "operator": {
+        "ko": "코더랜드",
+        "en": "Coderland"
+      }
     },
     {
       "id": "lginnotek-elice-2026-07",
@@ -723,15 +818,27 @@
           "end": "2026-07",
           "role": "instructor",
           "curriculum": {
-            "ko": "AI/AX Lv2 강의·실습, 현업 문제 기반 프로젝트 수행 조언, 프로젝트 계획 발표와 피드백.",
-            "en": "AI/AX Lv2 instruction and practice, workplace project guidance, project-plan presentations and feedback."
+            "ko": "AI·AX 강의·실습, 현업 프로젝트 수행 조언 및 계획 발표에 대한 피드백.",
+            "en": "AI/AX instruction and practice, workplace project guidance, and feedback on project-plan presentations."
           },
           "note": {
-            "ko": "총 56시간.",
-            "en": "56 teaching hours."
+            "ko": "계약상 56시간.",
+            "en": "56 contracted teaching hours."
           }
         }
-      ]
+      ],
+      "summary": {
+        "ko": "AI·AX 강의·실습 및 현업 과제 계획 수립·발표에 대한 피드백.",
+        "en": "AI/AX instruction and hands-on practice, with feedback on workplace project plans and presentations."
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      },
+      "audience": {
+        "ko": "LG이노텍 임직원",
+        "en": "LG Innotek employees"
+      }
     },
     {
       "id": "tacademy-mincoding-2025",
@@ -751,9 +858,23 @@
           "end": "2025",
           "role": "instructor",
           "curriculum": {
-            "ko": "코딩테스트·알고리즘 특강.",
-            "en": "Coding-test preparation and algorithms course."
+            "ko": "코딩테스트 문제해결·학습법, 복잡도, Python 자료구조·재귀·그래프·DFS/BFS.",
+            "en": "Coding-test problem solving and study methods, complexity, Python data structures, recursion, graphs and DFS/BFS."
           }
+        }
+      ],
+      "summary": {
+        "ko": "코딩테스트 문제해결·학습법, Python 자료구조·알고리즘.",
+        "en": "Coding-test problem solving and study methods, Python data structures and algorithms."
+      },
+      "relationships": [
+        {
+          "role": "affiliation",
+          "name": {
+            "ko": "민코딩",
+            "en": "Mincoding"
+          },
+          "summary": true
         }
       ]
     },
@@ -779,6 +900,20 @@
             "en": "Support for SW competency test Pro and algorithms training."
           }
         }
+      ],
+      "summary": {
+        "ko": "SW역량테스트 Pro·알고리즘 교육 보조.",
+        "en": "Assisted SW competency test Pro and algorithms training."
+      },
+      "relationships": [
+        {
+          "role": "affiliation",
+          "name": {
+            "ko": "민코딩",
+            "en": "Mincoding"
+          },
+          "summary": true
+        }
       ]
     },
     {
@@ -799,12 +934,16 @@
           "end": "2025-07",
           "role": "instructor",
           "curriculum": {
-            "ko": "책임 있는 AI·SDGs를 바탕으로 앱 프로젝트를 기획하고, 프롬프트·UI/UX·로그인·데이터 저장·테스트·발표 및 프로젝트 피드백을 단계적으로 지도.",
-            "en": "Guided app projects based on responsible AI and the SDGs, covering planning, prompts, UI/UX, login and data storage, testing, presentations and project feedback."
+            "ko": "책임 있는 AI·SDGs 기반 앱 프로젝트 기획·발표 및 단계별 피드백 지도.",
+            "en": "Guided responsible-AI and SDG-based app project planning, presentations and step-by-step feedback."
           },
           "programTitle": {
             "ko": "GPT로 그린 세상: 책임 있는 소비를 위한 앱 만들기",
             "en": "A GPT-powered world: Apps for responsible consumption"
+          },
+          "focus": {
+            "ko": "AI 앱 프로젝트 기획·발표",
+            "en": "AI app project planning & presentations"
           }
         },
         {
@@ -817,12 +956,16 @@
           "end": "2025-07",
           "role": "instructor",
           "curriculum": {
-            "ko": "교통신호 최적화를 주제로 생성형 AI 활용 교통 시뮬레이션, 신경망 기초, Colab·MNIST 기반 데이터 전처리·시각화·모델 학습 실습 지도.",
-            "en": "Taught traffic-signal optimization through generative-AI-assisted traffic simulations, neural network fundamentals, and Colab/MNIST data preprocessing, visualization and model training."
+            "ko": "생성형 AI 교통 시뮬레이션·신경망 기초 및 Colab·MNIST 모델 학습 실습.",
+            "en": "Generative-AI traffic simulations, neural-network fundamentals and Colab/MNIST model-training exercises."
           },
           "programTitle": {
             "ko": "AI와 함께하는 우리 동네 교통신호 최적화 프로젝트: 교통약자를 위한 교통시스템",
             "en": "AI-assisted traffic signal optimization: Accessible transport systems"
+          },
+          "focus": {
+            "ko": "교통 시뮬레이션·신경망 기초",
+            "en": "Traffic simulation & neural-network fundamentals"
           }
         },
         {
@@ -835,12 +978,16 @@
           "end": "2025-07",
           "role": "instructor",
           "curriculum": {
-            "ko": "Colab·MNIST 기반 데이터 전처리·시각화와 모델 학습, 선형회귀 구현, 프로젝트 기획·발표 및 구현 피드백 지도.",
-            "en": "Taught Colab/MNIST data preprocessing, visualization and model training, linear regression implementation, project planning, presentations and implementation feedback."
+            "ko": "Colab·MNIST 모델 학습 실습, 선형회귀 구현 및 프로젝트 피드백.",
+            "en": "Colab/MNIST model-training exercises, linear regression implementation and project feedback."
           },
           "programTitle": {
             "ko": "AI와 함께하는 우리 동네 교통신호 최적화 프로젝트: 교통약자를 위한 교통시스템",
             "en": "AI-assisted traffic signal optimization: Accessible transport systems"
+          },
+          "focus": {
+            "ko": "데이터 전처리·머신러닝 기초",
+            "en": "Data preprocessing & machine-learning fundamentals"
           }
         },
         {
@@ -853,8 +1000,8 @@
           "end": "2025-06",
           "role": "instructor",
           "curriculum": {
-            "ko": "환경·산불 예측을 주제로 AI 윤리·SDGs, 공공데이터·Python·Colab·MNIST 모델 실습 및 팀 프로젝트 지도.",
-            "en": "Taught environmental and wildfire-prediction projects, including AI ethics, SDGs, public data, Python, Colab/MNIST model exercises and team projects."
+            "ko": "환경·산불 예측 주제의 AI·SDGs 교육과 데이터·모델 기초 실습, 팀 프로젝트 지도.",
+            "en": "AI and SDG education on environmental and wildfire prediction, data and model fundamentals, and team-project guidance."
           },
           "note": {
             "ko": "결과물·최종 발표자료 제출: 2025.07.",
@@ -863,6 +1010,10 @@
           "programTitle": {
             "ko": "환경을 지키는 AI: 프로젝트 산불 예측 모델 만들기",
             "en": "AI for the environment: Building a wildfire prediction model"
+          },
+          "focus": {
+            "ko": "Python·AI 산불 예측 프로젝트",
+            "en": "Python & AI wildfire-prediction projects"
           }
         },
         {
@@ -875,13 +1026,51 @@
           "end": "2025-06",
           "role": "instructor",
           "curriculum": {
-            "ko": "생성형 AI로 앱 프로젝트를 설계하고 HTML·JavaScript·CSS, Google AI Studio, GitHub 실습 및 프로젝트 완성·발표 지도.",
-            "en": "Guided generative-AI app design and HTML, JavaScript, CSS, Google AI Studio and GitHub exercises, followed by project completion and presentations."
+            "ko": "생성형 AI 활용 웹 앱 설계·구현·완성·발표 지도.",
+            "en": "Guided generative-AI web-app design, implementation, completion and presentations."
           },
           "programTitle": {
             "ko": "GPT로 그린 세상: 책임 있는 소비를 위한 앱 만들기",
             "en": "A GPT-powered world: Apps for responsible consumption"
+          },
+          "focus": {
+            "ko": "생성형 AI·웹 앱 제작",
+            "en": "Generative AI & web-app development"
           }
+        }
+      ],
+      "summary": {
+        "ko": "AI 프로젝트 기획·구현·발표 지도와 피드백.",
+        "en": "Guided AI project planning, implementation and presentations, with feedback."
+      },
+      "operator": {
+        "ko": "에듀코어센터",
+        "en": "EduCore Center"
+      },
+      "relationships": [
+        {
+          "role": "division_lead",
+          "name": {
+            "ko": "동아사이언스",
+            "en": "Donga Science"
+          },
+          "summary": true
+        },
+        {
+          "role": "ministry",
+          "name": {
+            "ko": "과학기술정보통신부",
+            "en": "Ministry of Science and ICT"
+          },
+          "summary": false
+        },
+        {
+          "role": "dedicated_agency",
+          "name": {
+            "ko": "한국과학창의재단",
+            "en": "KOFAC"
+          },
+          "summary": false
         }
       ]
     },
@@ -918,6 +1107,10 @@
               "curriculum": {
                 "ko": "식량안보 심화: Python 기초 문법, 함수·클래스·모듈, 코드 수정과 프로젝트 방법론 지도.",
                 "en": "Advanced food security: Python fundamentals, functions, classes and modules, code review and project methods."
+              },
+              "focus": {
+                "ko": "Python 프로그래밍",
+                "en": "Python programming"
               }
             },
             {
@@ -930,6 +1123,10 @@
               "curriculum": {
                 "ko": "식량안보 심화: pandas·통계·그룹화, matplotlib·탐색적 데이터 분석(EDA), 식단 생성 프로젝트. 선형회귀 추가 교재와 대학생 멘토 운영 협업.",
                 "en": "Advanced food security: pandas, statistics and grouping, matplotlib and exploratory data analysis (EDA), and a meal-generation project, with supplementary linear-regression materials and university-student mentors."
+              },
+              "focus": {
+                "ko": "Python 데이터 분석",
+                "en": "Python data analysis"
               }
             }
           ],
@@ -965,6 +1162,10 @@
               "curriculum": {
                 "ko": "Orange3 기반 통계·그룹화·시각화·전처리·탐색적 데이터 분석(EDA).",
                 "en": "Orange3-based statistics, grouping, visualization, preprocessing and exploratory data analysis (EDA)."
+              },
+              "focus": {
+                "ko": "Orange3 데이터 분석",
+                "en": "Orange3 data analysis"
               }
             },
             {
@@ -975,15 +1176,19 @@
                 "en": "Advanced healthy living · AI prediction"
               },
               "curriculum": {
-                "ko": "AI 맞춤형 운동 처방 프로그램: 회귀·분류·모델 평가와 체력·운동 분석·예측 프로젝트.",
-                "en": "AI-tailored exercise prescription: regression, classification, model evaluation, and fitness/exercise analysis and prediction projects."
+                "ko": "회귀·분류·모델 평가와 체력·운동 분석·예측 프로젝트.",
+                "en": "Regression, classification, model evaluation, and fitness/exercise analysis and prediction projects."
+              },
+              "focus": {
+                "ko": "회귀·분류·모델 평가",
+                "en": "Regression, classification & model evaluation"
               }
             }
           ],
           "programTitles": [
             {
-              "ko": "AI 맞춤형 운동 처방 프로그램",
-              "en": "AI-Tailored Exercise Prescription Program"
+              "ko": "디지털 문제 해결 프로젝트: 건강한 삶(심화)",
+              "en": "Digital Problem-Solving Project: Healthy Living (Advanced)"
             }
           ]
         },
@@ -1012,6 +1217,10 @@
               "curriculum": {
                 "ko": "Orange3 기반 통계·그룹화·시각화·전처리·탐색적 데이터 분석(EDA).",
                 "en": "Orange3-based statistics, grouping, visualization, preprocessing and exploratory data analysis (EDA)."
+              },
+              "focus": {
+                "ko": "Orange3 데이터 분석",
+                "en": "Orange3 data analysis"
               }
             },
             {
@@ -1024,6 +1233,10 @@
               "curriculum": {
                 "ko": "AI 맞춤형 운동 처방 프로그램: 회귀·분류·모델 평가와 체력·운동 분석·예측 프로젝트.",
                 "en": "AI-tailored exercise prescription: regression, classification, model evaluation, and fitness/exercise analysis and prediction projects."
+              },
+              "focus": {
+                "ko": "회귀·분류·모델 평가",
+                "en": "Regression, classification & model evaluation"
               }
             }
           ],
@@ -1047,7 +1260,11 @@
             "ko": "Python 리스트·반복문 기반 프로그래밍 교육.",
             "en": "Python programming with lists and loops."
           },
-          "group": "programming"
+          "group": "programming",
+          "focus": {
+            "ko": "Python 리스트·반복문",
+            "en": "Python lists & loops"
+          }
         },
         {
           "id": "handong-b",
@@ -1062,7 +1279,72 @@
             "ko": "Python 기초·조건문 기반 프로그래밍 교육.",
             "en": "Python fundamentals and conditional statements."
           },
-          "group": "programming"
+          "group": "programming",
+          "focus": {
+            "ko": "Python 기초·조건문",
+            "en": "Python fundamentals & conditionals"
+          }
+        },
+        {
+          "id": "sangincheon",
+          "title": {
+            "ko": "상인천중학교",
+            "en": "Sangincheon Middle School"
+          },
+          "start": "2024-11",
+          "end": "2024-11",
+          "role": "lead",
+          "group": "data",
+          "programTitles": [
+            {
+              "ko": "건강한 삶 심화 · Orange3 기초",
+              "en": "Advanced Healthy Living · Orange3 Fundamentals"
+            }
+          ],
+          "curriculum": {
+            "ko": "온라인으로 Orange3 기초·SDGs 문제발견·디지털 해결 미니프로젝트를 진행하고 대학생 멘토의 학습 보조를 조율.",
+            "en": "Led online Orange3 fundamentals and SDG problem-identification/digital-solution mini-projects, coordinating university-student mentors."
+          },
+          "focus": {
+            "ko": "Orange3 기초·데이터 프로젝트",
+            "en": "Orange3 fundamentals & data projects"
+          }
+        }
+      ],
+      "summary": {
+        "ko": "Python·Orange3 프로젝트 수업 및 대학생 멘토 협업.",
+        "en": "Python/Orange3 project instruction and coordination with university-student mentors."
+      },
+      "groupSummaries": {
+        "ai-data": {
+          "ko": "데이터 분석·AI 프로젝트 수업 및 대학생 멘토 협업.",
+          "en": "Data-analysis and AI project instruction, with university-student mentor coordination."
+        },
+        "programming": {
+          "ko": "Python 문법·코드 수정·프로젝트 방법론 지도.",
+          "en": "Taught Python fundamentals, code revision and project methods."
+        }
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      },
+      "relationships": [
+        {
+          "role": "ministry",
+          "name": {
+            "ko": "과학기술정보통신부",
+            "en": "Ministry of Science and ICT"
+          },
+          "summary": false
+        },
+        {
+          "role": "project_support",
+          "name": {
+            "ko": "한국과학창의재단",
+            "en": "KOFAC"
+          },
+          "summary": false
         }
       ]
     },
@@ -1093,7 +1375,11 @@
               "ko": "손쉽게 공부하는 인공지능",
               "en": "Easy-to-Learn Artificial Intelligence"
             }
-          ]
+          ],
+          "focus": {
+            "ko": "인공지능 기초",
+            "en": "AI fundamentals"
+          }
         },
         {
           "id": "cheongwon-girls",
@@ -1116,7 +1402,11 @@
               "verifiedTeachingStart": "2024-11",
               "verifiedTeachingEnd": "2024-12"
             }
-          ]
+          ],
+          "focus": {
+            "ko": "아두이노 문제 해결",
+            "en": "Arduino problem-solving"
+          }
         },
         {
           "id": "hwagok",
@@ -1137,7 +1427,11 @@
               "ko": "도전! 데이터 분석으로 해결하는 인천 지역 문제",
               "en": "Challenge! Solving Incheon’s Local Problems with Data Analysis"
             }
-          ]
+          ],
+          "focus": {
+            "ko": "데이터 분석",
+            "en": "Data analysis"
+          }
         },
         {
           "id": "mirae",
@@ -1158,7 +1452,11 @@
               "ko": "인공지능으로 웹 앱 만들기",
               "en": "Creating Web Apps with AI"
             }
-          ]
+          ],
+          "focus": {
+            "ko": "AI 웹 앱 제작",
+            "en": "AI-assisted web-app development"
+          }
         },
         {
           "id": "sudo",
@@ -1195,7 +1493,11 @@
                   "ko": "차근차근 데이터 분석 활용하기",
                   "en": "Step-by-Step Applied Data Analysis"
                 }
-              ]
+              ],
+              "focus": {
+                "ko": "데이터 분석 기초·응용",
+                "en": "Introductory & applied data analysis"
+              }
             },
             {
               "id": "ai",
@@ -1213,7 +1515,11 @@
                   "ko": "MISSION: AI와 웹 페이지 제작하기",
                   "en": "MISSION: Creating Web Pages with AI"
                 }
-              ]
+              ],
+              "focus": {
+                "ko": "AI 활용 웹페이지 제작",
+                "en": "AI-assisted web-page development"
+              }
             }
           ],
           "programTitles": [
@@ -1250,7 +1556,11 @@
               "ko": "Do IT! 실전 웹 프로그래밍",
               "en": "Do IT! Practical Web Programming"
             }
-          ]
+          ],
+          "focus": {
+            "ko": "CSS·웹 프로그래밍",
+            "en": "CSS & web programming"
+          }
         },
         {
           "id": "seoul-robot",
@@ -1271,7 +1581,63 @@
               "ko": "Do IT! 실전 웹 프로그래밍",
               "en": "Do IT! Practical Web Programming"
             }
-          ]
+          ],
+          "focus": {
+            "ko": "웹 프로그래밍·Git 협업",
+            "en": "Web programming & Git collaboration"
+          }
+        }
+      ],
+      "summary": {
+        "ko": "AI·데이터 분석·프로그래밍 프로젝트 실습 수업과 학습 지원.",
+        "en": "AI, data-analysis and programming project exercises and learning support."
+      },
+      "groupSummaries": {
+        "ai-data": {
+          "ko": "AI·데이터 분석·웹 앱 제작 실습 수업과 학습 지원.",
+          "en": "AI, data-analysis and web-app exercises, with learning support."
+        },
+        "programming": {
+          "ko": "웹 프로젝트·Git 협업·아두이노 문제해결 실습 지도.",
+          "en": "Guided web projects, Git collaboration and Arduino problem-solving exercises."
+        }
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      },
+      "relationships": [
+        {
+          "role": "lead",
+          "name": {
+            "ko": "엘리스그룹",
+            "en": "Elice Group"
+          },
+          "summary": true
+        },
+        {
+          "role": "ministry",
+          "name": {
+            "ko": "교육부",
+            "en": "Ministry of Education"
+          },
+          "summary": false
+        },
+        {
+          "role": "participating_authorities",
+          "name": {
+            "ko": "17개 시·도교육청",
+            "en": "17 metropolitan and provincial offices of education"
+          },
+          "summary": false
+        },
+        {
+          "role": "program_management",
+          "name": {
+            "ko": "한국과학창의재단",
+            "en": "Korea Foundation for the Advancement of Science and Creativity (KOFAC)"
+          },
+          "summary": false
         }
       ]
     },
@@ -1297,7 +1663,15 @@
             "en": "Computer science elective: semester and assessment planning, classroom instruction and performance assessments."
           }
         }
-      ]
+      ],
+      "summary": {
+        "ko": "학기·평가 계획 작성, 정보과학 수업·수행평가 운영.",
+        "en": "Prepared semester and assessment plans; taught computer science and ran performance assessments."
+      },
+      "audience": {
+        "ko": "고색고등학교",
+        "en": "Gosaek High School"
+      }
     },
     {
       "id": "hanalife-2026-10",
@@ -1317,22 +1691,48 @@
           "end": "2026-10",
           "role": "instructor",
           "curriculum": {
-            "ko": "AI로 설계하는 데이터 서비스 실무 STEP2. 업무 문제 정의·완료 지표, PoC 기획·구현, LLM·에이전트·도구 호출·RAG·자동화 안내, 발표와 결과물 피드백.",
-            "en": "Practical Data Service Design with AI STEP2: business problems and success criteria, PoC planning and implementation, an overview of LLMs, agents, tool use, RAG and automation, with presentation and project feedback."
+            "ko": "업무 문제 정의·검증 기준·PRD 기반 AI PoC 실습 및 프로젝트 피드백.",
+            "en": "AI PoC exercises based on business-problem definition, validation criteria and PRDs, with project feedback."
           }
         }
       ],
       "summary": {
-        "ko": "임직원 대상 업무 문제 정의·PoC 기획·구현 지도 및 결과물 피드백.",
-        "en": "Employee PoC planning and implementation guidance, with project feedback."
-      }
+        "ko": "업무 문제 정의·PRD 기반 AI PoC 실습 및 프로젝트 피드백.",
+        "en": "AI PoC exercises based on business-problem definition and PRDs, with project feedback."
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      },
+      "audience": {
+        "ko": "하나생명 임직원",
+        "en": "Hana Life employees"
+      },
+      "relationships": [
+        {
+          "role": "ministry",
+          "name": {
+            "ko": "고용노동부",
+            "en": "Ministry of Employment and Labor"
+          },
+          "summary": false
+        },
+        {
+          "role": "program_management",
+          "name": {
+            "ko": "한국산업인력공단",
+            "en": "Human Resources Development Service of Korea"
+          },
+          "summary": false
+        }
+      ]
     },
     {
       "id": "paju-ablearn-2026-05",
       "organization": "ablearn",
       "role": "assistant",
       "start": "2026-05",
-      "end": "2026-05",
+      "end": "2026-07",
       "details": [
         {
           "id": "paju-officials",
@@ -1341,20 +1741,40 @@
             "en": "Paju City Hall · Public officials"
           },
           "start": "2026-05",
-          "end": "2026-05",
+          "end": "2026-07",
           "role": "assistant",
           "curriculum": {
-            "ko": "AI 보고서·행사계획서 초안과 구조 설계, 한글 문서 정교화, Canva·미리캔버스 콘텐츠 제작 실습 지원.",
-            "en": "Support for AI report and event-plan drafting, document refinement, and content creation with Canva and MiriCanvas."
-          }
+            "ko": "AI 보고서·행사계획서와 한글 문서 정교화, Canva·미리캔버스 홍보 콘텐츠 실습 지원.",
+            "en": "Supported AI reports and event plans, Hangul document refinement, and public-information content exercises with Canva and MiriCanvas."
+          },
+          "activeMonths": [
+            "2026-05",
+            "2026-07"
+          ]
         }
       ],
-      "course": "paju"
+      "course": "paju",
+      "summary": {
+        "ko": "AI 보고서·행사계획서와 Canva·미리캔버스 홍보 콘텐츠 실습 지원.",
+        "en": "Supported AI reports, event plans and public-information content using Canva and MiriCanvas."
+      },
+      "activeMonths": [
+        "2026-05",
+        "2026-07"
+      ],
+      "operator": {
+        "ko": "에이블런",
+        "en": "ABLEARN"
+      },
+      "audience": {
+        "ko": "파주시청 공무원",
+        "en": "Paju City Hall public officials"
+      }
     },
     {
       "id": "ai-workshop-elice-2024-12",
       "organization": "elice",
-      "role": "materials",
+      "role": "instructor",
       "start": "2024-12",
       "end": "2025-01",
       "details": [
@@ -1366,14 +1786,53 @@
           },
           "start": "2024-12",
           "end": "2025-01",
-          "role": "materials",
+          "role": "instructor",
           "curriculum": {
-            "ko": "손쉽게 공부하는 인공지능 워크숍 교안 초안 작성과 수정본 제작.",
-            "en": "Drafting and revising teaching slides for the Easy-to-learn AI instructor workshop."
+            "ko": "「손쉽게 공부하는 인공지능」 강사 워크숍. AI·ML·DL 기초, AI 윤리, 데이터 분석·시각화·대화형 AI.",
+            "en": "Easy-to-Learn Artificial Intelligence instructor workshop: AI, ML and DL fundamentals, AI ethics, data analysis and visualization, and conversational AI."
           }
         }
       ],
-      "course": "ai-workshop"
+      "course": "ai-workshop",
+      "summary": {
+        "ko": "AI·ML·DL 기초, AI 윤리, 데이터 분석·시각화·대화형 AI.",
+        "en": "AI, ML and DL fundamentals; AI ethics; data analysis and visualization; conversational AI."
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      },
+      "audience": {
+        "ko": "겨울방학 강사",
+        "en": "Winter-program instructors"
+      },
+      "relationships": [
+        {
+          "role": "lead",
+          "name": {
+            "ko": "엘리스그룹",
+            "en": "Elice Group"
+          },
+          "summary": true
+        },
+        {
+          "role": "ministry",
+          "name": {
+            "ko": "교육부",
+            "en": "Ministry of Education"
+          },
+          "summary": false
+        },
+        {
+          "role": "program_management",
+          "name": {
+            "ko": "한국과학창의재단",
+            "en": "KOFAC"
+          },
+          "summary": false
+        }
+      ],
+      "showRole": false
     },
     {
       "id": "lgcns-elice-2024-02",
@@ -1397,10 +1856,41 @@
           }
         }
       ],
-      "course": "lgcns-coding"
+      "course": "lgcns-coding",
+      "summary": {
+        "ko": "임직원 자녀 대상 코딩 교육.",
+        "en": "Delivered coding education for employees’ children."
+      },
+      "audience": {
+        "ko": "LG CNS 임직원 자녀",
+        "en": "LG CNS employees’ children"
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      }
     }
   ],
   "otherExperience": [
+    {
+      "id": "mincoding",
+      "title": {
+        "ko": "민코딩",
+        "en": "Mincoding"
+      },
+      "organization": "mincoding",
+      "start": "2025",
+      "end": "2025",
+      "role": {
+        "ko": "외부 출강",
+        "en": "Teaching assignments"
+      },
+      "group": "development",
+      "teachingAssignments": [
+        "tacademy-mincoding-2025",
+        "sds-mincoding-2025"
+      ]
+    },
     {
       "id": "notitle",
       "title": {
@@ -1463,12 +1953,12 @@
       "start": "2020-07",
       "end": "2021-11",
       "role": {
-        "ko": "교육과정 참여",
-        "en": "Program participant"
+        "ko": "라피신 참가 · 본과정 Cadet",
+        "en": "La Piscine participant · Core-program Cadet"
       },
       "description": {
-        "ko": "라피신: 2020.07–2020.08. 본과정: 2020.09–2021.11.",
-        "en": "La Piscine: 2020.07–2020.08. Core program: 2020.09–2021.11."
+        "ko": "라피신: 2020.07–2020.08. 본과정 Cadet: 2020.09–2021.11.",
+        "en": "La Piscine: 2020.07–2020.08. Core program (Cadet): 2020.09–2021.11."
       },
       "group": "activities"
     },
@@ -1551,8 +2041,8 @@
       "id": "educore",
       "teaching": "goyang-educore-2026-08",
       "title": {
-        "ko": "고양 스마트시티즌 강사",
-        "en": "Goyang Smart Citizen instructor"
+        "ko": "고양 스마트시티즌",
+        "en": "Goyang Smart Citizen"
       },
       "context": {
         "ko": "AI 웹 제작 과정 · Codex 업무 비서 과정",
@@ -1575,8 +2065,8 @@
       "id": "coderland",
       "teaching": "algorithms-coderland-2023-03",
       "title": {
-        "ko": "온라인 프로그래밍 강사",
-        "en": "Online programming instructor"
+        "ko": "온라인 프로그래밍 교육(프리랜서)",
+        "en": "Freelance online programming education"
       }
     },
     {
@@ -1585,9 +2075,15 @@
       "start": "2023-01",
       "end": null,
       "title": {
-        "ko": "프리랜서 강사",
-        "en": "Freelance instructor"
-      }
+        "ko": "프로젝트별 프리랜서 강사",
+        "en": "Project-based freelance instructor"
+      },
+      "periodBasis": "selection_and_onboarding",
+      "periodLabel": {
+        "ko": "2023.01 · 선발·온보딩",
+        "en": "2023.01 · Selection / onboarding"
+      },
+      "display": false
     }
   ],
   "researchTopics": [

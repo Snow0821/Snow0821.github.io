@@ -5,13 +5,16 @@ DESIGN = json.loads((ROOT / 'data/design.json').read_text())
 PALETTE = DESIGN['palette']['light']
 TYPE = DESIGN['typography']
 COLUMNS = DESIGN['teachingColumns']
+RADIUS = DESIGN['radius']
 assert sum(COLUMNS) == 100
 
 def css_tokens():
     values = [f'--{name}:light-dark({value},{DESIGN["palette"]["dark"][name]});'
               for name,value in PALETTE.items()]
     values += [f'--font-body-size:{TYPE["webBody"]}px;', f'--font-secondary-size:{TYPE["webSecondary"]}px;',
-               f'--font-body-family:{TYPE["webBodyFamily"]};',f'--font-display-family:{TYPE["webTitle"]};']
+               f'--font-body-family:{TYPE["webBodyFamily"]};',f'--font-display-family:{TYPE["webTitle"]};',
+               f'--font-display-weight:{TYPE["webHeadingWeight"]};']
     values += [f'--space-{name}:{value}px;' for name,value in DESIGN['spacing'].items()]
+    values += [f'--panel-radius:{RADIUS["webPanel"]}px;', f'--table-radius:{RADIUS["webTable"]}px;']
     values += [f'--teaching-{name}-width:{value}%;' for name,value in zip(['period','provider','course'],COLUMNS)]
     return ':root{' + ''.join(values) + '}'

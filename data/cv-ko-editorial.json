@@ -1,0 +1,768 @@
+[
+  {
+    "title": "교육 경력",
+    "intro": "",
+    "records": [
+      {
+        "id": "hanalife-2026-10",
+        "date": "2026.10",
+        "title": "K-하이테크플랫폼 · AI로 설계하는 데이터 서비스 실무(STEP 2)",
+        "meta": [
+          "엘리스그룹",
+          "하나생명 임직원"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "hana-employees",
+            "blocks": [
+              {
+                "text": "업무 문제 정의·검증 기준·PRD 기반 AI PoC 실습 및 프로젝트 피드백.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "hana-employees"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lginnotek-elice-2026-07",
+        "date": "2026.07",
+        "title": "AI·AX Lv2 집체교육",
+        "meta": [
+          "엘리스그룹",
+          "LG이노텍 임직원"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "lg-employees",
+            "blocks": [
+              {
+                "text": "AI·AX 강의·실습, 현업 프로젝트 수행 조언 및 계획 발표에 대한 피드백.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "lg-employees"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "paju-ablearn-2026-05",
+        "date": "2026.05 · 2026.07",
+        "title": "생성형 AI 활용 실무역량 강화 교육 · 생성형 AI 기반 공공 홍보 및 행정 보고서 실무 과정",
+        "meta": [
+          "에이블런",
+          "파주시청 공무원",
+          "보조강사"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "paju-officials",
+            "blocks": [
+              {
+                "text": "AI 보고서·행사계획서와 한글 문서 정교화, Canva·미리캔버스 홍보 콘텐츠 실습 지원.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "paju-officials"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "donghaeng-educore-2025",
+        "date": "2025.04-2025.07",
+        "title": "청소년 SW동행 · AI 프로젝트 교육",
+        "meta": [
+          "에듀코어센터"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "jeohyeon+yeongjong",
+            "source_ids": [
+              "jeohyeon",
+              "yeongjong"
+            ],
+            "blocks": [
+              {
+                "text": "저현고등학교·영종고등학교 | GPT로 그린 세상: 책임 있는 소비를 위한 앱 만들기",
+                "kind": "body",
+                "bold_prefix": "저현고등학교·영종고등학교",
+                "url": null
+              },
+              {
+                "text": "저현고: 책임 있는 AI·SDGs 기반 앱 기획·발표·피드백 지도. 영종고: 생성형 AI 활용 웹 앱 설계·구현·완성·발표 지도.",
+                "kind": "body",
+                "url": null
+              }
+            ]
+          },
+          {
+            "id": "guryong+seowon",
+            "source_ids": [
+              "guryong",
+              "seowon"
+            ],
+            "blocks": [
+              {
+                "text": "구룡중학교·서원고등학교 | AI와 함께하는 우리 동네 교통신호 최적화 프로젝트: 교통약자를 위한 교통시스템",
+                "kind": "body",
+                "bold_prefix": "구룡중학교·서원고등학교",
+                "url": null
+              },
+              {
+                "text": "Colab·MNIST 모델 학습 실습. 구룡중: 생성형 AI 교통 시뮬레이션·신경망 기초. 서원고: 선형회귀 구현·프로젝트 피드백.",
+                "kind": "body",
+                "url": null
+              }
+            ]
+          },
+          {
+            "id": "seoul-digitech",
+            "blocks": [
+              {
+                "text": "서울디지텍고등학교 | 환경을 지키는 AI: 프로젝트 산불 예측 모델 만들기",
+                "kind": "body",
+                "bold_prefix": "서울디지텍고등학교",
+                "url": null
+              },
+              {
+                "text": "환경·산불 예측 주제의 AI·SDGs 교육과 데이터·모델 기초 실습, 팀 프로젝트 지도.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "seoul-digitech"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ai-workshop-elice-2024-12",
+        "date": "2024.12-2025.01",
+        "title": "손쉽게 공부하는 인공지능 · 강사 워크숍",
+        "meta": [
+          "엘리스그룹",
+          "겨울방학 강사 대상 사전 원격교육"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "elice-instructors",
+            "blocks": [
+              {
+                "text": "디지털새싹 2024년도 3기",
+                "kind": "meta",
+                "url": null
+              },
+              {
+                "text": "AI·ML·DL 기초, AI 윤리, 데이터 분석·시각화·대화형 AI.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "elice-instructors"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "saessak-elice-2023",
+        "date": "2023.05-2024.12",
+        "title": "디지털새싹",
+        "meta": [
+          "엘리스그룹"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "munchang",
+            "blocks": [
+              {
+                "text": "문창중학교 | 손쉽게 공부하는 인공지능",
+                "kind": "body",
+                "bold_prefix": "문창중학교",
+                "url": null
+              },
+              {
+                "text": "인공지능 기초 교육.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "munchang"
+            ]
+          },
+          {
+            "id": "cheongwon-girls",
+            "blocks": [
+              {
+                "text": "청원여자고등학교 | Make! 아두이노로 문제 해결하기",
+                "kind": "body",
+                "bold_prefix": "청원여자고등학교",
+                "url": null
+              },
+              {
+                "text": "아두이노 기반 문제 해결 교육.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "cheongwon-girls"
+            ]
+          },
+          {
+            "id": "hwagok",
+            "blocks": [
+              {
+                "text": "화곡고등학교 · 보조강사 | 도전! 데이터 분석으로 해결하는 인천 지역 문제",
+                "kind": "body",
+                "bold_prefix": "화곡고등학교 · 보조강사",
+                "url": null
+              },
+              {
+                "text": "데이터 분석 과정 교육 보조.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "hwagok"
+            ]
+          },
+          {
+            "id": "mirae",
+            "blocks": [
+              {
+                "text": "미래산업과학고등학교 | 인공지능으로 웹 앱 만들기",
+                "kind": "body",
+                "bold_prefix": "미래산업과학고등학교",
+                "url": null
+              },
+              {
+                "text": "AI 활용 웹 앱 제작 교육.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "mirae"
+            ]
+          },
+          {
+            "id": "sudo",
+            "blocks": [
+              {
+                "text": "수도전기공업고등학교 | 차근차근 데이터 분석 시작하기 · 차근차근 데이터 분석 활용하기 · MISSION: AI와 웹 페이지 제작하기",
+                "kind": "body",
+                "bold_prefix": "수도전기공업고등학교",
+                "url": null
+              },
+              {
+                "text": "데이터 분석 기초·응용 및 AI 활용 웹페이지 제작 교육.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [
+              "data",
+              "ai"
+            ],
+            "source_ids": [
+              "sudo"
+            ]
+          },
+          {
+            "id": "ansan-design+seoul-robot",
+            "source_ids": [
+              "ansan-design",
+              "seoul-robot"
+            ],
+            "blocks": [
+              {
+                "text": "안산디자인문화고등학교·서울로봇고등학교 | Do IT! 실전 웹 프로그래밍",
+                "kind": "body",
+                "bold_prefix": "안산디자인문화고등학교·서울로봇고등학교",
+                "url": null
+              },
+              {
+                "text": "안산디자인문화고: 학습 수준에 맞춘 CSS·웹 실습. 서울로봇고: Git 협업·웹 프로젝트 지도.",
+                "kind": "body",
+                "url": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "donghaeng-elice-2023",
+        "date": "2024.09-2024.11",
+        "title": "SW동행",
+        "meta": [
+          "엘리스그룹"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "haseong",
+            "blocks": [
+              {
+                "text": "하성고등학교 | 로컬 푸드 급식 메이커",
+                "kind": "body",
+                "bold_prefix": "하성고등학교",
+                "url": null
+              },
+              {
+                "text": "Python 데이터 분석·식단 생성 및 SDGs 프로젝트 지도. 코드 수정·프로젝트 방법론 지도, 대학생 멘토 운영 협업.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [
+              "python",
+              "data"
+            ],
+            "source_ids": [
+              "haseong"
+            ]
+          },
+          {
+            "id": "jamsil-girls+munhak",
+            "source_ids": [
+              "jamsil-girls",
+              "munhak"
+            ],
+            "blocks": [
+              {
+                "text": "잠실여자고등학교 | 디지털 문제 해결 프로젝트: 건강한 삶(심화)",
+                "kind": "body",
+                "bold_prefix": "잠실여자고등학교",
+                "url": null
+              },
+              {
+                "text": "문학정보고등학교 | AI 맞춤형 운동 처방 프로그램",
+                "kind": "body",
+                "bold_prefix": "문학정보고등학교",
+                "url": null
+              },
+              {
+                "text": "Orange3 데이터 분석·회귀·분류·모델 평가와 체력·운동 프로젝트 교육. 잠실여고에서 멘토 질의응답·보조 운영 협업.",
+                "kind": "body",
+                "url": null
+              }
+            ]
+          },
+          {
+            "id": "handong-a+handong-b",
+            "source_ids": [
+              "handong-a",
+              "handong-b"
+            ],
+            "blocks": [
+              {
+                "text": "한동글로벌학교 A·B반",
+                "kind": "body",
+                "bold_prefix": "한동글로벌학교 A·B반",
+                "url": null
+              },
+              {
+                "text": "Python 기초 교육: A반 리스트·반복문, B반 기초·조건문.",
+                "kind": "body",
+                "url": null
+              }
+            ]
+          },
+          {
+            "id": "sangincheon",
+            "blocks": [
+              {
+                "text": "상인천중학교 | 건강한 삶 심화 · Orange3 기초",
+                "kind": "body",
+                "bold_prefix": "상인천중학교",
+                "url": null
+              },
+              {
+                "text": "온라인 Orange3 기초·SDGs 미니프로젝트 지도, 대학생 멘토 학습 보조 조율.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "sangincheon"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lgcns-elice-2024-02",
+        "date": "2024.02",
+        "title": "자녀코딩스쿨",
+        "meta": [
+          "엘리스그룹",
+          "LG CNS 임직원 자녀"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "lgcns-school",
+            "blocks": [
+              {
+                "text": "임직원 자녀 대상 코딩 교육.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "lgcns-school"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gosaek-gosaek-2023",
+        "date": "2023.08-2023.12",
+        "title": "주문형강좌 · 정보과학",
+        "meta": [
+          "고색고등학교"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "gosaek-elective",
+            "blocks": [
+              {
+                "text": "정보과학 강좌의 학기·평가 계획 작성, 수업 및 수행평가 운영.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "gosaek-elective"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "연구활동",
+    "intro": "",
+    "records": [
+      {
+        "id": "paper-2026",
+        "date": "2026",
+        "title": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
+        "url": "https://linklings.s3.amazonaws.com/organizations/WCCI/wcci2026/submissions/stype114/YihWd-ijcnn_pap3087s2.pdf",
+        "meta": [],
+        "lead": [],
+        "items": [
+          {
+            "id": "paper-detail-2026",
+            "blocks": [
+              {
+                "text": "저자: Soon Ho Choi (제1저자), Soo Yong Kim",
+                "kind": "body",
+                "url": null
+              },
+              {
+                "text": "학술대회: 2026 International Joint Conference on Neural Networks (IJCNN)",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "paper-detail-2026"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "paper-2025",
+        "date": "2025",
+        "title": "Binarization of Ternary ViT on Image Classification",
+        "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12132696",
+        "meta": [],
+        "lead": [],
+        "items": [
+          {
+            "id": "paper-detail-2025",
+            "blocks": [
+              {
+                "text": "저자: Soon Ho Choi (제1저자), Jae Young Im, Soo Yeon Yoon",
+                "kind": "body",
+                "url": null
+              },
+              {
+                "text": "수록: 2025년도 한국통신학회 동계종합학술발표회 논문집 · pp. 668-669 · 2025.02",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "paper-detail-2025"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "paper-2024",
+        "date": "2024",
+        "title": "Comparing accuracy of sign-quantized layers with linear layer in small models",
+        "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11906215",
+        "meta": [],
+        "lead": [],
+        "items": [
+          {
+            "id": "paper-detail-2024",
+            "blocks": [
+              {
+                "text": "저자: Choi Soon Ho (제1저자), Soo-Yeon Yoon",
+                "kind": "body",
+                "url": null
+              },
+              {
+                "text": "수록: 2024년도 한국통신학회 하계종합학술발표회 논문집 · pp. 847-849 · 2024.06",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "paper-detail-2024"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "경력",
+    "intro": "",
+    "records": [
+      {
+        "id": "exp-mincoding",
+        "date": "2025",
+        "title": "민코딩",
+        "url": null,
+        "meta": [
+          "외부 출강"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "tacademy-course",
+            "blocks": [
+              {
+                "text": "T아카데미 · 코딩테스트 특강",
+                "kind": "school",
+                "url": null
+              },
+              {
+                "text": "코딩테스트 문제해결·학습법, Python 자료구조·알고리즘.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "tacademy-course"
+            ]
+          },
+          {
+            "id": "sds-course",
+            "blocks": [
+              {
+                "text": "삼성 SDS · SW역량테스트 Pro · 보조강사",
+                "kind": "school",
+                "url": null
+              },
+              {
+                "text": "SW역량테스트 Pro·알고리즘 교육 보조.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "track_ids": [],
+            "source_ids": [
+              "sds-course"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "exp-notitle",
+        "date": "2024.03-2024.05",
+        "title": "(주)노타이틀",
+        "url": null,
+        "meta": [
+          "풀스택 개발자"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "exp-detail-notitle",
+            "blocks": [
+              {
+                "text": "FastAPI 백엔드 및 Next.js·React 프론트엔드 개발.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "exp-detail-notitle"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "exp-ted",
+        "date": "2022.08-2022.10",
+        "title": "주식회사 테드 · 마이마부",
+        "url": null,
+        "meta": [
+          "프론트엔드 개발자"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "exp-detail-ted",
+            "blocks": [
+              {
+                "text": "서비스 프론트엔드 개발 및 OAuth 로그인·실명인증·결제 API 연동.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "exp-detail-ted"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "exp-cleaning-service",
+        "date": "2018.12-2019.01",
+        "title": "청소 예약·관리 서비스 개발",
+        "url": null,
+        "meta": [
+          "개발자"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "exp-detail-cleaning-service",
+            "blocks": [
+              {
+                "text": "청소 예약·공간 관리 기능 개발, 소스 코드·MySQL DB 구조 인계.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "exp-detail-cleaning-service"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "exp-manlev",
+        "date": "2014.06-2015.01",
+        "title": "주식회사 만렙게임즈 · 서먼러시",
+        "url": null,
+        "meta": [
+          "기획팀 · 게임기획자"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "exp-detail-manlev",
+            "blocks": [
+              {
+                "text": "모바일게임 레벨·스토리·밸런싱 및 확률·과금 구조 설계.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "exp-detail-manlev"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "기타 활동",
+    "intro": "",
+    "records": [
+      {
+        "id": "exp-goorm-kdigital-nlp",
+        "date": "2022",
+        "title": "구름 K-Digital Training · AI 자연어 처리 전문가 양성 과정",
+        "url": null,
+        "meta": [
+          "수료"
+        ],
+        "lead": [],
+        "items": [
+          {
+            "id": "exp-detail-goorm-kdigital-nlp",
+            "blocks": [],
+            "source_ids": [
+              "exp-detail-goorm-kdigital-nlp"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "exp-42seoul",
+        "date": "2020.07-2021.11",
+        "title": "42서울",
+        "url": null,
+        "meta": [],
+        "lead": [],
+        "items": [
+          {
+            "id": "exp-detail-42seoul",
+            "blocks": [
+              {
+                "text": "라피신 2020.07-08 · 본과정(Cadet) 2020.09-2021.11.",
+                "kind": "body",
+                "url": null
+              }
+            ],
+            "source_ids": [
+              "exp-detail-42seoul"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

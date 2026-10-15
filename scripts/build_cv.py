@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 from io import BytesIO
-from content import ROOT, DATA, LANGUAGES, display_authors, venue_details, localized, text, teaching_records, teaching_values, teaching_columns, school_program_groups, current_role_records, experience_records, EXPERIENCE_GROUPS, period, cv_filename, validate, write_if_changed
+from content import ROOT, DATA, LANGUAGES, display_authors, venue_details, localized, text, teaching_records, teaching_history_records, teaching_values, teaching_columns, teaching_display_columns, current_role_context, teaching_relationships, school_program_groups, school_teaching_summaries, school_names, current_role_records, experience_records, EXPERIENCE_GROUPS, period, cv_filename, validate, write_if_changed
 from html import escape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, HRFlowable, PageBreak, Flowable, KeepTogether
 from reportlab.lib.styles import ParagraphStyle
@@ -9,18 +9,18 @@ from reportlab.lib.colors import HexColor
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import A4
-from design import PALETTE, TYPE, COLUMNS
+from design import PALETTE, TYPE, COLUMNS, RADIUS
 
-FONT = Path(os.environ.get('CV_FONT_DIR', str(ROOT / 'fonts')))
+FONT = Path(os.environ.get('CV_FONT_DIR', str(ROOT / 'assets/fonts')))
 OUTPUT = Path(os.environ.get('CV_OUTPUT_DIR', str(ROOT / 'assets')))
 def configure_fonts():
-    for name, filename in [('CV', 'NanumGothic-Regular.ttf'), ('CVB', 'NanumGothic-Bold.ttf'), ('CVHeading', 'NanumMyeongjo-Bold.ttf')]:
+    for name, filename in [('CV', TYPE.get('pdfRegularFile', 'NanumGothic-Regular.ttf')), ('CVB', TYPE.get('pdfBoldFile', 'NanumGothic-Bold.ttf')), ('CVHeading', TYPE.get('pdfHeadingFile', 'NanumMyeongjo-Bold.ttf'))]:
         path = FONT / filename
         if not path.is_file():
             raise FileNotFoundError(f'Missing {path}. Set CV_FONT_DIR to the licensed Nanum font directory.')
         pdfmetrics.registerFont(TTFont(name, str(path)))
     pdfmetrics.registerFontFamily('CV', normal='CV', bold='CVB')
-INK, MUTED, LINE, TINT, NAVY, PAPER = [HexColor(PALETTE[key]) for key in ['ink','secondary','line','tint','accent','paper']]
+INK, MUTED, LINE, TINT, NAVY, PAPER, CAMEL = [HexColor(PALETTE[key]) for key in ['ink','secondary','line','tint','accent','paper','camel']]
 # ReportLab's default frame adds 6 pt at each side inside the document margins.
 WIDTH = A4[0] - 76
 STYLES = {
@@ -48,14 +48,17 @@ def p(text, style='body', markup=False):
     value = value.replace('API 연동.', '<nobr>API&#160;연동.</nobr>')
     return Paragraph(value, STYLES[style])
 
-def table(data, widths, header=True, pad=4):
-    t = Table(data, colWidths=widths, hAlign='LEFT', repeatRows=1 if header else 0, splitByRow=1, splitInRow=0)
+def table(data, widths, header=True, pad=4, surface=None, rounded=False):
+    t = Table(data, colWidths=widths, hAlign='LEFT', repeatRows=1 if header else 0, splitByRow=1, splitInRow=0,
+              cornerRadii=[RADIUS['pdfPanel']]*4 if rounded else None)
     commands = [('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('LEFTPADDING', (0, 0), (-1, -1), 6),
                 ('RIGHTPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), pad),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), pad),
                 ('LINEBELOW', (0, 0), (-1, -1), .35, LINE)]
+    if surface:
+        commands += [('BACKGROUND', (0, 0), (-1, -1), HexColor(PALETTE[surface]))]
     if header:
         commands += [('BACKGROUND', (0, 0), (-1, 0), TINT)]
     t.setStyle(TableStyle(commands))
@@ -128,16 +131,13 @@ def panel_heading(title, topics=()):
                                      ('TOPPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),0)]))
     else:
         heading = p(title,'section')
-    result = [heading, Spacer(1,5), HRFlowable(width='100%',thickness=.6,color=LINE),Spacer(1,4)]
+    result = [heading, Spacer(1,5), HRFlowable(width='100%',thickness=.6,color=CAMEL),Spacer(1,4)]
     for item in result:
         item.keepWithNext = True
     return result
 
-def compact_rows(rows, widths, pad=4):
-    result = table(rows, widths, header=False, pad=pad)
-    result.setStyle(TableStyle([('LEFTPADDING', (0,0), (0,-1), 0),
-                                ('RIGHTPADDING', (-1,0), (-1,-1), 0)]))
-    return result
+def compact_rows(rows, widths, pad=6, surface='table-body'):
+    return table(rows, widths, header=False, pad=pad, surface=surface, rounded=True)
 
 def column_pair(left, right, left_width, gap=18):
     result = Table([[left, '', right]], colWidths=[left_width, gap, WIDTH-left_width-gap], hAlign='LEFT')
@@ -156,11 +156,14 @@ def current_activities(lang, width):
         organization = localized(DATA['organizations'][item['organization']], lang)
         heading = '<b>'+escape(localized(item['title'], lang))+'</b> <font size="9" color="'+PALETTE['secondary']+'"><nobr>·&#160;'+escape(organization).replace(' ', '&#160;')+'</nobr></font>'
         role = [p(heading, 'body', True)]
-        if item.get('context'):
-            role.append(p(localized(item['context'], lang), 'context'))
+        context = current_role_context(item,lang)
+        if context:
+            role.append(p(context, 'context'))
+        if item.get('summary'):
+            role.append(p(localized(item['summary'], lang), 'small'))
         dates = period(item, lang, include_planned_notice=False)
         rows.append([p(dates, 'small'), role])
-    return panel_heading(text('section.current_roles', lang)) + [table(rows, [92, width-92], header=False, pad=3)]
+    return panel_heading(text('section.current_roles', lang)) + [table(rows, [92, width-92], header=False, pad=5, surface='table-body', rounded=True)]
 
 def education_and_qualifications(lang, width, compact=False):
     result = panel_heading(text('section.education_qualifications', lang))
@@ -174,7 +177,7 @@ def education_and_qualifications(lang, width, compact=False):
     for item in sorted(DATA['qualifications'], key=lambda row:row['year'], reverse=True):
         title = localized(item['title'], lang) + ' · ' + localized(item['field'], lang)
         rows.append([p(item['year'], 'small'), p(title, 'small')])
-    return result + [compact_rows(rows, [34, width-34], pad=2.5)]
+    return result + [compact_rows(rows, [34, width-34], pad=4.5, surface='table-meta')]
 
 def publications(lang, width):
     result = panel_heading(text('section.publications', lang), [localized(tag, lang) for tag in DATA['researchTopics']])
@@ -186,7 +189,7 @@ def publications(lang, width):
                  p(text('label.authors', lang) + ': ' + ', '.join(display_authors(paper, lang)), 'small'),
                  p(text('label.venue', lang) + ': ' + venue_details(paper, lang), 'small')]
         rows.append([p(paper['year'], 'small'), block])
-    return result + [compact_rows(rows, [33, width-33], pad=4)]
+    return result + [compact_rows(rows, [36, width-36], pad=6, surface='table-body')]
 
 def date_cell(item, lang):
     dates = period(item, lang).split(' (', 1)
@@ -201,25 +204,43 @@ def date_cell(item, lang):
     return result
 
 def teaching_pdf_rows(item, lang):
-    value = teaching_columns(item, lang)
-    provider = ([p(value['provider'],'field')] if value['provider'] else []) + [p(value['organization'],'small')]
-    heading = '<b>'+escape(value['subject'])+'</b> <font size="9" color="'+PALETTE['secondary']+'">· '+escape(value['role'])+'</font>'
-    body = [p(heading, 'body', True)]
+    value = teaching_display_columns(item, lang)
+    provider = ([p(value['provider'],'field')] if value['provider'] else []) + [p(line,'small') for line in value['organizationLines']]
+    heading = '<b>'+escape(value['subject'])+'</b>'
+    if item.get('showRole', True):
+        heading += ' <font size="9" color="'+PALETTE['secondary']+'">· '+escape(value['role'])+'</font>'
+    programs = school_program_groups(item,lang)
+    body = ([p(value['audience'],'field')] if value['audience'] else []) + ([] if programs else [p(heading, 'body', True)])
     if item.get('summary'):
         body.append(p(localized(item['summary'], lang), 'small'))
     programs = school_program_groups(item,lang)
     if programs:
         for group in programs:
-            titles = ' · '.join(group['titles'])
-            schools = ' · '.join(group['schools'])
-            if titles:
-                markup = '<b>'+escape(titles)+'</b> <font size="9" color="'+PALETTE['secondary']+'">· '+escape(schools)+'</font>'
-                body.append(p(markup,'body',True))
-            else:
-                body.append(p(value['subject']+' · '+schools,'small'))
+            body.append(p('<b>'+escape(' · '.join(group['schools']))+'</b> <font size="9" color="'+PALETTE['secondary']+'">· '+escape(group['role'])+'</font>', 'body', True))
+            body.append(p(' · '.join(group['titles']) or ('Python 프로그래밍' if lang=='ko' else 'Python programming'),'body'))
     elif item.get('schoolSummary'):
         body.append(p(localized(item['schoolSummary'],lang),'small'))
     return [[date_cell(item,lang),provider,body]]
+
+def experience_block(group, heading, lang):
+    other = experience_records(group)
+    if not other:
+        return []
+    rows = []
+    for item in other:
+        title = escape(localized(item['title'], lang))
+        if item.get('url'):
+            title = '<link href="'+escape(item['url'])+'">'+title+'</link>'
+        role = '<font size="9" color="'+PALETTE['secondary']+'"> · '+escape(localized(item['role'], lang))+'</font>'
+        body = [p(title+role, 'field', True)]
+        if item.get('description'):
+            body.append(p(localized(item['description'], lang), 'small'))
+        if item.get('note'):
+            body.append(p(localized(item['note'], lang), 'small'))
+        rows.append([p(period(item, lang), 'small'), body])
+    return [KeepTogether(section(text(heading, lang)) +
+                         [table(rows, [99, WIDTH-99], header=False, pad=5,
+                                surface='table-meta' if group == 'development' else 'table-body', rounded=True)])]
 
 def build(lang):
     validate()
@@ -238,77 +259,45 @@ def build(lang):
     contact = '<link href="mailto:'+escape(DATA['profile']['email'])+'">'+escape(DATA['profile']['email'])+'</link> &nbsp; · &nbsp; '
     contact += '<link href="'+escape(portfolio)+'">'+escape(portfolio.removeprefix('https://').rstrip('/'))+'</link>'
     story += [Spacer(1, 4), p(contact, 'small', True), Spacer(1, 7),
-              HRFlowable(width='100%', thickness=.6, color=LINE)]
+              HRFlowable(width='100%', thickness=.8, color=CAMEL)]
 
-    activity_width = (WIDTH-18)*.64
+    activity_width = (WIDTH-18)*.68
     story += [Spacer(1, 10), column_pair(current_activities(lang, activity_width),
                education_and_qualifications(lang, WIDTH-activity_width-18, compact=True), activity_width)]
-    story += [Spacer(1, 8)] + publications(lang, WIDTH)
-
-    # Give each major career area a coherent page instead of starting mid-page.
-    story.append(PageBreak())
-    # Whole teaching rows stay intact; section and column context repeat on continuation.
-    first_group = True
-    teaching_used = 0
-    frame_height = A4[1]-25-31-12
-    for group in DATA['teachingGroups'] + [{'id':'unclassified','label':'label.unclassified'}]:
-        records = teaching_records(group['id'])
+    # The default CV supports teaching applications: current work and recent
+    # teaching first, historical instruction next, then research and employment.
+    records = teaching_history_records()
+    chunks = [(records[:4],False),(records[4:],True)]
+    first_teaching = True
+    for records,new_page in chunks:
         if not records:
             continue
-        rows = []
-        if first_group:
-            rows.append([p(tr('section.teaching_history'), 'section'), '', ''])
-        group_index = len(rows)
-        rows.append([p(tr(group['label']), 'group'), '', ''])
-        header_index = len(rows)
-        rows.append([p(tr(key), 'label') for key in ['label.period', 'label.org_program', 'label.role_course']])
+        if new_page:
+            story.append(PageBreak())
+        else:
+            story.append(Spacer(1, 14))
+        if first_teaching:
+            story += panel_heading(tr('section.teaching_history'))
+        header_index = 0
+        rows = [[p(tr(key), 'label') for key in ['label.period', 'label.org_program', 'label.role_course']]]
         for item in records:
             rows.extend(teaching_pdf_rows(item, lang))
-        career_table = table(rows, [WIDTH*value/100 for value in COLUMNS], header=False, pad=2)
-        career_table.repeatRows = (0, group_index, header_index) if first_group else (group_index, header_index)
+        career_table = table(rows, [WIDTH*value/100 for value in COLUMNS], header=False, pad=5, rounded=True)
+        career_table.repeatRows = (header_index,)
         commands = [
             ('NOSPLIT', (0, 0), (-1, header_index+1)),
-            ('SPAN', (0, group_index), (-1, group_index)),
-            ('LEFTPADDING', (0, group_index), (-1, group_index), 0),
-            ('TOPPADDING', (0, group_index), (-1, group_index), 5),
-            ('LINEBELOW', (0, group_index), (-1, group_index), 0, LINE),
             ('BACKGROUND', (0, header_index), (-1, header_index), TINT),
+            ('LINEABOVE', (0, header_index), (-1, header_index), .65, CAMEL),
+            ('BACKGROUND', (0, header_index+1), (1, -1), HexColor(PALETTE['table-meta'])),
+            ('BACKGROUND', (2, header_index+1), (2, -1), HexColor(PALETTE['table-body'])),
         ]
-        if first_group:
-            commands += [('SPAN', (0, 0), (-1, 0)), ('LEFTPADDING', (0, 0), (-1, 0), 0),
-                         ('TOPPADDING', (0, 0), (-1, 0), 8),
-                         ('LINEBELOW', (0, 0), (-1, 0), 0, LINE)]
         career_table.setStyle(TableStyle(commands))
-        _, group_height = career_table.wrap(WIDTH, 10000)
-        if not first_group and teaching_used+group_height > frame_height:
-            story.append(PageBreak())
-            continuation = tr('section.teaching_history') + (' (계속)' if lang=='ko' else ' (continued)')
-            gap = Spacer(1,2); gap.keepWithNext = True
-            story += [p(continuation,'section'),gap]
-            teaching_used = 18
-        story.append(KeepTogether([career_table]) if not first_group else career_table)
-        teaching_used += group_height
-        first_group = False
+        story.append(career_table)
+        first_teaching = False
 
-    # Employment follows whole teaching categories without a forced empty remainder.
+    story += [PageBreak(), KeepTogether(publications(lang, WIDTH))]
     for group, heading in EXPERIENCE_GROUPS:
-        other = experience_records(group)
-        if not other:
-            continue
-        heading_block = section(tr(heading))
-        rows=[]
-        for item in other:
-            title=escape(localized(item['title'], lang))
-            if item.get('url'):
-                title='<link href="'+escape(item['url'])+'">'+title+'</link>'
-            body=[p(title, 'field', True),
-                  p(localized(item['role'], lang), 'small')]
-            if item.get('description'):
-                body.append(p(localized(item['description'], lang), 'small'))
-            if item.get('note'):
-                body.append(p(localized(item['note'], lang), 'small'))
-            rows.append([p(period(item, lang), 'small'), body])
-        story.append(KeepTogether(heading_block+[table(rows,[99,WIDTH-99],header=False,pad=3)]))
+        story += experience_block(group, heading, lang)
 
     def footer(c, doc):
         c.saveState()
