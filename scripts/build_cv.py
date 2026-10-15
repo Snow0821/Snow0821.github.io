@@ -96,7 +96,8 @@ def build(lang):
         story.append(KeepTogether([t]))
 
     story += section(tr('section.teaching'))
-    for group in DATA['teachingGroups']:
+    story.append(p(tr('label.course_scope'), 'small'))
+    for group in DATA['teachingGroups'] + [{'id':'unclassified','label':'label.unclassified'}]:
         records=teaching_records(group['id'])
         if not records:
             continue
@@ -105,8 +106,10 @@ def build(lang):
         for item in records:
             value = teaching_values(item, lang)
             rows.append([p(value['period'].replace('–', ' - '), 'small'), p(value['organization'], 'small'),
-                         p(value['course']), p(value['role'], 'small')])
-        story.append(KeepTogether(group_heading+[table(rows, [99, 105, WIDTH-294, 90], pad=4)]))
+                         [p(value['course'])] + ([p(localized(item['schoolSummary'],lang),'small')] if item.get('schoolSummary') else []), p(value['role'], 'small')])
+        story.append(KeepTogether(group_heading+[table(rows[:2], [91, 91, WIDTH-260, 78], pad=3)]))
+        if len(rows)>2:
+            story.append(table(rows[2:], [91, 91, WIDTH-260, 78], header=False, pad=3))
 
     other=DATA.get('otherExperience', [])
     if other:

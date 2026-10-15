@@ -1,5 +1,5 @@
 """Profile, education, interests, and teaching views built from shared records."""
-from content import DATA, LANGUAGES, DEFAULT_LANGUAGE, localized, text, cv_filename, teaching_records, teaching_values, period
+from content import DATA, LANGUAGES, DEFAULT_LANGUAGE, localized, text, cv_filename, teaching_records, teaching_values, teaching_title, period
 from html_components import h, pair, label, mapped, preview, fold, external_link, asset_icon
 
 
@@ -58,7 +58,7 @@ def teaching_preview(records):
     if not records:
         return ''
     item=records[0]
-    title=mapped(lambda lang:localized(DATA['courses'][item['course']]['title'],lang).split(' · ')[0])
+    title=mapped(lambda lang:localized(teaching_title(item),lang).split(' · ')[0])
     detail=mapped(lambda lang:f'{period(item,lang)} · {localized(DATA["organizations"][item["organization"]],lang)} · {localized(DATA["roles"][item["role"]],lang)}')
     return preview(title,detail)
 
@@ -66,16 +66,18 @@ def teaching_preview(records):
 def teaching_entry(item, summary):
     values={lang:teaching_values(item,lang) for lang in LANGUAGES}
     field=lambda key:{lang:value[key] for lang,value in values.items()}
+    provenance=f' data-source-program="{h(item["sourceId"])}"' if item.get('sourceId') else ''
+    schools=f'<p class="cv-sub">{pair(item["schoolSummary"])}</p>' if item.get('schoolSummary') else ''
     if summary:
-        return f'''<article class="cv-job" data-record data-teaching="{item['id']}">
-<span class="cv-date">{pair(field('period'))}</span><div><strong>{pair(field('course'))}</strong>
+        return f'''<article class="cv-job"{provenance} data-record data-teaching="{item['id']}">
+<span class="cv-date">{pair(field('period'))}</span><div><strong>{pair(field('course'))}</strong>{schools}
 <dl class="record-meta"><dt>{label('label.org')}</dt><dd>{pair(field('organization'))}</dd><dt>{label('label.role')}</dt><dd>{pair(field('role'))}</dd></dl></div></article>'''
     course=DATA['courses'][item['course']]
-    note=f'<p class="history-note">{pair(course["note"])}</p>' if course.get('note') else ''
+    note=f'<p class="history-note">{pair(item["schoolSummary"])}</p>' if item.get('schoolSummary') else (f'<p class="history-note">{pair(course["note"])}</p>' if course.get('note') else '')
     org_role={lang:f'{value["organization"]} · {value["role"]}' for lang,value in values.items()}
     details=teaching_details(item)
     toggle=career_toggle(item['id'],field('course')) if details else ''
-    return f'<article class="history-entry" data-record data-teaching="{item["id"]}"><div class="history-title"><h4>{pair(field("course"))}</h4>{toggle}</div><div class="history-meta">{pair(org_role)}{pair(field("period"))}</div>{note}{details}</article>' 
+    return f'<article class="history-entry"{provenance} data-record data-teaching="{item["id"]}"><div class="history-title"><h4>{pair(field("course"))}</h4>{toggle}</div><div class="history-meta">{pair(org_role)}{pair(field("period"))}</div>{note}{details}</article>' 
 
 
 def career_toggle(record_id, title):
@@ -91,8 +93,9 @@ def teaching_details(item):
     rows=[]
     for detail in records:
         meta=mapped(lambda lang:f"{period(detail,lang)} · {localized(DATA['roles'][detail['role']],lang)}")
-        note=f'<p class="career-detail-note">{pair(detail["note"])}</p>' if detail.get('note') else ''
-        rows.append(f'<li data-career-detail="{h(detail["id"])}"><h5>{pair(detail["title"])}</h5><div class="career-detail-meta">{pair(meta)}</div><p>{pair(detail["curriculum"])}</p>{note}</li>')
+        note=''.join(f'<p class="career-detail-note">{pair(detail[key])}</p>' for key in ['note','periodNote'] if detail.get(key))
+        source=f' data-source-detail="{h(detail["sourceDetail"])}"' if detail.get('sourceDetail') else ''
+        rows.append(f'<li data-career-detail="{h(detail["id"])}"{source}><h5>{pair(detail["title"])}</h5><div class="career-detail-meta">{pair(meta)}</div><p>{pair(detail["curriculum"])}</p>{note}</li>')
     return f'<div class="career-details" id="snow-career-{h(item["id"])}" hidden><ul>{"".join(rows)}</ul></div>'
 
 
@@ -134,6 +137,10 @@ def teaching_summary():
             groups.append(f'<h3 class="cv-group-label">{label(group["label"])}</h3>'+''.join(teaching_entry(item,True) for item in selected))
     if DATA.get('otherExperience'):
         groups.append(f'<h3 class="cv-group-label">{label("section.other_experience")}</h3>'+other_experience(summary=True))
+    pending=unclassified_teaching(summary=True)
+    if pending:
+        groups.append(pending)
+    groups.append(f'<p class="career-scope">{label("label.course_scope")}</p>')
     count=len(records)+len(DATA.get('otherExperience',[]))
     return fold('snow-cv-career','section.teaching',count,''.join(groups),teaching_preview(records),classes='cv-section cv-career',short_key='section.teaching_tab')
 
@@ -144,10 +151,19 @@ def teaching_detail():
         records=teaching_records(group['id'])
         if not records:
             continue
-        groups.append(fold('snow-history-'+group['id'],group['label'],len(records),teaching_list(records),teaching_preview(records),classes='history-group',level=3,short_key=group['shortLabel']))
+        groups.append(fold('snow-history-'+group['id'],group['label'],None,teaching_list(records),teaching_preview(records),classes='history-group',level=3,short_key=group['shortLabel']))
     groups.append(other_experience())
-    scope=f'<p class="career-scope">{label("label.detail_scope")}</p>'
-    return '<div class="history-columns">'+''.join(groups)+'</div>'+scope
+    scope=f'<p class="career-scope">{label("label.course_scope")}<br>{label("label.detail_scope")}</p>'
+    return '<div class="history-columns">'+''.join(groups)+'</div>'+unclassified_teaching()+scope
+
+
+def unclassified_teaching(summary=False):
+    records=teaching_records('unclassified')
+    if not records:
+        return ''
+    heading=f'<p class="cv-group-label">{label("label.unclassified")}</p>'
+    note='' if summary else f'<p class="career-detail-note">{label("label.unclassified_note")}</p>'
+    return '<aside class="career-unclassified">'+heading+note+''.join(teaching_entry(item,summary) for item in records)+'</aside>'
 
 
 def profile_link(link_id, label_key, primary=False):

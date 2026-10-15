@@ -28,9 +28,48 @@ def cv_filename(lang):
 
 
 def teaching_records(group=None):
-    records = [item for item in DATA['teaching']
-               if group is None or DATA['courses'][item['course']]['group'] == group]
+    """Return source programs, or field-specific views of their school courses.
+
+    Source programs/details are stored once. Views carry stable source IDs so
+    splitting a school course into evidenced tracks cannot inflate totals.
+    """
+    records = []
+    for item in DATA['teaching']:
+        course = DATA['courses'][item['course']]
+        if group is None:
+            records.append(item)
+        elif not course.get('classifyDetails'):
+            if course['group'] == group:
+                records.append(item)
+        else:
+            details = []
+            for detail in item.get('details', []):
+                tracks = detail.get('tracks')
+                for track in tracks or [detail]:
+                    if (track.get('group') or 'unclassified') != group:
+                        continue
+                    row = dict(detail)
+                    row.pop('tracks', None)
+                    if tracks:
+                        row.update(track)
+                        row['id'] = detail['id'] + '-' + track['id']
+                        row['title'] = {lang: localized(detail['title'], lang) + ' · ' + localized(track['title'], lang) for lang in LANGUAGES}
+                        if 'start' not in track:
+                            row['periodNote'] = {lang: text('label.shared_period', lang) for lang in LANGUAGES}
+                    row['sourceDetail'] = detail['id']
+                    details.append(row)
+            if details:
+                view = dict(item, id=item['id']+'-'+group, sourceId=item['id'], details=details,
+                            viewTitle=course['groupTitles'][group],
+                            start=min(detail['start'] for detail in details),
+                            end=None if any(detail['end'] is None for detail in details) else max(detail['end'] for detail in details))
+                view['schoolSummary'] = {lang: ' · '.join(dict.fromkeys(localized(detail['title'],lang).split(' · ')[0] for detail in details)) for lang in LANGUAGES}
+                records.append(view)
     return sorted(records, key=lambda item: (item['end'] is None, item['start']), reverse=True)
+
+
+def teaching_title(item):
+    return item.get('viewTitle', DATA['courses'][item['course']]['title'])
 
 
 def period(item, lang):
@@ -43,7 +82,7 @@ def period(item, lang):
 
 def teaching_values(item, lang):
     return {'period': period(item, lang),
-            'course': localized(DATA['courses'][item['course']]['title'], lang),
+            'course': localized(teaching_title(item), lang),
             'organization': localized(DATA['organizations'][item['organization']], lang),
             'role': localized(DATA['roles'][item['role']], lang)}
 
@@ -83,7 +122,9 @@ def validate():
         require(all(re.fullmatch(r'[a-zA-Z0-9_-]+', item) for item in ids), f'Invalid ID in {collection}')
     groups = {group['id'] for group in DATA['teachingGroups']}
     for key, course in DATA['courses'].items():
-        require(course['group'] in groups, f'Unknown teaching group: {key}')
+        require(course['group'] in groups or (course.get('classifyDetails') and course['group'] is None), f'Unknown teaching group: {key}')
+        if course.get('classifyDetails'):
+            require(set(course.get('groupTitles', {})) == groups | {'unclassified'}, f'Missing school-course group titles: {key}')
     for item in DATA['teaching']:
         for field, collection in [('course', 'courses'), ('organization', 'organizations'), ('role', 'roles')]:
             require(item[field] in DATA[collection], f'Unknown {field}: {item["id"]}')
@@ -97,6 +138,18 @@ def validate():
             require(re.fullmatch(r'[a-zA-Z0-9_-]+', detail['id']), 'Invalid career detail ID')
             require(detail['role'] in DATA['roles'], f'Unknown detail role: {detail["id"]}')
             require(all(lang in detail[field] for field in ['title', 'curriculum'] for lang in LANGUAGES), f'Missing career detail translation: {detail["id"]}')
+            if DATA['courses'][item['course']].get('classifyDetails'):
+                require('group' in detail, f'Missing school-course group: {detail["id"]}')
+                require(detail['group'] is None or detail['group'] in groups, f'Unknown school-course group: {detail["id"]}')
+                tracks=detail.get('tracks', [])
+                require(len({track['id'] for track in tracks}) == len(tracks), f'Duplicate track ID: {detail["id"]}')
+                for track in tracks:
+                    require(track['group'] is None or track['group'] in groups, f'Unknown track group: {detail["id"]}')
+                    require(all(lang in track[field] for field in ['title','curriculum'] for lang in LANGUAGES), f'Missing track translation: {detail["id"]}')
+                    require(('start' in track) == ('end' in track), f'Incomplete track dates: {detail["id"]}')
+                    if 'start' in track:
+                        require(detail['start'] <= track['start'] <= track['end'] <= detail['end'], f'Track dates outside school period: {detail["id"]}')
+
     require(len(detail_ids)==len(set(detail_ids)), 'Duplicate career detail ID')
     other_ids=[item['id'] for item in DATA.get('otherExperience', [])]
     require(len(other_ids)==len(set(other_ids)), 'Duplicate other experience ID')

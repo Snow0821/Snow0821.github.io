@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from content import DATA, LOCALES, localized, reference, teaching_values, validate, write_if_changed
+from content import DATA, LOCALES, localized, reference, teaching_values, teaching_records, validate, write_if_changed
 import site_sections
 
 
@@ -52,35 +52,60 @@ class SharedContentTests(unittest.TestCase):
         self.assertIn('class="career-toggle cursor-interaction"', detail)
         self.assertIn('data-career-detail="jeohyeon"', detail)
         self.assertNotIn('data-career-detail=', summary)
-        self.assertEqual(detail.count('class="career-details"'), len(DATA['teaching'])+len(DATA['otherExperience']))
-        expected=sum(len(item.get('details', [])) for item in DATA['teaching'])
+        views=[item for group in ['ai','data','programming','unclassified'] for item in teaching_records(group)]
+        self.assertEqual(detail.count('class="career-details"'), len(views)+len(DATA['otherExperience']))
+        expected=sum(len(item.get('details', [])) for item in views)
         self.assertEqual(detail.count('data-career-detail='), expected)
 
-    def test_four_themes_preserve_every_program_once(self):
-        from content import teaching_records
+    def test_four_themes_preserve_unique_program_and_detail_sources(self):
+        from collections import Counter
         self.assertEqual([group['id'] for group in DATA['teachingGroups']], ['ai','data','programming'])
-        self.assertEqual([len(teaching_records(group['id'])) for group in DATA['teachingGroups']], [6,1,7])
-        self.assertEqual(DATA['courses']['donghaeng-data']['group'], 'data')
+        self.assertEqual(len(teaching_records()),14)
         self.assertEqual(DATA['courses']['algorithms']['group'], 'programming')
-        self.assertEqual(DATA['courses']['codyssey']['group'], 'programming')
+        self.assertEqual(DATA['courses']['codyssey']['group'], 'ai')
+        self.assertEqual(DATA['courses']['codyssey']['title']['ko'], 'AI Native 과정 · 코디세이')
         self.assertEqual(DATA['courses']['hanalife']['group'], 'ai')
+        views=[item for group in ['ai','data','programming','unclassified'] for item in teaching_records(group)]
+        self.assertEqual({item.get('sourceId',item['id']) for item in views}, {item['id'] for item in DATA['teaching']})
+        expected=Counter({detail['id']:len(detail.get('tracks',[])) or 1 for item in DATA['teaching'] for detail in item['details']})
+        actual=Counter(detail.get('sourceDetail',detail['id']) for item in views for detail in item['details'])
+        self.assertEqual(actual, expected)
         detail=site_sections.teaching_detail()
         summary=site_sections.teaching_summary()
         self.assertEqual(detail.count('class="history-group'),4)
-        for item in DATA['teaching']:
+        for item in views:
             for output in [summary,detail]:
                 self.assertEqual(output.count(f'data-teaching="{item["id"]}"'),1)
-        for item in DATA['otherExperience']:
-            for output in [summary,detail]:
-                self.assertEqual(output.count(f'data-other-experience="{item["id"]}"'),1)
-        self.assertEqual(detail.count('data-career-detail='),30)
+        self.assertEqual(len(expected),30)
         self.assertIn('<small>17</small>',summary)
-        self.assertEqual([len(item['details']) for item in DATA['teaching'] if item['course'] in ['saessak','donghaeng-data']], [5,7])
+        self.assertEqual(teaching_records('unclassified'),[])
+
+    def test_school_courses_use_verified_categories(self):
+        by_group={group:{detail['id'] for item in teaching_records(group) for detail in item['details']} for group in ['ai','data','programming']}
+        self.assertTrue({'mirae','munchang','sudo-ai','munhak-ai','jamsil-girls-ai'} <= by_group['ai'])
+        self.assertTrue({'hwagok','sudo-data','haseong-data','munhak-data','jamsil-girls-data'} <= by_group['data'])
+        self.assertTrue({'cheongwon-girls','ansan-design','seoul-robot','handong-a','handong-b','haseong-python'} <= by_group['programming'])
+        self.assertNotIn('hwagok',by_group['programming'])
+        self.assertNotIn('mirae',by_group['programming'])
+        for group in ['ai','data','programming']:
+            for item in teaching_records(group):
+                for detail in item['details']:
+                    if detail.get('sourceDetail') in ['sudo','haseong','munhak','jamsil-girls']:
+                        self.assertIn('periodNote',detail)
+
+    def test_invalid_course_tracks_stop_build(self):
+        changed=copy.deepcopy(DATA['teaching'])
+        item=next(item for item in changed if item['course']=='saessak')
+        detail=next(detail for detail in item['details'] if detail['id']=='sudo')
+        detail['tracks'][0]['group']='missing'
+        with patch.dict(DATA, teaching=changed), self.assertRaisesRegex(ValueError, 'Unknown track group'):
+            validate()
+
 
     def test_simple_career_buttons_have_unique_accessible_targets(self):
         output=site_sections.teaching_detail()
         buttons=re.findall(r'<button type="button" class="career-toggle cursor-interaction"([^>]+)>(.*?)</button>',output)
-        self.assertEqual(len(buttons),17)
+        self.assertEqual(len(buttons),sum(len(teaching_records(group)) for group in ['ai','data','programming','unclassified'])+len(DATA['otherExperience']))
         targets=[]
         for attrs,body in buttons:
             self.assertIn('aria-expanded="false"',attrs)
@@ -119,7 +144,7 @@ class SharedContentTests(unittest.TestCase):
         educore=next(item for item in DATA['teaching'] if item['id']=='donghaeng-educore-2025')
         self.assertNotEqual(elice['course'], educore['course'])
         self.assertEqual(elice['start'], '2024-09')
-        self.assertIn('데이터', teaching_values(elice, 'ko')['course'])
+        self.assertIn('학교별', teaching_values(elice, 'ko')['course'])
         self.assertIn('AI 활용 웹앱', teaching_values(educore, 'ko')['course'])
         self.assertIn('로그인', educore['details'][0]['curriculum']['ko'])
         for item in educore['details'][1:]:

@@ -41,7 +41,7 @@ def preview(title, detail, markup=False):
 def fold(section_id, key, count, content, preview_html='', *, classes='cv-section', level=2, short_key=None):
     heading=mapped(lambda lang: h(text(key,lang)))
     compact=mapped(lambda lang:h(text(short_key or key,lang)))
-    badge=f' <small>{count}</small>'
+    badge=f' <small>{count}</small>' if count is not None else ''
     heading={lang:value+badge for lang,value in heading.items()}
     compact={lang:value+badge for lang,value in compact.items()}
     return f'''<section class="{classes} fold-section" data-expanded="false" data-block>
@@ -54,3 +54,4 @@ def fold(section_id, key, count, content, preview_html='', *, classes='cv-sectio
 def external_link(url, content, classes='action', label_text=None):
     attrs=f' aria-label="{h(label_text)}" title="{h(label_text)}"' if label_text else ''
     return f'<a class="{classes} cursor-interaction" href="{h(url)}" target="_blank" rel="noopener noreferrer"{attrs}>{content}</a>'
+

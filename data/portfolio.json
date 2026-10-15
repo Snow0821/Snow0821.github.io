@@ -369,14 +369,14 @@
       }
     },
     "codyssey": {
-      "group": "programming",
+      "group": "ai",
       "title": {
-        "ko": "Codyssey",
-        "en": "Codyssey"
+        "ko": "AI Native 과정 · 코디세이",
+        "en": "AI Native course · Codyssey"
       },
       "note": {
-        "ko": "PBL 학습 과정의 이슈 조율 및 학습 지원.\n추가 수행: 학습자 과제 지도 · 교양 세미나 개설·운영.",
-        "en": "Coordinating issues and supporting learning in the PBL process.\nAdditional work: assignment guidance and general-interest seminars."
+        "ko": "AI Native 과정의 PBL 퍼실리테이션과 학습 지원.\n추가 수행: 학습자 과제 지도 · 교양 세미나 개설·운영.",
+        "en": "PBL facilitation and learning support for the AI Native course.\nAdditional work: assignment guidance and general-interest seminars."
       }
     },
     "algorithms": {
@@ -427,14 +427,33 @@
       }
     },
     "saessak": {
-      "group": "programming",
+      "group": null,
       "title": {
-        "ko": "디지털 새싹 · 웹·데이터·AI 교육",
-        "en": "Digital Saessak · Web, data & AI education"
+        "ko": "디지털새싹 · 학교별 교육",
+        "en": "Digital Saessak · School-based education"
       },
       "note": {
-        "ko": "학교·과정별 웹 프로그래밍, 데이터 분석, 인공지능 및 피지컬 컴퓨팅 교육.",
-        "en": "School-based courses in web programming, data analysis, AI and physical computing."
+        "ko": "학교별로 확인된 과정과 교육 내용을 기준으로 분류했습니다.",
+        "en": "Grouped by verified school-specific courses and teaching content."
+      },
+      "classifyDetails": true,
+      "groupTitles": {
+        "ai": {
+          "ko": "디지털새싹 · AI 과정",
+          "en": "Digital Saessak · AI courses"
+        },
+        "data": {
+          "ko": "디지털새싹 · 데이터 분석 과정",
+          "en": "Digital Saessak · Data analysis courses"
+        },
+        "programming": {
+          "ko": "디지털새싹 · 프로그래밍 과정",
+          "en": "Digital Saessak · Programming courses"
+        },
+        "unclassified": {
+          "ko": "디지털새싹 · 세부 과정 확인 중",
+          "en": "Digital Saessak · Course details to confirm"
+        }
       }
     },
     "gosaek": {
@@ -456,14 +475,33 @@
       }
     },
     "donghaeng-data": {
-      "group": "data",
+      "group": null,
       "title": {
-        "ko": "SW 동행 · 데이터·Python 프로젝트",
-        "en": "SW Donghaeng · Data & Python projects"
+        "ko": "SW동행 · 학교별 교육",
+        "en": "SW Donghaeng · School-based education"
       },
       "note": {
-        "ko": "Orange3·Python 기반의 SDGs 주제 탐색과 프로젝트 교육.",
-        "en": "SDG-themed projects using Orange3 and Python."
+        "ko": "학교별로 확인된 과정과 교육 내용을 기준으로 분류했습니다.",
+        "en": "Grouped by verified school-specific courses and teaching content."
+      },
+      "classifyDetails": true,
+      "groupTitles": {
+        "ai": {
+          "ko": "SW동행 · AI 과정",
+          "en": "SW Donghaeng · AI courses"
+        },
+        "data": {
+          "ko": "SW동행 · 데이터 분석 과정",
+          "en": "SW Donghaeng · Data analysis courses"
+        },
+        "programming": {
+          "ko": "SW동행 · 프로그래밍 과정",
+          "en": "SW Donghaeng · Programming courses"
+        },
+        "unclassified": {
+          "ko": "SW동행 · 세부 과정 확인 중",
+          "en": "SW Donghaeng · Course details to confirm"
+        }
       }
     },
     "paju": {
@@ -785,7 +823,34 @@
           "curriculum": {
             "ko": "식량안보 심화. Python 기반 SDGs 프로젝트, 코드 수정·프로젝트 방법론 지도 및 대학생 멘토와의 운영 협업.",
             "en": "Advanced food security: Python-based SDG projects, code review, project methods and coordination with university-student mentors."
-          }
+          },
+          "group": null,
+          "tracks": [
+            {
+              "id": "python",
+              "group": "programming",
+              "title": {
+                "ko": "로컬 푸드 급식 메이커 · Python",
+                "en": "Local Food Meal Maker · Python"
+              },
+              "curriculum": {
+                "ko": "식량안보 심화: Python 기초 문법, 함수·클래스·모듈, 코드 수정과 프로젝트 방법론 지도.",
+                "en": "Advanced food security: Python fundamentals, functions, classes and modules, code review and project methods."
+              }
+            },
+            {
+              "id": "data",
+              "group": "data",
+              "title": {
+                "ko": "로컬 푸드 급식 메이커 · 데이터 분석",
+                "en": "Local Food Meal Maker · Data analysis"
+              },
+              "curriculum": {
+                "ko": "식량안보 심화: pandas·통계·그룹화, matplotlib·탐색적 데이터 분석(EDA), 식단 생성 프로젝트. 선형회귀 추가 교재와 대학생 멘토 운영 협업.",
+                "en": "Advanced food security: pandas, statistics and grouping, matplotlib and exploratory data analysis (EDA), and a meal-generation project, with supplementary linear-regression materials and university-student mentors."
+              }
+            }
+          ]
         },
         {
           "id": "jamsil-girls",
@@ -799,7 +864,34 @@
           "curriculum": {
             "ko": "건강한 삶 심화. Orange3 기반 데이터 분석·프로젝트, 멘토 질의응답·보조 운영 협업.",
             "en": "Advanced healthy living: Orange3 data analysis and projects, mentor Q&A and classroom coordination."
-          }
+          },
+          "group": null,
+          "tracks": [
+            {
+              "id": "data",
+              "group": "data",
+              "title": {
+                "ko": "건강한 삶 심화 · 데이터 분석",
+                "en": "Advanced healthy living · Data analysis"
+              },
+              "curriculum": {
+                "ko": "Orange3 기반 통계·그룹화·시각화·전처리·탐색적 데이터 분석(EDA).",
+                "en": "Orange3-based statistics, grouping, visualization, preprocessing and exploratory data analysis (EDA)."
+              }
+            },
+            {
+              "id": "ai",
+              "group": "ai",
+              "title": {
+                "ko": "건강한 삶 심화 · AI 예측",
+                "en": "Advanced healthy living · AI prediction"
+              },
+              "curriculum": {
+                "ko": "AI 맞춤형 운동 처방 프로그램: 회귀·분류·모델 평가와 체력·운동 분석·예측 프로젝트.",
+                "en": "AI-tailored exercise prescription: regression, classification, model evaluation, and fitness/exercise analysis and prediction projects."
+              }
+            }
+          ]
         },
         {
           "id": "munhak",
@@ -813,7 +905,34 @@
           "curriculum": {
             "ko": "건강한 삶 심화. Orange3 기반 데이터 분석·프로젝트 교육.",
             "en": "Advanced healthy living: Orange3 data analysis and project education."
-          }
+          },
+          "group": null,
+          "tracks": [
+            {
+              "id": "data",
+              "group": "data",
+              "title": {
+                "ko": "건강한 삶 심화 · 데이터 분석",
+                "en": "Advanced healthy living · Data analysis"
+              },
+              "curriculum": {
+                "ko": "Orange3 기반 통계·그룹화·시각화·전처리·탐색적 데이터 분석(EDA).",
+                "en": "Orange3-based statistics, grouping, visualization, preprocessing and exploratory data analysis (EDA)."
+              }
+            },
+            {
+              "id": "ai",
+              "group": "ai",
+              "title": {
+                "ko": "건강한 삶 심화 · AI 예측",
+                "en": "Advanced healthy living · AI prediction"
+              },
+              "curriculum": {
+                "ko": "AI 맞춤형 운동 처방 프로그램: 회귀·분류·모델 평가와 체력·운동 분석·예측 프로젝트.",
+                "en": "AI-tailored exercise prescription: regression, classification, model evaluation, and fitness/exercise analysis and prediction projects."
+              }
+            }
+          ]
         },
         {
           "id": "handong-a",
@@ -827,7 +946,8 @@
           "curriculum": {
             "ko": "Python 리스트·반복문 기반 프로그래밍 교육.",
             "en": "Python programming with lists and loops."
-          }
+          },
+          "group": "programming"
         },
         {
           "id": "handong-b",
@@ -841,7 +961,8 @@
           "curriculum": {
             "ko": "Python 기초·조건문 기반 프로그래밍 교육.",
             "en": "Python fundamentals and conditional statements."
-          }
+          },
+          "group": "programming"
         }
       ]
     },
@@ -865,7 +986,8 @@
           "curriculum": {
             "ko": "손쉽게 공부하는 인공지능.",
             "en": "Easy-to-learn artificial intelligence."
-          }
+          },
+          "group": "ai"
         },
         {
           "id": "cheongwon-girls",
@@ -879,7 +1001,8 @@
           "curriculum": {
             "ko": "디지털새싹 교육. 2024.11–2024.12: Make! 아두이노로 문제 해결하기.",
             "en": "Digital Saessak education. 2024.11–2024.12: Make! Solving problems with Arduino."
-          }
+          },
+          "group": "programming"
         },
         {
           "id": "hwagok",
@@ -891,9 +1014,10 @@
           "end": "2024-07",
           "role": "assistant",
           "curriculum": {
-            "ko": "디지털새싹 교육 보조.",
-            "en": "Digital Saessak teaching support."
-          }
+            "ko": "도전! 데이터 분석으로 해결하는 인천 지역 문제 교육 보조.",
+            "en": "Teaching support for Challenge! Solving Incheon regional problems with data analysis."
+          },
+          "group": "data"
         },
         {
           "id": "mirae",
@@ -905,9 +1029,10 @@
           "end": "2024-06",
           "role": "lead",
           "curriculum": {
-            "ko": "디지털새싹 교육.",
-            "en": "Digital Saessak education."
-          }
+            "ko": "인공지능으로 웹 앱 만들기.",
+            "en": "Creating web apps with artificial intelligence."
+          },
+          "group": "ai"
         },
         {
           "id": "sudo",
@@ -921,7 +1046,34 @@
           "curriculum": {
             "ko": "차근차근 데이터 분석 시작하기·활용하기, MISSION: AI와 웹페이지 제작하기.",
             "en": "Step-by-step introductory and applied data analysis; MISSION: Creating web pages with AI."
-          }
+          },
+          "group": null,
+          "tracks": [
+            {
+              "id": "data",
+              "group": "data",
+              "title": {
+                "ko": "데이터 분석 시작하기·활용하기",
+                "en": "Introductory & applied data analysis"
+              },
+              "curriculum": {
+                "ko": "차근차근 데이터 분석 시작하기·활용하기.",
+                "en": "Step-by-step introductory and applied data analysis."
+              }
+            },
+            {
+              "id": "ai",
+              "group": "ai",
+              "title": {
+                "ko": "AI와 웹페이지 제작하기",
+                "en": "Creating web pages with AI"
+              },
+              "curriculum": {
+                "ko": "MISSION: AI와 웹페이지 제작하기.",
+                "en": "MISSION: Creating web pages with AI."
+              }
+            }
+          ]
         },
         {
           "id": "ansan-design",
@@ -935,7 +1087,8 @@
           "curriculum": {
             "ko": "Do IT! 실전 웹 프로그래밍. 학습 수준에 맞춘 CSS·웹 프로젝트 실습.",
             "en": "Do IT! Practical web programming, with CSS and web project practice adapted to learners."
-          }
+          },
+          "group": "programming"
         },
         {
           "id": "seoul-robot",
@@ -949,7 +1102,8 @@
           "curriculum": {
             "ko": "Do IT! 실전 웹 프로그래밍. Git 기반 협업과 웹 프로젝트 지도.",
             "en": "Do IT! Practical web programming, Git-based collaboration and web project guidance."
-          }
+          },
+          "group": "programming"
         }
       ]
     },
