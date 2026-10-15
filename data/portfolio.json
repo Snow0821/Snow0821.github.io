@@ -11,7 +11,7 @@
       "flag": "assets/flag-us.svg"
     }
   ],
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "profile": {
     "name": {
       "ko": "최순호",
@@ -361,12 +361,12 @@
     "goyang": {
       "group": "ai",
       "title": {
-        "ko": "고양 스마트시티즌 · AI 활용 웹 제작",
-        "en": "Goyang Smart Citizen · AI-assisted web creation"
+        "ko": "고양 스마트시티즌 · 웹 제작·업무 비서",
+        "en": "Goyang Smart Citizen · Web creation & work assistants"
       },
       "note": {
-        "ko": "시민 대상 개인 웹페이지 제작 및 GitHub·Vercel 배포 실습.",
-        "en": "Personal website creation and deployment with GitHub and Vercel for citizens."
+        "ko": "시민 대상 웹 바이브 코딩 1·2차 및 Codex 업무 비서 만들기 교육.",
+        "en": "Web vibe coding courses 1 and 2, and building a work assistant with Codex for citizens."
       }
     },
     "codyssey": {
@@ -511,17 +511,49 @@
       "end": null,
       "details": [
         {
-          "id": "goyang-citizens",
+          "id": "goyang-web-1",
           "title": {
-            "ko": "고양 스마트시티즌 · 시민",
-            "en": "Goyang Smart Citizen · Citizens"
+            "ko": "웹 바이브 코딩 · 1차",
+            "en": "Web vibe coding · Course 1"
           },
           "start": "2026-08",
+          "end": "2026-09",
+          "role": "instructor",
+          "curriculum": {
+            "ko": "AI 활용 웹 제작 교육.",
+            "en": "AI-assisted web creation."
+          }
+        },
+        {
+          "id": "goyang-web-2",
+          "title": {
+            "ko": "웹 바이브 코딩 · 2차",
+            "en": "Web vibe coding · Course 2"
+          },
+          "start": "2026-09",
+          "end": "2026-09",
+          "role": "instructor",
+          "curriculum": {
+            "ko": "AI 활용 웹 제작 교육.",
+            "en": "AI-assisted web creation."
+          }
+        },
+        {
+          "id": "goyang-codex",
+          "title": {
+            "ko": "Codex 업무 비서 만들기",
+            "en": "Building a work assistant with Codex"
+          },
+          "start": "2026-10",
           "end": null,
           "role": "instructor",
           "curriculum": {
-            "ko": "AI 활용 개인 웹페이지 제작, GitHub·Vercel 배포, Codex 활용.",
-            "en": "AI-assisted personal websites, deployment with GitHub and Vercel, and Codex."
+            "ko": "Codex를 활용한 업무 비서 만들기.",
+            "en": "Creating a work assistant with Codex."
+          },
+          "note": {
+            "ko": "2026.10 과정 진행 중 · 10월 종료 예정.",
+            "en": "October 2026 course in progress; scheduled to finish in October."
           }
         }
       ]

@@ -55,6 +55,22 @@ class SharedContentTests(unittest.TestCase):
         expected=sum(len(item.get('details', [])) for item in DATA['teaching'])
         self.assertEqual(detail.count('data-career-detail='), expected)
 
+    def test_goyang_has_three_distinct_courses_with_verified_months(self):
+        item=next(item for item in DATA['teaching'] if item['id']=='goyang-educore-2026-08')
+        self.assertEqual(len(item['details']), 3)
+        self.assertEqual([(detail['start'], detail['end']) for detail in item['details']],
+                         [('2026-08', '2026-09'), ('2026-09', '2026-09'), ('2026-10', None)])
+        self.assertEqual([detail['id'] for detail in item['details']],
+                         ['goyang-web-1', 'goyang-web-2', 'goyang-codex'])
+        codex=item['details'][2]
+        self.assertIn('진행 중', codex['note']['ko'])
+        self.assertIn('scheduled', codex['note']['en'])
+        output=site_sections.teaching_details(item)
+        self.assertEqual(output.count('data-career-detail='), 3)
+        self.assertIn('2026.08–2026.09', output)
+        self.assertIn('2026.10–현재', output)
+        self.assertNotIn('goyang-citizens', output)
+
     def test_elice_and_educore_curricula_are_separate(self):
         elice=next(item for item in DATA['teaching'] if item['id']=='donghaeng-elice-2023')
         educore=next(item for item in DATA['teaching'] if item['id']=='donghaeng-educore-2025')
