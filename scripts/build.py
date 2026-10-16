@@ -13,15 +13,19 @@ def main():
         from build_cv import build as build_cv, configure_fonts
         configure_fonts()
     build_site()
+    from build_documents import build as build_documents
+    build_documents()
     if not args.site_only:
         for lang in LANGUAGES:
             if lang == 'ko':
-                from build_editorial_cv import build as build_editorial_cv
-                build_editorial_cv()
+                # Reviewed Korean CV is maintained as an independent publication.
+                # Do not overwrite it with the archived four-page editorial build.
+                continue
             else:
                 build_cv(lang)
 
 
 if __name__=='__main__':
     main()
+
 

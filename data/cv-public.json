@@ -1,0 +1,261 @@
+{
+  "document_type": "academic-cv",
+  "language": "ko",
+  "updated": "2026-10-16",
+  "pages": [
+    {
+      "page": 1,
+      "blocks": [
+        {
+          "text": "최순호",
+          "role": "heading"
+        },
+        {
+          "text": "AI Native 퍼실리테이터 · 코디세이, 모두의연구소",
+          "role": "body"
+        },
+        {
+          "text": "sosaror@gmail.com · snow0821.github.io",
+          "role": "body"
+        },
+        {
+          "text": "Education · 학력",
+          "role": "heading"
+        },
+        {
+          "text": "국민대학교 소프트웨어융합대학원",
+          "role": "lead"
+        },
+        {
+          "text": "· 인공지능 공학석사",
+          "role": "body"
+        },
+        {
+          "text": "2025",
+          "role": "body"
+        },
+        {
+          "text": "한동대학교 전산전자공학부",
+          "role": "lead"
+        },
+        {
+          "text": "· 컴퓨터공학·전자공학 공학사",
+          "role": "body"
+        },
+        {
+          "text": "2019",
+          "role": "body"
+        },
+        {
+          "text": "Research Interests",
+          "role": "heading"
+        },
+        {
+          "text": "이산·양자화 신경망",
+          "role": "lead"
+        },
+        {
+          "text": "Discrete & Quantized Neural Networks",
+          "role": "body"
+        },
+        {
+          "text": "이산적인 표현과 연산, 저비트 가중치 및 신경망 이진화.",
+          "role": "body"
+        },
+        {
+          "text": "뉴로심볼릭 학습",
+          "role": "lead"
+        },
+        {
+          "text": "Neuro-symbolic Learning",
+          "role": "body"
+        },
+        {
+          "text": "논리 연산과 신경망 학습의 연결, 학습 가능한 피연산자 선택과 연결 구조.",
+          "role": "body"
+        },
+        {
+          "text": "학습 동역학과 적응형 구조",
+          "role": "lead"
+        },
+        {
+          "text": "Learning Dynamics & Adaptive Structures",
+          "role": "body"
+        },
+        {
+          "text": "이산 상태의 학습 과정과 신경망 연결 구조의 적응에 관심.",
+          "role": "body"
+        },
+        {
+          "text": "Publications · 논문",
+          "role": "heading"
+        },
+        {
+          "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
+          "role": "lead"
+        },
+        {
+          "text": "Soon Ho Choi (제1저자), Soo Yong Kim",
+          "role": "body"
+        },
+        {
+          "text": "2026 International Joint Conference on Neural Networks (IJCNN)",
+          "role": "body"
+        },
+        {
+          "text": "Binarization of Ternary ViT on Image Classification",
+          "role": "lead"
+        },
+        {
+          "text": "Soon Ho Choi (제1저자), Jae Young Im, Soo Yeon Yoon",
+          "role": "body"
+        },
+        {
+          "text": "2025년도 한국통신학회 동계종합학술발표회 논문집 · pp. 668-669 · 2025.02",
+          "role": "body"
+        },
+        {
+          "text": "Comparing accuracy of sign-quantized layers with linear layer in small models",
+          "role": "lead"
+        },
+        {
+          "text": "Choi Soon Ho (제1저자), Soo-Yeon Yoon",
+          "role": "body"
+        },
+        {
+          "text": "2024년도 한국통신학회 하계종합학술발표회 논문집 · pp. 847-849 · 2024.06",
+          "role": "body"
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "blocks": [
+        {
+          "text": "Development Experience · 개발 경험",
+          "role": "heading"
+        },
+        {
+          "text": "(주)노타이틀 · 풀스택 개발",
+          "role": "lead"
+        },
+        {
+          "text": "2024.03-2024.05",
+          "role": "body"
+        },
+        {
+          "text": "FastAPI 백엔드 및 Next.js·React 프론트엔드 개발.",
+          "role": "body"
+        },
+        {
+          "text": "마이마부 · 프론트엔드 개발",
+          "role": "lead"
+        },
+        {
+          "text": "2022.08-2022.10 · 주식회사 테드 · 외주 프로젝트",
+          "role": "body"
+        },
+        {
+          "text": "OAuth 로그인·실명인증·결제 API 연동.",
+          "role": "body"
+        },
+        {
+          "text": "Teaching & Facilitation · 교육 경력",
+          "role": "heading"
+        },
+        {
+          "text": "AI Native 퍼실리테이터",
+          "role": "lead"
+        },
+        {
+          "text": "2026.06-2026.10 · 코디세이 · 모두의연구소",
+          "role": "body"
+        },
+        {
+          "text": "과제 중심 교육과정의 완주를 돕는 학습 문화와 학습자 네트워크 형성.\nAI 전문지식과 최신 트렌드를 반영한 세미나 운영.",
+          "role": "body"
+        },
+        {
+          "text": "코더랜드 강사",
+          "role": "lead"
+        },
+        {
+          "text": "2023.03-현재 · 온라인 프로그래밍 교육 · 프리랜서",
+          "role": "body"
+        },
+        {
+          "text": "Python/C++/자료구조/알고리즘 지도. 2024-2026년 3년 연속 정보올림피아드 수상 지도.",
+          "role": "body"
+        },
+        {
+          "text": "기업·시민 대상 AI 교육",
+          "role": "lead"
+        },
+        {
+          "text": "2026.07-2026.10",
+          "role": "body"
+        },
+        {
+          "text": "하나생명 임직원 Claude Code 기반 PoC 실습·프로젝트 피드백(엘리스).\n고양 스마트시티즌 AI 활용 웹 제작·Codex 업무 비서(에듀코어센터).\nLG이노텍 임직원 AI·AX Lv2 강의·실습 및 프로젝트 조언(엘리스그룹).",
+          "role": "body"
+        },
+        {
+          "text": "T아카데미 · 코딩테스트 특강",
+          "role": "lead"
+        },
+        {
+          "text": "2025.10-2025.11 · 민코딩 · 외부 출강",
+          "role": "body"
+        },
+        {
+          "text": "코딩테스트 문제해결·학습법, Python 자료구조·알고리즘 지도.",
+          "role": "body"
+        },
+        {
+          "text": "SW동행 · AI·데이터 프로젝트",
+          "role": "lead"
+        },
+        {
+          "text": "2025.04-2025.07 · 에듀코어센터 / 2024.09-2024.11 · 엘리스그룹",
+          "role": "body"
+        },
+        {
+          "text": "생성형 AI 웹 앱, 교통·환경 문제 해결, Python·Orange3 데이터 분석 교육.\n에듀코어센터: 저현고등학교·영종고등학교·구룡중학교·서원고등학교·서울디지텍고등학교.\n엘리스그룹: 하성고등학교·잠실여자고등학교·문학정보고등학교·상인천중학교.",
+          "role": "body"
+        },
+        {
+          "text": "디지털새싹 · AI·데이터·웹·메이킹",
+          "role": "lead"
+        },
+        {
+          "text": "2023.05-2024.12 · 엘리스그룹",
+          "role": "body"
+        },
+        {
+          "text": "문창중학교 · 수도전기공업고등학교 · 미래산업과학고등학교 · 안산디자인문화고등학교 · 서울로봇고등학교 · 청원여자고등학교. 화곡고등학교 데이터 분석 실습 보조(보조강사).",
+          "role": "body"
+        },
+        {
+          "text": "학교별 교육 주제와 과정은 상이하며, 상세 수행 내용은 별도 경력기술서에 수록.",
+          "role": "body"
+        },
+        {
+          "text": "기타 교육 및 활동",
+          "role": "lead"
+        },
+        {
+          "text": "겨울방학 강사 대상 사전 원격교육(엘리스그룹, 2024.12-2025.01).\nLG CNS 임직원·자녀 가족 코딩 수업(엘리스그룹, 2024.02).\n고색고등학교 선발 학생 대상 방과후 정보과학 수업(2023.08-2023.12).\n구름 K-Digital Training AI 자연어 처리 전문가 양성 과정(2022).\n42서울 라피신(2020.07-08)·본과정 Cadet(2020.09-2021.11).",
+          "role": "body"
+        },
+        {
+          "text": "기타 자격",
+          "role": "lead"
+        },
+        {
+          "text": "NCS 확인강사 · 인공지능 · 2026",
+          "role": "body"
+        }
+      ]
+    }
+  ]
+}

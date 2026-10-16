@@ -116,3 +116,4 @@ class UnifiedTeachingTests(unittest.TestCase):
             else:
                 self.assertIn('교육 경력', content)
                 self.assertIn('하나생명 임직원', content)
+

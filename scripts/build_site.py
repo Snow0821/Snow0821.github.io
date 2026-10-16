@@ -55,6 +55,7 @@ def build():
         'meta_description':h(names+' — '+roles+'. Research activities, teaching experience, and CV.'),
         'navigation':navigation(),'language_control':language_control(),
         'current_roles':sections.current_roles(),
+        'documents':sections.documents(),
         'profile':sections.profile(),'education':sections.education(),'qualifications':sections.qualifications(),
         'publication_summary':fold('snow-cv-papers','section.publications',len(papers),'\n'.join(map(publications.summary,papers)),publication_preview,heading_tags=publications.research_tags()),
         'research_topics':publications.research_tags(),
@@ -79,4 +80,5 @@ def build():
 
 if __name__=='__main__':
     build()
+
 

@@ -310,3 +310,16 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: var(--font-
 
 .teaching-programs p { margin: 4px 0; }
 .teaching-programs .cv-sub { display: inline; }
+
+
+/* Distinct, maintained CV and career-statement editions. */
+.documents { margin: -8px 0 40px; }
+.documents > h2 { font-family: var(--font-display-family); font-size: 20px; margin-bottom: 16px; }
+.document-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.document-card { border-top: 1px solid var(--camel); padding: 20px 0 0 16px; border-left: 2px solid var(--line); }
+.document-card h3 { color: var(--accent); font-size: 19px; margin-bottom: 6px; }
+.document-card p { font-size: var(--font-secondary-size); color: var(--secondary); }
+.document-meta { display: block; color: var(--secondary); font-size: var(--font-secondary-size); margin-top: 8px; }
+.document-links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 10px; }
+.document-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--font-secondary-size); text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 600px) { .document-grid { grid-template-columns: 1fr; gap: 22px; } }

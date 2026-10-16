@@ -1,0 +1,423 @@
+{
+  "document_type": "career-statement",
+  "language": "ko",
+  "updated": "2026-10-16",
+  "pages": [
+    {
+      "page": 1,
+      "blocks": [
+        {
+          "text": "최순호",
+          "role": "heading"
+        },
+        {
+          "text": "AI 강사 · 연구자  |  sosaror@gmail.com · snow0821.github.io",
+          "role": "body"
+        },
+        {
+          "text": "AI Native 퍼실리테이터",
+          "role": "lead"
+        },
+        {
+          "text": "코디세이 · 모두의연구소 | 2026.06-2026.10",
+          "role": "body"
+        },
+        {
+          "text": "과제 중심 교육과정의 완주를 돕는 학습 문화와 학습자 네트워크 형성.\nAI 전문지식과 최신 트렌드를 반영한 세미나 운영.",
+          "role": "body"
+        },
+        {
+          "text": "코더랜드 강사",
+          "role": "lead"
+        },
+        {
+          "text": "온라인 프로그래밍 교육 · 프리랜서 | 2023.03-현재",
+          "role": "body"
+        },
+        {
+          "text": "Python/C++/자료구조/알고리즘 지도. 2024-2026년 3년 연속 정보올림피아드 수상 지도.",
+          "role": "body"
+        },
+        {
+          "text": "최근 주요 교육",
+          "role": "heading"
+        },
+        {
+          "text": "AI로 설계하는 데이터 서비스 실무(STEP 2)",
+          "role": "lead"
+        },
+        {
+          "text": "2026.10 · K-하이테크플랫폼 · 하나생명 · 엘리스",
+          "role": "body"
+        },
+        {
+          "text": "하나생명 임직원 대상 Claude Code 기반 PoC 실습·프로젝트 피드백.\n업무 문제 정의·검증 기준·PRD를 바탕으로 법인카드 내역 점검·문서 중요정보 마스킹 구현 지도.",
+          "role": "body"
+        },
+        {
+          "text": "고양 스마트시티즌",
+          "role": "lead"
+        },
+        {
+          "text": "2026.08-2026.10 · 에듀코어센터",
+          "role": "body"
+        },
+        {
+          "text": "고양시민 대상 AI 활용 웹 제작 및 Codex 업무 비서 강의.\n웹페이지·문서 제작과 배포, 개인 업무 비서 구현 및 LLM 에이전트 실습 지도.",
+          "role": "body"
+        },
+        {
+          "text": "AI·AX Lv2 집체교육",
+          "role": "lead"
+        },
+        {
+          "text": "2026.07 · LG이노텍 임직원 · 엘리스그룹",
+          "role": "body"
+        },
+        {
+          "text": "AI·AX 강의·실습 진행. 현업 프로젝트 수행에 대한 조언과 계획 발표 피드백 제공.",
+          "role": "body"
+        },
+        {
+          "text": "학력 및 자격",
+          "role": "heading"
+        },
+        {
+          "text": "국민대학교 소프트웨어융합대학원",
+          "role": "lead"
+        },
+        {
+          "text": "· 인공지능 공학석사",
+          "role": "body"
+        },
+        {
+          "text": "2025",
+          "role": "body"
+        },
+        {
+          "text": "한동대학교 전산전자공학부",
+          "role": "lead"
+        },
+        {
+          "text": "· 컴퓨터공학·전자공학 공학사",
+          "role": "body"
+        },
+        {
+          "text": "2019",
+          "role": "body"
+        },
+        {
+          "text": "NCS 확인강사",
+          "role": "lead"
+        },
+        {
+          "text": "· 인공지능",
+          "role": "body"
+        },
+        {
+          "text": "2026",
+          "role": "body"
+        },
+        {
+          "text": "연구 논문 · 제1저자",
+          "role": "heading"
+        },
+        {
+          "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks (IJCNN 2026)",
+          "role": "lead"
+        },
+        {
+          "text": "Binarization of Ternary ViT on Image Classification (KICS 2025 Winter)",
+          "role": "lead"
+        },
+        {
+          "text": "Comparing accuracy of sign-quantized layers with linear layer in small models (KICS 2024 Summer)",
+          "role": "lead"
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "blocks": [
+        {
+          "text": "학교 AI·데이터 교육",
+          "role": "heading"
+        },
+        {
+          "text": "SW동행",
+          "role": "heading"
+        },
+        {
+          "text": "2025.04-2025.07 · 에듀코어센터",
+          "role": "body"
+        },
+        {
+          "text": "GPT로 그린 세상: 책임 있는 소비를 위한 앱 만들기",
+          "role": "lead"
+        },
+        {
+          "text": "생성형 AI를 활용해 책임 있는 소비를 돕는 앱을 기획·제작하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "저현고등학교: 프롬프트·UI/UX·Git 활용 및 가계부 앱 기획·발표.\n영종고등학교: AI 가계부 기능 기획 및 LLM 응답 웹 예제 실습.",
+          "role": "body"
+        },
+        {
+          "text": "AI와 함께하는 우리 동네 교통신호 최적화 프로젝트: 교통약자를 위한 교통시스템",
+          "role": "lead"
+        },
+        {
+          "text": "교통약자 문제를 주제로 AI·데이터 모델링 기초와 문제 해결 프로젝트를 학습하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "구룡중학교: Colab·MNIST, 교통 시뮬레이션·신경망 기초 실습 및 탄소발자국 게임 기획·발표.\n서원고등학교: Colab·MNIST·선형회귀 실습 및 친환경 추천 시스템의 데이터·로직·UI 기획.",
+          "role": "body"
+        },
+        {
+          "text": "환경을 지키는 AI: 프로젝트 산불 예측 모델 만들기",
+          "role": "lead"
+        },
+        {
+          "text": "환경·산불 예측 주제로 AI·SDGs와 데이터·모델의 기초를 학습하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "서울디지텍고등학교: 데이터·모델 기초 및 팀 프로젝트 지도. 미세플라스틱 오염정보 시각화 웹 프로토타입 제작·발표.",
+          "role": "body"
+        },
+        {
+          "text": "SW동행",
+          "role": "heading"
+        },
+        {
+          "text": "2024.09-2024.11 · 엘리스그룹",
+          "role": "body"
+        },
+        {
+          "text": "로컬 푸드 급식 메이커",
+          "role": "lead"
+        },
+        {
+          "text": "Python 데이터 분석과 식단 생성으로 지역 먹거리·SDGs 문제를 탐구하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "하성고등학교: 기온·온실가스 데이터 전처리·선형회귀·시각화·MSE/R² 평가. 코드 수정·프로젝트 방법론 지도 및 대학생 멘토 협업.",
+          "role": "body"
+        },
+        {
+          "text": "디지털 문제 해결 프로젝트: 건강한 삶(심화)",
+          "role": "lead"
+        },
+        {
+          "text": "Orange3 데이터 분석·회귀·분류·모델 평가로 건강 문제를 탐구하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "잠실여자고등학교: Orange3 실습, 건강·웰빙 선행연구 조사와 프로젝트 계획서 작성 지도.",
+          "role": "body"
+        },
+        {
+          "text": "AI 맞춤형 운동 처방 프로그램",
+          "role": "lead"
+        },
+        {
+          "text": "체력·운동 데이터를 활용해 분석과 AI 모델 평가를 학습하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "문학정보고등학교: Orange3 기반 체력·운동 프로젝트와 모델 평가. 별도 PyTorch MNIST 이미지 분류의 전처리·학습·평가 실습.",
+          "role": "body"
+        },
+        {
+          "text": "건강한 삶 심화 · Orange3 기초",
+          "role": "lead"
+        },
+        {
+          "text": "Orange3를 활용해 데이터 분석의 기초와 SDGs 문제 해결을 배우는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "상인천중학교: 온라인 Orange3 기초·SDGs 미니프로젝트 지도 및 대학생 멘토 학습 보조 조율.",
+          "role": "body"
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "blocks": [
+        {
+          "text": "학교 AI·데이터 교육",
+          "role": "heading"
+        },
+        {
+          "text": "디지털새싹",
+          "role": "heading"
+        },
+        {
+          "text": "2023.05-2024.12 · 엘리스그룹",
+          "role": "body"
+        },
+        {
+          "text": "차근차근 데이터 분석 시작하기 / 차근차근 데이터 분석 활용하기",
+          "role": "lead"
+        },
+        {
+          "text": "데이터 분석의 기초 개념을 익히고 분석에 활용하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "수도전기공업고등학교: 데이터 분석 기초·응용 교육.",
+          "role": "body"
+        },
+        {
+          "text": "도전! 데이터 분석으로 해결하는 인천 지역 문제",
+          "role": "lead"
+        },
+        {
+          "text": "인천 지역 문제를 주제로 데이터 분석과 문제 해결 방법을 배우는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "화곡고등학교: 데이터 분석 수업의 실습 보조(보조강사).",
+          "role": "body"
+        },
+        {
+          "text": "손쉽게 공부하는 인공지능",
+          "role": "lead"
+        },
+        {
+          "text": "AI 학습·인식 원리, 공공통계 시각화 및 편향·윤리를 다루는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "문창중학교: 인공지능 기초 교육.",
+          "role": "body"
+        },
+        {
+          "text": "인공지능으로 웹 앱 만들기",
+          "role": "lead"
+        },
+        {
+          "text": "인공지능을 활용해 웹 앱을 제작하는 기초 과정.",
+          "role": "body"
+        },
+        {
+          "text": "미래산업과학고등학교: AI 활용 웹 앱 제작 교육.",
+          "role": "body"
+        },
+        {
+          "text": "MISSION: AI와 웹 페이지 제작하기",
+          "role": "lead"
+        },
+        {
+          "text": "AI를 활용해 웹페이지를 기획하고 제작하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "수도전기공업고등학교: AI 활용 웹페이지 제작 교육.",
+          "role": "body"
+        },
+        {
+          "text": "Do IT! 실전 웹 프로그래밍",
+          "role": "lead"
+        },
+        {
+          "text": "웹 프로그래밍의 기본 요소를 익히고 웹페이지를 제작하는 과정.",
+          "role": "body"
+        },
+        {
+          "text": "안산디자인문화고등학교: 학습 수준에 맞춘 CSS·웹 실습.\n서울로봇고등학교: HTML·CSS 레이아웃과 Git 협업 기반 브레인스토밍 웹사이트 공동 제작 지도.",
+          "role": "body"
+        },
+        {
+          "text": "Make! 아두이노로 문제 해결하기",
+          "role": "lead"
+        },
+        {
+          "text": "아두이노를 활용해 문제 해결 방법을 배우는 기초 과정.",
+          "role": "body"
+        },
+        {
+          "text": "청원여자고등학교: 아두이노 기반 문제 해결 교육.",
+          "role": "body"
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "blocks": [
+        {
+          "text": "강사·프로그래밍 교육",
+          "role": "heading"
+        },
+        {
+          "text": "겨울방학 강사 대상 사전 원격교육",
+          "role": "lead"
+        },
+        {
+          "text": "2024.12-2025.01 · 엘리스그룹 · 디지털새싹",
+          "role": "body"
+        },
+        {
+          "text": "디지털새싹 강사 워크숍 강의 진행. 「손쉽게 공부하는 인공지능」의 AI·ML·DL 기초, AI 윤리, 데이터 분석·시각화·대화형 AI 교육.",
+          "role": "body"
+        },
+        {
+          "text": "T아카데미 · 코딩테스트 특강",
+          "role": "lead"
+        },
+        {
+          "text": "2025.10-2025.11 · 민코딩 외부 출강",
+          "role": "body"
+        },
+        {
+          "text": "코딩테스트 문제해결·학습법, Python 자료구조·알고리즘 교육.",
+          "role": "body"
+        },
+        {
+          "text": "개발·기획 실무",
+          "role": "heading"
+        },
+        {
+          "text": "(주)노타이틀 · 풀스택 개발자",
+          "role": "lead"
+        },
+        {
+          "text": "2024.03-2024.05 · 개발 실무",
+          "role": "body"
+        },
+        {
+          "text": "FastAPI 백엔드 및 Next.js·React 프론트엔드 개발.",
+          "role": "body"
+        },
+        {
+          "text": "마이마부 · 외주 프로젝트",
+          "role": "lead"
+        },
+        {
+          "text": "2022.08-2022.10 · 소속: 주식회사 테드 · 프론트엔드 개발자",
+          "role": "body"
+        },
+        {
+          "text": "서비스 프론트엔드 개발 및 OAuth 로그인·실명인증·결제 API 연동.",
+          "role": "body"
+        },
+        {
+          "text": "주식회사 만렙게임즈 · 서먼러시",
+          "role": "lead"
+        },
+        {
+          "text": "2014.06-2015.01 · 기획팀 · 게임기획자 · 기획 실무",
+          "role": "body"
+        },
+        {
+          "text": "모바일게임 레벨·스토리·밸런싱 및 확률·과금 구조 설계.",
+          "role": "body"
+        }
+      ]
+    }
+  ]
+}

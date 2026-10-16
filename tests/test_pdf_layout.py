@@ -99,30 +99,16 @@ class FinishedPDFOutputTests(unittest.TestCase):
             self.assertTrue(any(page.count(role)==3 for page in pages))
             self.assertIn('Cadet', pages[other_page])
 
-    def test_approved_korean_editorial_cv_is_four_pages(self):
+    def test_separate_current_korean_documents(self):
         reader = self.read_pdf(self.root / 'assets' / 'Choi-Soon-Ho-CV-KO.pdf')
-        self.assertEqual(len(reader.pages), 4)
-        pages = [page.extract_text() for page in reader.pages]
-        text = '\n'.join(pages)
-        self.assertIn('현재 활동', pages[0])
-        self.assertIn('학위·자격', pages[0])
-        self.assertIn('주요 강의 경험', pages[0])
-        self.assertIn('하나생명', pages[1])
-        self.assertIn('디지털새싹', pages[2])
-        self.assertIn('연구활동', pages[3])
-        self.assertIn('경력', pages[3])
-        self.assertIn('2014.06-2015.01', pages[3])
-        self.assertIn('컴퓨터공학·전자공학', text)
-        self.assertEqual(text.count('보조강사'), 3)
-        self.assertIn('PBL 퍼실리테이터', text)
-        self.assertIn('NCS 확인강사', text)
-        self.assertNotIn('주강사', text)
-        self.assertNotIn('교안 준비', text)
-        self.assertNotIn('교안 구성', text)
-        self.assertIn('Soon Ho Choi', text)
-        self.assertIn('Soo Yeon Yoon', text)
-        self.assertIn('Soo-Yeon Yoon', text)
-        self.assertNotIn('KimAnNa', text)  # The website retains this full-history record.
+        self.assertEqual(len(reader.pages), 2)
+        text = '\n'.join(p.extract_text() for p in reader.pages)
+        for required in ['AI Native 퍼실리테이터', '하나생명', 'Education', 'Research Interests', 'Publications', '교육 경력', '디지털새싹', 'Cadet']:
+            self.assertIn(required, text)
+        statement = self.read_pdf(self.root / 'assets' / 'Choi-Soon-Ho-Career-Statement-KO.pdf')
+        self.assertEqual(len(statement.pages), 4)
+        for path in ['cv/index.html', 'career-statement/index.html']:
+            self.assertTrue((self.root / path).exists())
 
     def test_embedded_korean_fonts_keep_unicode_maps(self):
         for lang in ['KO', 'EN']:
@@ -138,3 +124,4 @@ class FinishedPDFOutputTests(unittest.TestCase):
                     self.assertIn('/FontFile2', font['/FontDescriptor'].get_object())
             self.assertTrue(any('NanumMyeongjoBold' in name for name in font_names))
             self.assertTrue(any('NanumGothic' in name for name in font_names))
+

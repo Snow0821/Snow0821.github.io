@@ -223,3 +223,15 @@ def profile_link(link_id, label_key, primary=False):
     link=next(item for item in DATA['profile']['links'] if item['id']==link_id)
     return external_link(link['url'],label(label_key)+'<span aria-hidden="true">↗</span>','action'+(' primary' if primary else ''))
 
+
+
+
+def documents():
+    cards=[]
+    for name, title, desc, pages in [
+        ('cv', {'ko':'CV', 'en':'CV'}, {'ko':'학력·연구 관심사·논문을 중심으로 정리한 이력서', 'en':'An academic overview of education, research interests, and publications'}, 2),
+        ('career-statement', {'ko':'경력기술서', 'en':'Career statement'}, {'ko':'주요 교육과 프로젝트의 역할·수행 내용을 정리한 문서', 'en':'Selected teaching and projects, with roles and contributions'}, 4),
+    ]:
+        pdf='Choi-Soon-Ho-CV-KO.pdf' if name=='cv' else 'Choi-Soon-Ho-Career-Statement-KO.pdf'
+        cards.append('<article class="document-card"><h3>'+pair(title)+'</h3><p>'+pair(desc)+'</p><span class="document-meta">'+pair({'ko':f'한국어 · {pages}쪽 · 2026.10.16', 'en':f'Korean · {pages} pages · 16 Oct 2026'})+'</span><div class="document-links"><a href="'+name+'/">'+pair({'ko':'웹에서 읽기','en':'Read online'})+'</a><a href="assets/'+pdf+'" download>'+pair({'ko':'PDF 다운로드','en':'Download PDF'})+'</a></div></article>')
+    return '<section class="documents" aria-labelledby="documents-heading"><h2 id="documents-heading">'+pair({'ko':'이력 문서','en':'Documents'})+'</h2><div class="document-grid">'+''.join(cards)+'</div></section>'
