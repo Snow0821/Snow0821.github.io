@@ -1,4 +1,4 @@
-"""One content model and formatting rules for the website and both CVs."""
+"""Shared facts, validation, and formatting for the website and generated CV."""
 import json
 import re
 from pathlib import Path
@@ -59,92 +59,30 @@ def cv_filename(lang):
     return DATA['profile']['cvFilename'].format(language=lang.upper())
 
 
-def teaching_records(group=None):
-    """Return source programs, or field-specific views of their school courses.
-
-    Source programs/details are stored once. Views carry stable source IDs so
-    splitting a school course into evidenced tracks cannot inflate totals.
-    """
-    topics = next((item.get('topics', [group]) for item in DATA['teachingGroups']
-                   if item['id'] == group), [group])
+def teaching_records():
+    """Return each source program once, with its complete school details."""
     records = []
     for item in DATA['teaching']:
         course = DATA['courses'][item['course']]
         if course.get('showSchoolPrograms') or course.get('classifyDetails'):
             item = dict(item, schoolSummary={lang: ' · '.join(localized(detail['title'], lang)
                         for detail in item.get('details', [])) for lang in LANGUAGES})
-        if group is None:
-            records.append(item)
-        elif not course.get('classifyDetails'):
-            if course['group'] in topics:
-                records.append(item)
-        else:
-            details = []
-            matched_topics = set()
-            for detail in item.get('details', []):
-                tracks = detail.get('tracks')
-                selected = []
-                for track in tracks or [detail]:
-                    topic = track.get('group') or 'unclassified'
-                    if topic not in topics:
-                        continue
-                    matched_topics.add(topic)
-                    row = dict(detail)
-                    row['schoolTitle'] = detail['title']
-                    row.pop('tracks', None)
-                    if tracks:
-                        row.update(track)
-                        row['id'] = detail['id'] + '-' + track['id']
-                        row['title'] = {lang: localized(detail['title'], lang) + ' · ' + localized(track['title'], lang) for lang in LANGUAGES}
-                        if 'start' not in track:
-                            row['periodNote'] = {lang: text('label.shared_period', lang) for lang in LANGUAGES}
-                    row['sourceDetail'] = detail['id']
-                    selected.append(row)
-                if len(selected) > 1:
-                    # One school row retains all matching course tracks instead of
-                    # duplicating the school when AI and data share a display group.
-                    row = dict(detail, sourceDetail=detail['id'], courseTracks=[])
-                    row.pop('tracks', None)
-                    for track, expanded in zip([track for track in tracks
-                            if (track.get('group') or 'unclassified') in topics], selected):
-                        row['courseTracks'].append(dict(track, start=expanded['start'], end=expanded['end']))
-                    if any('periodNote' in track for track in selected):
-                        row['periodNote'] = {lang: text('label.shared_period', lang) for lang in LANGUAGES}
-                    details.append(row)
-                else:
-                    details.extend(selected)
-            if details:
-                view_title = {}
-                for lang in LANGUAGES:
-                    titles = [localized(course['groupTitles'][topic], lang)
-                              for topic in topics if topic in matched_topics]
-                    program = localized(course['program'], lang) if course.get('program') else ''
-                    prefix = program + ' · '
-                    view_title[lang] = prefix + ' · '.join(title.removeprefix(prefix) for title in titles) if program else ' · '.join(titles)
-                view = dict(item, id=item['id']+'-'+group, sourceId=item['id'], details=details,
-                            viewTitle=view_title,
-                            start=min(detail['start'] for detail in details),
-                            end=None if any(detail['end'] is None for detail in details) else max(detail['end'] for detail in details))
-                if group in item.get('groupSummaries', {}):
-                    view['summary'] = item['groupSummaries'][group]
-                view['schoolSummary'] = {lang: ' · '.join(dict.fromkeys(localized(detail['title'],lang).split(' · ')[0] for detail in details)) for lang in LANGUAGES}
-                records.append(view)
+        records.append(item)
     return sorted(records, key=lambda item: (item['end'] is None, item['start']), reverse=True)
 
 
-def teaching_history_records(group=None):
+def teaching_history_records():
     """Display past teaching once; current activities own their linked detail."""
     current_ids = {row['teaching'] for row in current_role_records() if row.get('teaching')}
     current_ids.update(key for item in DATA.get('otherExperience', []) for key in item.get('teachingAssignments', []))
-    records = [row for row in teaching_records(group)
-               if row.get('sourceId', row['id']) not in current_ids]
+    records = [row for row in teaching_records() if row['id'] not in current_ids]
     return sorted(records, key=lambda row:(row['end'] is None, row['end'] or DATA['updated'], row['start']), reverse=True)
 
 
 def detail_program_titles(detail):
-    """Actual verified titles, preserving track selection and avoiding duplicate names."""
+    """Actual verified titles from all tracks, without duplicate names."""
     titles = []
-    for source in detail.get('courseTracks') or detail.get('tracks') or [detail]:
+    for source in detail.get('tracks') or [detail]:
         values = source.get('programTitles') or ([source['programTitle']] if source.get('programTitle') else [])
         if not values and source is not detail:
             values = detail.get('programTitles') or ([detail['programTitle']] if detail.get('programTitle') else [])
@@ -170,28 +108,6 @@ def school_program_groups(item, lang):
     return [{key:value for key,value in group.items() if key!='_key'} for group in groups] if any(group['titles'] for group in groups) else []
 
 
-def school_teaching_summaries(item, lang):
-    """School first, verified professional topics second; formal names stay in details."""
-    rows = []
-    for detail in item.get('details', []):
-        focuses = [localized(source['focus'], lang)
-                   for source in detail.get('courseTracks') or [detail] if source.get('focus')]
-        if focuses:
-            rows.append({'school': localized(detail.get('schoolTitle', detail['title']), lang),
-                         'focus': ' · '.join(dict.fromkeys(focuses)),
-                         'role': localized(DATA['roles'][detail['role']], lang)})
-    return rows
-
-
-def school_names(item, lang):
-    """Compact school-only list; classes, topics and roles remain in source details."""
-    course = DATA['courses'][item['course']]
-    if not (course.get('classifyDetails') or course.get('showSchoolPrograms')):
-        return []
-    return list(dict.fromkeys(localized(detail.get('schoolTitle', detail['title']), lang).split(' · ')[0]
-                              for detail in item.get('details', [])))
-
-
 def current_role_records():
     """Resolve explicitly curated roles; a current course is not a new job."""
     teaching = {item['id']: item for item in DATA['teaching']}
@@ -209,19 +125,10 @@ def current_role_records():
     return sorted(records, key=lambda item: item['start'], reverse=True)
 
 
-def teaching_title(item):
-    return item.get('viewTitle', DATA['courses'][item['course']]['title'])
-
-
-def teaching_heading(item, lang):
-    organization = localized(item.get('operator') or DATA['organizations'][item['organization']], lang)
-    program = DATA['courses'][item['course']].get('program')
-    return organization + (' / ' + localized(program, lang) if program else '')
-
-
 def teaching_subject(item, lang):
-    title = localized(teaching_title(item), lang)
-    program = DATA['courses'][item['course']].get('program')
+    course = DATA['courses'][item['course']]
+    title = localized(course['title'], lang)
+    program = course.get('program')
     if program:
         name = localized(program, lang)
         if title.startswith(name+' · '):
@@ -313,17 +220,6 @@ def current_role_context(item, lang):
     parts += [localized(row['name'],lang) for row in (item.get('courseRecord') or {}).get('relationships',[])
               if row['role']=='program_institution']
     return ' · '.join(parts)
-
-
-def teaching_values(item, lang):
-    return {'period': period(item, lang),
-            'course': localized(teaching_title(item), lang),
-            'heading': teaching_heading(item, lang),
-            'subject': teaching_subject(item, lang),
-            'primary': teaching_primary(item, lang),
-            'program': localized(DATA['courses'][item['course']]['program'], lang) if DATA['courses'][item['course']].get('program') else '',
-            'organization': localized(item.get('operator') or DATA['organizations'][item['organization']], lang),
-            'role': localized(DATA['roles'][item['role']], lang)}
 
 
 def year_range(records, teaching=False):

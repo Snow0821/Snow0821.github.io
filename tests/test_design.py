@@ -81,7 +81,7 @@ class SharedDesignTests(unittest.TestCase):
         self.assertNotRegex(css,r'font-size:\s*(?:12|13|14)px')
         for selector in ['.aside-label','.cv-year','.record-meta','.paper-venue',
                          '.copy-status','.paper-topics li','.topic-tag','.resource-description',
-                         '.history-meta','.career-detail-note','.career-scope','.teaching-period',
+                         '.history-meta','.career-detail-note','.teaching-period',
                          '.teaching-cell-label','.fold-preview','.footer']:
             rule=' '.join(re.findall(r'(?m)^\s*'+re.escape(selector)+r' \{([^}]+)\}',css))
             self.assertIn('font-size: var(--font-secondary-size);',rule,selector)
@@ -129,7 +129,7 @@ class SharedDesignTests(unittest.TestCase):
         self.assertNotRegex(css, r'(?:teaching-table|current-roles|paper)\s*\{[^}]*overflow:\s*hidden')
 
     def test_semantic_table_and_native_disclosure_controls(self):
-        records=teaching_records('ai-data')
+        records=teaching_records()
         html=site_sections.teaching_table(records)
         self.assertEqual(html.count('<th scope="col">'),3)
         self.assertEqual(html.count('<td '),3*len(records))

@@ -3,12 +3,12 @@ import sys,unittest
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from content import DATA,teaching_records,detail_program_titles,school_program_groups,school_teaching_summaries,school_names
+from content import DATA,teaching_records,detail_program_titles,school_program_groups
 import site_sections
 
 class VerifiedCourseTitlesTests(unittest.TestCase):
     def records(self,course):
-        return [r for group in ['ai-data','programming'] for r in teaching_records(group) if r['course']==course]
+        return [r for r in teaching_records() if r['course']==course]
 
     def test_schools_and_formal_names_reach_all_three_surfaces(self):
         import build_cv
@@ -24,10 +24,11 @@ class VerifiedCourseTitlesTests(unittest.TestCase):
                     self.assertIn(escape(title),details)
                     self.assertIn(escape(title),summary)
                     self.assertIn(escape(title),rendered)
-                names=school_names(row,lang)
-                expected_schools=list(dict.fromkeys(d.get('schoolTitle',d['title'])[lang].split(' · ')[0] for d in row['details']))
-                self.assertEqual(names,expected_schools)
-                for school in names:
+                expected_schools={d['title'][lang].split(' · ')[0] for d in row['details']}
+                names=[school for group in school_program_groups(row,lang) for school in group['schools']]
+                self.assertEqual(set(names),expected_schools)
+                self.assertEqual(len(names),len(expected_schools))
+                for school in expected_schools:
                     for output in [summary,rendered]:
                         self.assertIn(school,unescape(output))
                 school_block=summary.split('<div class="teaching-programs">')[1].split('</div>')[0]
@@ -37,26 +38,24 @@ class VerifiedCourseTitlesTests(unittest.TestCase):
                 self.assertNotIn('2024.',school_block)
 
     def test_school_only_names_do_not_duplicate_classes_or_erase_details(self):
-        row=next(r for r in self.records('donghaeng-data') if r['id'].endswith('programming'))
-        self.assertEqual(school_names(row,'ko'),['하성고등학교','한동글로벌학교'])
+        row=self.records('donghaeng-data')[0]
+        groups=school_program_groups(row,'ko')
+        self.assertEqual([g['schools'] for g in groups if '한동글로벌학교' in g['schools']], [['한동글로벌학교']])
         self.assertEqual(len([d for d in row['details'] if d['id'].startswith('handong')]),2)
         self.assertIn('한동글로벌학교 · A반',site_sections.teaching_details(row))
         self.assertIn('한동글로벌학교 · B반',site_sections.teaching_details(row))
-        for item in self.records('donghaeng-data')+self.records('saessak')+self.records('donghaeng'):
-            for lang in ['ko','en']:
-                self.assertTrue(school_teaching_summaries(item,lang))
 
     def test_sudo_tracks_merge_without_duplicate_course_names(self):
-        row=next(r for r in self.records('saessak') if r['id'].endswith('ai-data'))
-        sudo=next(d for d in row['details'] if d['sourceDetail']=='sudo')
+        row=self.records('saessak')[0]
+        sudo=next(d for d in row['details'] if d['id']=='sudo')
         titles=detail_program_titles(sudo)
         self.assertEqual(len(titles),3)
         self.assertEqual(len({t['ko'] for t in titles}),3)
-        self.assertEqual(len(next(t for t in sudo['courseTracks'] if t['id']=='data')['programTitles']),2)
-        self.assertEqual(len(next(t for t in sudo['courseTracks'] if t['id']=='ai')['programTitles']),1)
+        self.assertEqual(len(next(t for t in sudo['tracks'] if t['id']=='data')['programTitles']),2)
+        self.assertEqual(len(next(t for t in sudo['tracks'] if t['id']=='ai')['programTitles']),1)
 
     def test_formal_titles_are_not_borrowed_for_handong(self):
-        row=next(r for r in self.records('donghaeng-data') if r['id'].endswith('programming'))
+        row=self.records('donghaeng-data')[0]
         for detail in row['details']:
             if detail['id'].startswith('handong'):
                 self.assertEqual(detail_program_titles(detail),[])
@@ -73,7 +72,7 @@ class VerifiedCourseTitlesTests(unittest.TestCase):
         title=details['cheongwon-girls']['programTitles'][0]
         self.assertEqual((title['verifiedTeachingStart'],title['verifiedTeachingEnd']),('2024-11','2024-12'))
         self.assertEqual(details['cheongwon-girls']['start'],'2024-09')
-        row=next(r for r in self.records('saessak') if r['id'].endswith('programming'))
+        row=self.records('saessak')[0]
         self.assertIn('2024.11–2024.12',site_sections.teaching_details(row))
         groups=school_program_groups(row,'ko')
         self.assertTrue(all('2024.' not in title for g in groups for title in g['titles']))

@@ -3,7 +3,7 @@ import json
 import hashlib
 import re
 from content import ROOT, DATA, LANGUAGES, DEFAULT_LANGUAGE, LOCALES, localized, text, cv_filename, reference, bibtex, year_range, validate, write_if_changed
-from html_components import h, pair, label, mapped, preview, fold
+from html_components import h, label, mapped, preview, fold
 import site_sections as sections
 import publications
 from design import css_tokens
@@ -63,7 +63,6 @@ def build():
         'publication_range':f'{year_range(papers)} · {len(papers)}',
         'teaching_summary':sections.teaching_summary(),'teaching_detail':sections.teaching_detail(),
         'teaching_range':f'{year_range(DATA["teaching"]+DATA.get("otherExperience",[]),teaching=True)} · {len(DATA["teaching"])+len(DATA.get("otherExperience",[]))}',
-        'github_link':sections.profile_link('github','action.github'),
         'teaching_link':sections.profile_link('linkedin','action.teaching_inquiries',True),
         'last_updated':label('label.updated')+f'<time datetime="{h(DATA["updated"])}">{h(DATA["updated"].replace("-","."))}</time>',
         'citations':'\n'.join(citation_templates),

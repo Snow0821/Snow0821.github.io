@@ -1,7 +1,12 @@
 from pathlib import Path
 import os
 from io import BytesIO
-from content import ROOT, DATA, LANGUAGES, display_authors, venue_details, localized, text, teaching_records, teaching_history_records, teaching_values, teaching_columns, teaching_display_columns, current_role_context, teaching_relationships, school_program_groups, school_teaching_summaries, school_names, current_role_records, experience_records, EXPERIENCE_GROUPS, period, cv_filename, validate, write_if_changed
+from content import (
+    ROOT, DATA, LANGUAGES, EXPERIENCE_GROUPS, display_authors, venue_details,
+    localized, text, teaching_history_records, teaching_display_columns,
+    current_role_context, school_program_groups, current_role_records,
+    experience_records, period, cv_filename, validate, write_if_changed,
+)
 from html import escape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, HRFlowable, PageBreak, Flowable, KeepTogether
 from reportlab.lib.styles import ParagraphStyle
@@ -27,7 +32,6 @@ STYLES = {
     'name': ParagraphStyle('name', fontName='CVHeading', fontSize=22, leading=27, textColor=NAVY),
     'role': ParagraphStyle('role', fontName='CV', fontSize=11, leading=15, textColor=MUTED),
     'section': ParagraphStyle('section', fontName='CVHeading', fontSize=12, leading=16, textColor=NAVY, keepWithNext=True),
-    'group': ParagraphStyle('group', fontName='CVB', fontSize=10, leading=14, textColor=NAVY, keepWithNext=True),
     'body': ParagraphStyle('body', fontName='CV', fontSize=TYPE['pdfBody'], leading=TYPE['pdfLeading'], textColor=INK),
     'field': ParagraphStyle('field', fontName='CVB', fontSize=TYPE['pdfBody'], leading=TYPE['pdfLeading'], textColor=INK),
     'small': ParagraphStyle('small', fontName='CV', fontSize=TYPE['pdfSecondary'], leading=TYPE['pdfSecondaryLeading'], textColor=MUTED),
@@ -165,12 +169,11 @@ def current_activities(lang, width):
         rows.append([p(dates, 'small'), role])
     return panel_heading(text('section.current_roles', lang)) + [table(rows, [92, width-92], header=False, pad=5, surface='table-body', rounded=True)]
 
-def education_and_qualifications(lang, width, compact=False):
+def education_and_qualifications(lang, width):
     result = panel_heading(text('section.education_qualifications', lang))
     rows = []
     for item in sorted(DATA['education'], key=lambda row:row['year'], reverse=True):
-        degree = item['degreeShort'] if compact else item['degree']
-        title = escape(localized(item['field'], lang)) + ' · ' + escape(localized(degree, lang))
+        title = escape(localized(item['field'], lang)) + ' · ' + escape(localized(item['degreeShort'], lang))
         body = [p(title, 'field', True),
                 p(localized(item['school'], lang), 'small')]
         rows.append([p(item['year'], 'small'), body])
@@ -213,7 +216,6 @@ def teaching_pdf_rows(item, lang):
     body = ([p(value['audience'],'field')] if value['audience'] else []) + ([] if programs else [p(heading, 'body', True)])
     if item.get('summary'):
         body.append(p(localized(item['summary'], lang), 'small'))
-    programs = school_program_groups(item,lang)
     if programs:
         for group in programs:
             body.append(p('<b>'+escape(' · '.join(group['schools']))+'</b> <font size="9" color="'+PALETTE['secondary']+'">· '+escape(group['role'])+'</font>', 'body', True))
@@ -263,7 +265,7 @@ def build(lang):
 
     activity_width = (WIDTH-18)*.68
     story += [Spacer(1, 10), column_pair(current_activities(lang, activity_width),
-               education_and_qualifications(lang, WIDTH-activity_width-18, compact=True), activity_width)]
+               education_and_qualifications(lang, WIDTH-activity_width-18), activity_width)]
     # The default CV supports teaching applications: current work and recent
     # teaching first, historical instruction next, then research and employment.
     records = teaching_history_records()

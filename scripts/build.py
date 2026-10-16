@@ -1,4 +1,4 @@
-"""One command to regenerate the website and every language's CV."""
+"""Generate the website and non-Korean CVs; preserve reviewed Korean PDFs."""
 import argparse
 from content import LANGUAGES, validate
 from build_site import build as build_site
@@ -17,11 +17,7 @@ def main():
     build_documents()
     if not args.site_only:
         for lang in LANGUAGES:
-            if lang == 'ko':
-                # Reviewed Korean CV is maintained as an independent publication.
-                # Do not overwrite it with the archived four-page editorial build.
-                continue
-            else:
+            if lang != 'ko':
                 build_cv(lang)
 
 

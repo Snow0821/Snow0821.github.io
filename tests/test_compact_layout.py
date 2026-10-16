@@ -173,7 +173,7 @@ class CompactPresentationTests(unittest.TestCase):
             import build_cv
         except ImportError:
             self.skipTest('ReportLab is optional for site-only validation')
-        row = next(item for item in teaching_records('ai') if item['id']=='donghaeng-educore-2025')
+        row = next(item for item in teaching_records() if item['id']=='donghaeng-educore-2025')
         before = copy.deepcopy(row)
         html = site_sections.teaching_details(row)
         for lang in ['ko', 'en']:
@@ -192,7 +192,7 @@ class CompactPresentationTests(unittest.TestCase):
         self.assertEqual(row, before)
 
     def test_institution_program_headings_do_not_merge_distinct_sources(self):
-        from content import teaching_heading, teaching_subject
+        from content import teaching_display_columns, teaching_subject
         by_id = {item['id']:item for item in teaching_records()}
         expected = {
             'donghaeng-educore-2025':'에듀코어센터 / 청소년 SW동행',
@@ -201,12 +201,15 @@ class CompactPresentationTests(unittest.TestCase):
             'codyssey-modulabs-2026-06':'모두의연구소 / 코디세이',
         }
         for record,heading in expected.items():
-            self.assertEqual(teaching_heading(by_id[record], 'ko'), heading)
+            institution,program=heading.split(' / ')
+            columns=teaching_display_columns(by_id[record], 'ko')
+            self.assertEqual(columns['organizationLines'],[institution])
+            self.assertEqual(columns['provider'],program)
             for output in [site_sections.teaching_summary()+site_sections.current_roles(), site_sections.teaching_detail()+site_sections.current_roles()]:
                 for part in heading.split(' / '):
                     self.assertIn(part, output)
         self.assertEqual(teaching_subject(by_id['codyssey-modulabs-2026-06'],'ko'), 'AI Native 과정')
-        self.assertEqual(teaching_heading(by_id['algorithms-coderland-2023-03'],'ko'), '코더랜드')
+        self.assertEqual(teaching_display_columns(by_id['algorithms-coderland-2023-03'],'ko')['organizationLines'], ['코더랜드'])
         self.assertEqual(len(by_id), 14)
         self.assertEqual(sum(len(row['details']) for row in by_id.values()), 31)
 

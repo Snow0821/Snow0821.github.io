@@ -87,7 +87,7 @@ a { color: inherit; text-decoration: none; }
 .footer { display: flex; align-items: baseline; gap: 8px; border-top: 1px solid var(--line); padding: 17px 0 20px; color: var(--secondary); font-size: var(--font-secondary-size); }
 
 /* Keep the white page open; only individual content sections get a soft surface. */
-.cv-section, .current-roles, .history-group, .learning-resources, .career-unclassified {
+.cv-section, .current-roles, .history-group, .learning-resources {
   min-width: 0; padding: 0;
   background: var(--paper); border-radius: var(--panel-radius);
 }
@@ -171,7 +171,6 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: var(--font-
 .history-columns { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-section); }
 .history-group > .desktop-only { border-top: 0; padding-top: 0; }
 .history-group h3 { font-size: 19px; line-height: 1.4; }
-.history-status { color: var(--accent); font-size: var(--font-secondary-size); margin: 18px 0 8px; }
 .history-entry { padding: 10px 0 14px; }
 .history-entry + .history-entry { border-top: 1px solid var(--line); }
 .history-title { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
@@ -192,7 +191,6 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: var(--font-
 .career-detail-meta { margin-top: 4px; color: var(--accent); font-size: var(--font-secondary-size); }
 .career-details li > p { margin-top: 6px; color: var(--secondary); font-size: var(--font-body-size); }
 .career-detail-note { margin-top: 5px; color: var(--secondary); font-size: var(--font-secondary-size); }
-.career-scope { margin-top: 20px; color: var(--secondary); font-size: var(--font-secondary-size); line-height: 1.7; }
 
 /* Shared teaching columns: period | institution/program | role/course. */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
@@ -255,7 +253,7 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: var(--font-
   .cv-identity h1 { font-size: 38px; }
   .roles { font-size: var(--font-body-size); }
   .cv-intro { margin-top: 12px; }
-  .cv-section, .cv-sidebar .cv-section, .history-group, .learning-resources, .career-unclassified { padding: 0; border-top: 0; margin-top: 0; }
+  .cv-section, .cv-sidebar .cv-section, .history-group, .learning-resources { padding: 0; border-top: 0; margin-top: 0; }
   .cv-section, .cv-sidebar .cv-section { margin-bottom: 16px; }
   .fold-toggle { display: flex !important; border-top: 1px solid var(--camel); }
   .fold-section[data-expanded="false"] > .fold-content { display: none; }
@@ -305,11 +303,7 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: var(--font-
 }
 
 
-.career-unclassified { margin-top: 24px; background: var(--paper); }
-.career-unclassified > .cv-group-label:first-child { margin-top: 0; }
-
 .teaching-programs p { margin: 4px 0; }
-.teaching-programs .cv-sub { display: inline; }
 
 
 /* Distinct, maintained CV and career-statement editions. */

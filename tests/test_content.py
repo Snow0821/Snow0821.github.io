@@ -9,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from content import DATA, LOCALES, localized, reference, teaching_values, teaching_records, teaching_history_records, experience_records, validate, write_if_changed
+from content import DATA, LOCALES, localized, reference, teaching_columns, teaching_records, teaching_history_records, experience_records, validate, write_if_changed
 import site_sections
 
 
@@ -44,7 +44,7 @@ class SharedContentTests(unittest.TestCase):
             records = [item for item in DATA['teaching'] if item['course'] == 'lginnotek']
             self.assertEqual(len(records), 1)
             for item in records:
-                self.assertEqual(teaching_values(item, 'en')['course'], changed['en'])
+                self.assertEqual(teaching_columns(item, 'en')['subject'], changed['en'])
 
     def test_program_details_are_additive_and_not_in_home_summary(self):
         detail=site_sections.teaching_detail()
@@ -58,7 +58,7 @@ class SharedContentTests(unittest.TestCase):
         expected=sum(len(item.get('details', [])) for item in views)+sum(len(source['details']) for item in experience_records() for source in item.get('assignments',[]))
         self.assertEqual(detail.count('data-career-detail='), expected)
 
-    def test_merged_themes_preserve_unique_program_and_detail_sources(self):
+    def test_source_records_preserve_unique_programs_and_details(self):
         from collections import Counter
         self.assertEqual([group['id'] for group in DATA['teachingGroups']], ['ai-data','programming'])
         self.assertEqual(len(teaching_records()),14)
@@ -66,14 +66,13 @@ class SharedContentTests(unittest.TestCase):
         self.assertEqual(DATA['courses']['codyssey']['group'], 'ai')
         self.assertEqual(DATA['courses']['codyssey']['title']['ko'], 'AI Native 과정 · 코디세이')
         self.assertEqual(DATA['courses']['hanalife']['group'], 'ai')
-        views=[item for group in ['ai-data','programming','unclassified'] for item in teaching_records(group)]
-        self.assertEqual({item.get('sourceId',item['id']) for item in views}, {item['id'] for item in DATA['teaching']})
-        expected=Counter({detail['id']:len(detail.get('tracks',[])) or 1 for item in DATA['teaching'] for detail in item['details']})
-        actual=Counter()
-        for item in views:
-            for detail in item['details']:
-                actual[detail.get('sourceDetail', detail['id'])] += len(detail.get('courseTracks', [])) or 1
+        views=teaching_records()
+        self.assertEqual(Counter(item['id'] for item in views), Counter(item['id'] for item in DATA['teaching']))
+        expected=Counter(detail['id'] for item in DATA['teaching'] for detail in item['details'])
+        actual=Counter(detail['id'] for item in views for detail in item['details'])
         self.assertEqual(actual, expected)
+        for source in DATA['teaching']:
+            self.assertEqual(next(row for row in views if row['id']==source['id'])['details'], source['details'])
         detail=site_sections.teaching_detail()
         summary=site_sections.teaching_summary()
         self.assertEqual(detail.count('class="history-group'),3)
@@ -83,37 +82,43 @@ class SharedContentTests(unittest.TestCase):
                 self.assertEqual(output.count(f'data-teaching="{item["id"]}"'),1)
         self.assertEqual(len(expected),31)
         self.assertIn('<small>18</small>',summary)
-        self.assertEqual(teaching_records('unclassified'),[])
 
     def test_school_courses_use_verified_categories(self):
-        by_group={group:{detail['id'] for item in teaching_records(group) for detail in item['details']} for group in ['ai','data','programming']}
+        by_group={group:set() for group in ['ai','data','programming']}
+        for item in teaching_records():
+            for detail in item['details']:
+                for track in detail.get('tracks') or [detail]:
+                    if track.get('group') in by_group:
+                        key=detail['id']+'-'+track['id'] if track is not detail else detail['id']
+                        by_group[track['group']].add(key)
         self.assertTrue({'mirae','munchang','sudo-ai','munhak-ai','jamsil-girls-ai'} <= by_group['ai'])
         self.assertTrue({'hwagok','sudo-data','haseong-data','munhak-data','jamsil-girls-data'} <= by_group['data'])
         self.assertTrue({'cheongwon-girls','ansan-design','seoul-robot','handong-a','handong-b','haseong-python'} <= by_group['programming'])
         self.assertNotIn('hwagok',by_group['programming'])
         self.assertNotIn('mirae',by_group['programming'])
-        for group in ['ai','data','programming']:
-            for item in teaching_records(group):
-                for detail in item['details']:
-                    if detail.get('sourceDetail') in ['sudo','haseong','munhak','jamsil-girls']:
-                        self.assertIn('periodNote',detail)
+        for item in teaching_records():
+            for detail in item['details']:
+                if detail['id'] in ['sudo','haseong','munhak','jamsil-girls']:
+                    for track in detail['tracks']:
+                        self.assertNotIn('start',track)  # Unverified dates remain absent.
+                        self.assertNotIn('end',track)
 
-    def test_ai_data_display_merges_sources_and_preserves_actual_tracks(self):
-        records = teaching_records('ai-data')
-        self.assertEqual(len(records), 9)
-        source_ids = [item.get('sourceId', item['id']) for item in records]
+    def test_unified_history_preserves_all_track_curricula(self):
+        records = teaching_records()
+        self.assertEqual(len(records), 14)
+        source_ids = [item['id'] for item in records]
         self.assertEqual(len(source_ids), len(set(source_ids)))
-        self.assertEqual(sum(len(item['details']) for item in records), 21)
+        self.assertEqual(sum(len(item['details']) for item in records), 31)
         for item in records:
-            source_details = [detail.get('sourceDetail', detail['id']) for detail in item['details']]
+            source_details = [detail['id'] for detail in item['details']]
             self.assertEqual(len(source_details), len(set(source_details)))
-        merged = {detail['sourceDetail']:detail for item in records for detail in item['details']
-                  if detail.get('courseTracks')}
-        self.assertEqual(set(merged), {'sudo', 'munhak', 'jamsil-girls'})
+        merged = {detail['id']:detail for item in records for detail in item['details'] if detail.get('tracks')}
+        self.assertEqual(set(merged), {'sudo', 'munhak', 'jamsil-girls', 'haseong'})
         output = site_sections.teaching_detail()
         for detail in merged.values():
-            self.assertEqual({track['group'] for track in detail['courseTracks']}, {'ai','data'})
-            for track in detail['courseTracks']:
+            expected={'data','programming'} if detail['id']=='haseong' else {'ai','data'}
+            self.assertEqual({track['group'] for track in detail['tracks']}, expected)
+            for track in detail['tracks']:
                 for lang in ['ko','en']:
                     self.assertIn(escape(track['title'][lang]), output)
                     self.assertIn(escape(track['curriculum'][lang]), output)
@@ -185,8 +190,8 @@ class SharedContentTests(unittest.TestCase):
         educore=next(item for item in DATA['teaching'] if item['id']=='donghaeng-educore-2025')
         self.assertNotEqual(elice['course'], educore['course'])
         self.assertEqual(elice['start'], '2024-09')
-        self.assertIn('학교별', teaching_values(elice, 'ko')['course'])
-        self.assertIn('AI 프로젝트 교육', teaching_values(educore, 'ko')['course'])
+        self.assertIn('학교별', teaching_columns(elice, 'ko')['subject'])
+        self.assertIn('AI 프로젝트 교육', teaching_columns(educore, 'ko')['subject'])
         self.assertIn('책임 있는 AI·SDGs', educore['details'][0]['curriculum']['ko'])
         self.assertIn('발표 및 단계별 피드백', educore['details'][0]['curriculum']['ko'])
         for item in educore['details'][1:]:
@@ -204,7 +209,7 @@ class SharedContentTests(unittest.TestCase):
         output = site_sections.teaching_details(item)
         for row in item['details']:
             self.assertIn(row['programTitle']['ko'], output)
-        summary = next(row for row in teaching_records('ai') if row['id']==item['id'])
+        summary = next(row for row in teaching_records() if row['id']==item['id'])
         self.assertTrue(all(row['title']['ko'] in summary['schoolSummary']['ko'] for row in item['details']))
         self.assertIn('교통신호', output)
         self.assertIn('산불 예측', output)
