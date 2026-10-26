@@ -1,11 +1,12 @@
 """Profile, education, documents, and teaching views built from shared records."""
 from content import (
-    DATA, LANGUAGES, DEFAULT_LANGUAGE, EXPERIENCE_GROUPS, localized, text,
+    ROOT, DATA, LANGUAGES, DEFAULT_LANGUAGE, EXPERIENCE_GROUPS, localized, text,
     cv_filename, teaching_history_records, teaching_primary, teaching_display_columns,
     teaching_detail_context, current_role_context, detail_program_titles,
     school_program_groups, current_role_records, period, experience_records,
 )
 import re
+import json
 from html_components import h, pair, label, mapped, preview, fold, external_link, asset_icon
 
 
@@ -210,7 +211,14 @@ def profile_link(link_id, label_key, primary=False):
 
 
 def documents():
-    cards=[]
+    profile = json.loads((ROOT / 'data/instructor-profile.json').read_text())
+    cards = [
+        '<article class="document-card document-card-profile" id="instructor-profile">'
+        '<h3>'+pair(profile['cardTitle'])+'</h3>'
+        '<p>'+pair(profile['cardDescription'])+'</p>'
+        '<span class="document-meta">'+pair(profile['downloadMeta'])+'</span>'
+        '<div class="document-links"><a class="profile-download" href="assets/'+h(profile['pdfFilename'])+'" download="'+h(profile['pdfFilename'])+'" type="application/pdf">'+pair(profile['downloadLabel'])+'</a></div></article>'
+    ]
     for name, title, desc, pages in [
         ('cv', {'ko':'CV', 'en':'CV'}, {'ko':'학력·연구 관심사·논문을 중심으로 정리한 이력서', 'en':'An academic overview of education, research interests, and publications'}, 2),
         ('career-statement', {'ko':'경력기술서', 'en':'Career statement'}, {'ko':'주요 교육과 프로젝트의 역할·수행 내용을 정리한 문서', 'en':'Selected teaching and projects, with roles and contributions'}, 4),

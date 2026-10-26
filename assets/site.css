@@ -317,3 +317,6 @@ select { width: 148px; max-width: 100%; min-height: 48px; font-size: var(--font-
 .document-links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 10px; }
 .document-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--font-secondary-size); text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 600px) { .document-grid { grid-template-columns: 1fr; gap: 22px; } }
+
+/* The short instructor introduction stays with the existing portfolio documents. */
+.document-card-profile { grid-column: 1 / -1; }

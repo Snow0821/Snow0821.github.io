@@ -152,3 +152,15 @@ python3 -m unittest discover -s tests
 
 CV와 웹 요약은 프로그램·기관명을 간단히 표시하며, 주관·운영·지원 등 정확한 관계는 웹 세부 펼침에서 확인할 수 있습니다. `teaching_display_columns()`는 읽기 쉬운 요약, `teaching_detail_context()`는 역할을 구분한 상세 정보를 제공하며 공통 원본의 사실은 바꾸지 않습니다. 계약 법인·위촉증명서·개인 계약일과 사적 근거는 별도 비공개 검증자료에 보존하며 공개 원본에 복사하지 않습니다. 코더랜드는 확인된 프리랜서 역할을 표시하되 실제 출강 시작인 2023.03을 유지합니다. 민코딩 출강은 행사 운영기관 확정 대신 소속 관계로 표시합니다.
 
+
+## 한 장 강사 소개서
+
+홈의 이력 문서 영역에서 강사 소개서를 내려받을 수 있습니다. 자기소개와 교육 방식, 주요 교육 경험, 학력·연구 배경을 담으며 별도 클래스 홍보물이나 모집 안내로 사용하지 않습니다.
+
+- 공통 국·영문 원본: `data/instructor-profile.json`
+- 홈 연결: `scripts/site_sections.py`의 `documents()`
+- 국문 A4 1쪽 PDF: `assets/Choi-Soon-Ho-Instructor-Profile-KO.pdf`
+- PDF 재생성: `python3 scripts/build_instructor_profile.py`
+- 웹 재생성: `python3 scripts/build.py --site-only`
+
+기본 빌드는 검토된 소개서 PDF를 보존합니다. 원본을 바꾸면 별도 명령으로 PDF를 재생성하고, `pdftoppm` 렌더와 쪽 수·내장 글꼴·링크를 검토한 뒤 원본·HTML·PDF를 함께 반영합니다. `tests/test_instructor_profile.py`는 다운로드 연결과 PDF 기본 조건을 검사합니다.
