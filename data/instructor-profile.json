@@ -1,26 +1,238 @@
 {
-  "updated": "2026-10-26",
+  "updated": "2026-10-27",
   "pdfFilename": "Choi-Soon-Ho-Instructor-Profile-KO.pdf",
-  "title": {"ko": "최순호 강사 소개", "en": "Choi Soon Ho · Instructor Profile"},
-  "role": {"ko": "프로그래밍·AI 교육 | 신경망 연구", "en": "Programming and AI education | Neural-network research"},
+  "title": {
+    "ko": "최순호 강사 소개",
+    "en": "Choi Soon Ho · Instructor Profile"
+  },
+  "role": {
+    "ko": "프로그래밍·AI 교육 | 신경망 연구",
+    "en": "Programming and AI education | Neural-network research"
+  },
   "paragraphs": [
-    {"ko": "안녕하세요. 프로그래밍과 AI 활용을 가르치고, 신경망의 구조와 연산을 연구하는 최순호입니다. 시민 대상 AI 웹 제작·배포 교육부터 청소년 프로그래밍 교육, 프로젝트 기반 AI 교육까지 다양한 배경의 학습자를 만나 왔습니다. 국민대학교에서 인공지능 공학석사를 취득했으며, 교육 현장과 연구를 함께 이어가고 있습니다.", "en": "I am Choi Soon Ho. I teach programming and applied AI, and study neural-network structures and operations. My teaching spans AI-assisted webpage creation and deployment for citizens, programming for young learners, and project-based AI education. I hold a Master of Engineering in Artificial Intelligence from Kookmin University and continue to work in both education and research."},
-    {"ko": "수업에서는 학습자가 개념을 이해하고 자신의 아이디어를 실제 결과물로 옮기는 과정을 중요하게 생각합니다. 웹페이지와 AI 프로젝트를 직접 만들고, 동작을 확인하며 수정하는 실습을 진행해 왔습니다. 개별 프로그래밍 지도와 PBL 퍼실리테이터 경험을 바탕으로 학습자가 막히는 지점을 함께 살피고, 경험과 이해 수준에 맞춰 다음 단계를 안내하고자 합니다.", "en": "I value the process of understanding a concept and turning an idea into something tangible. I have guided learners through building, checking, and refining webpages and AI projects. Drawing on individual programming instruction and PBL facilitation, I aim to help learners work through difficulties and identify the next step at a level that suits their experience."}
+    {
+      "ko": "안녕하세요. 프로그래밍과 AI 활용을 가르치고, 신경망의 구조와 연산을 연구하는 최순호입니다. 시민 대상 AI 웹 제작·배포 교육부터 청소년 프로그래밍 교육, 프로젝트 기반 AI 교육까지 다양한 배경의 학습자를 만나 왔습니다. 국민대학교에서 인공지능 공학석사를 취득했으며, 교육 현장과 연구를 함께 이어가고 있습니다.",
+      "en": "I am Choi Soon Ho. I teach programming and applied AI, and study neural-network structures and operations. My teaching spans AI-assisted webpage creation and deployment for citizens, programming for young learners, and project-based AI education. I hold a Master of Engineering in Artificial Intelligence from Kookmin University and continue to work in both education and research."
+    },
+    {
+      "ko": "수업에서는 학습자가 개념을 이해하고 자신의 아이디어를 실제 결과물로 옮기는 과정을 중요하게 생각합니다. 웹페이지와 AI 프로젝트를 직접 만들고, 동작을 확인하며 수정하는 실습을 진행해 왔습니다. 개별 프로그래밍 지도와 PBL 퍼실리테이터 경험을 바탕으로 학습자가 막히는 지점을 함께 살피고, 경험과 이해 수준에 맞춰 다음 단계를 안내하고자 합니다.",
+      "en": "I value the process of understanding a concept and turning an idea into something tangible. I have guided learners through building, checking, and refining webpages and AI projects. Drawing on individual programming instruction and PBL facilitation, I aim to help learners work through difficulties and identify the next step at a level that suits their experience."
+    }
   ],
-  "experienceTitle": {"ko": "주요 교육 경험", "en": "Selected teaching experience"},
+  "experienceTitle": {
+    "ko": "주요 경력",
+    "en": "Selected experience"
+  },
   "experience": [
-    {"organization": {"ko": "고양 스마트시티즌 · 에듀코어센터", "en": "Goyang Smart Citizen · EduCore Center"}, "role": {"ko": "AI 활용 교육", "en": "Applied AI education"}, "description": {"ko": "시민 대상 개인 웹페이지 제작과 GitHub·Vercel 배포 실습. Codex 업무 비서 제작 과정 진행 중.", "en": "Personal webpage creation and GitHub/Vercel deployment for citizens. Codex work-assistant course in progress."}},
-    {"organization": {"ko": "모두의연구소 · 코디세이", "en": "Modulabs · Codyssey"}, "role": {"ko": "PBL 퍼실리테이터", "en": "PBL facilitator"}, "description": {"ko": "AI Native 과정에서 학습 이슈 조율, 과제 수행 지원, 교양 세미나 개설·운영.", "en": "Learning-issue coordination, assignment support, and general-interest seminars in the AI Native course."}},
-    {"organization": {"ko": "코더랜드", "en": "Coderland"}, "role": {"ko": "온라인 프로그래밍 교육", "en": "Online programming education"}, "description": {"ko": "Python·C++, 자료구조·알고리즘 교육과 개별 학습 지도, 정보올림피아드 대비 지도.", "en": "Python/C++, data structures and algorithms, individual learning support, and Informatics Olympiad preparation."}}
+    {
+      "organization": {
+        "ko": "고양 스마트시티즌 · 에듀코어센터",
+        "en": "Goyang Smart Citizen · EduCore Center"
+      },
+      "role": {
+        "ko": "AI 활용 교육",
+        "en": "Applied AI education"
+      },
+      "description": {
+        "ko": "시민 대상 AI 웹 제작·배포 실습 및 Codex 업무 비서 제작 교육.",
+        "en": "AI-assisted webpage creation/deployment and Codex work-assistant education for citizens."
+      },
+      "sourceId": "goyang-educore-2026-08",
+      "period": {
+        "ko": "2026.08 - 현재",
+        "en": "Aug 2026 - present"
+      }
+    },
+    {
+      "organization": {
+        "ko": "모두의연구소 · 코디세이",
+        "en": "Modulabs · Codyssey"
+      },
+      "role": {
+        "ko": "PBL 퍼실리테이터",
+        "en": "PBL facilitator"
+      },
+      "description": {
+        "ko": "AI Native 과정의 학습 이슈 조율, 과제 수행 지원, 교양 세미나 운영.",
+        "en": "Learning-issue coordination, assignment support, and general-interest seminars in the AI Native course."
+      },
+      "sourceId": "codyssey-modulabs-2026-06",
+      "period": {
+        "ko": "2026.06 - 현재",
+        "en": "Jun 2026 - present"
+      }
+    },
+    {
+      "organization": {
+        "ko": "하나생명 · LG이노텍",
+        "en": "Hana Life · LG Innotek"
+      },
+      "role": {
+        "ko": "기업교육 · AI 실무 강의·실습",
+        "en": "Corporate training · Applied AI instruction and practice"
+      },
+      "description": {
+        "ko": "하나생명: 업무 문제 정의·PRD 기반 AI PoC 실습·프로젝트 피드백.\nLG이노텍: AI·AX 강의·실습 및 현업 프로젝트 계획·발표 피드백.",
+        "en": "Hana Life: Business-problem/PRD-based AI PoC exercises and project feedback.\nLG Innotek: AI/AX instruction and practice, with feedback on project plans and presentations."
+      },
+      "sourceIds": [
+        "hanalife-2026-10",
+        "lginnotek-elice-2026-07"
+      ],
+      "period": {
+        "ko": "2026",
+        "en": "2026"
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      }
+    }
   ],
-  "backgroundTitle": {"ko": "학력과 연구", "en": "Education and research"},
-  "education": {"ko": "국민대학교 소프트웨어융합대학원 인공지능 공학석사 (2025)", "en": "M.E. in Artificial Intelligence, Graduate School of Software Convergence, Kookmin University (2025)"},
-  "research": {"ko": "신경망 양자화와 구조 학습을 연구합니다. IJCNN 2026 및 한국통신학회 2024·2025 학술대회 논문에 제1저자로 참여했습니다.", "en": "My research focuses on neural-network quantization and architecture learning. I am first author on papers at IJCNN 2026 and KICS conferences in 2024 and 2025."},
-  "contactTitle": {"ko": "연락처와 포트폴리오", "en": "Contact and portfolio"},
-  "cardTitle": {"ko": "강사 소개", "en": "Instructor profile"},
-  "cardDescription": {"ko": "프로그래밍·AI 교육 경험과 학습을 돕는 방식, 연구 배경을 정리한 한 장 소개서", "en": "A one-page introduction to my teaching experience, approach to supporting learners, and research background"},
-  "downloadLabel": {"ko": "소개서 PDF 다운로드", "en": "Download profile PDF"},
-  "downloadMeta": {"ko": "한국어 · 1쪽 · 2026.10.26", "en": "Korean · 1 page · 26 Oct 2026"},
+  "backgroundTitle": {
+    "ko": "학력과 연구",
+    "en": "Education and research"
+  },
+  "education": {
+    "ko": "국민대학교 소프트웨어융합대학원 인공지능 공학석사 (2025)",
+    "en": "M.E. in Artificial Intelligence, Graduate School of Software Convergence, Kookmin University (2025)"
+  },
+  "research": {
+    "ko": "신경망 양자화와 구조 학습을 연구합니다. IJCNN 2026 및 한국통신학회 2024·2025 학술대회 논문에 제1저자로 참여했습니다.",
+    "en": "My research focuses on neural-network quantization and architecture learning. I am first author on papers at IJCNN 2026 and KICS conferences in 2024 and 2025."
+  },
+  "contactTitle": {
+    "ko": "연락처와 포트폴리오",
+    "en": "Contact and portfolio"
+  },
+  "cardTitle": {
+    "ko": "강사 소개",
+    "en": "Instructor profile"
+  },
+  "cardDescription": {
+    "ko": "주요 교육 경력과 학력, 연구 분야를 시각적으로 정리한 한 장 소개서",
+    "en": "A visual one-page profile of selected teaching experience, education, and research"
+  },
+  "downloadLabel": {
+    "ko": "소개서 PDF 다운로드",
+    "en": "Download profile PDF"
+  },
+  "downloadMeta": {
+    "ko": "한국어 · 1쪽 · 2026.10.27",
+    "en": "Korean · 1 page · 27 Oct 2026"
+  },
   "email": "sosaror@gmail.com",
-  "url": "https://snow0821.github.io/"
+  "url": "https://snow0821.github.io/",
+  "shortBio": {
+    "ko": "프로그래밍과 AI 활용을 가르치고, 신경망의 구조와 연산을 연구합니다.",
+    "en": "I teach programming and applied AI, and study neural-network structures and operations."
+  },
+  "name": {
+    "ko": "최순호",
+    "en": "Choi Soon Ho"
+  },
+  "expertise": [
+    {
+      "ko": "AI 활용 교육",
+      "en": "Applied AI education"
+    },
+    {
+      "ko": "프로그래밍 지도",
+      "en": "Programming instruction"
+    },
+    {
+      "ko": "PBL 학습 지원",
+      "en": "PBL learning support"
+    }
+  ],
+  "educationTitle": {
+    "ko": "학력",
+    "en": "Education"
+  },
+  "educationRecords": [
+    {
+      "id": "masters",
+      "year": 2025,
+      "field": {
+        "ko": "인공지능",
+        "en": "Artificial Intelligence"
+      },
+      "degree": {
+        "ko": "공학석사",
+        "en": "Master of Engineering (M.E)"
+      },
+      "degreeShort": {
+        "ko": "공학석사",
+        "en": "M.E"
+      },
+      "institution": {
+        "ko": "국민대학교",
+        "en": "Kookmin University"
+      },
+      "school": {
+        "ko": "국민대학교 소프트웨어융합대학원",
+        "en": "Graduate School of Software Convergence, Kookmin University"
+      }
+    },
+    {
+      "id": "bachelors",
+      "year": 2019,
+      "field": {
+        "ko": "컴퓨터공학·전자공학",
+        "en": "Computer Science and Electrical Engineering"
+      },
+      "degree": {
+        "ko": "공학사",
+        "en": "Bachelor of Engineering (B.E)"
+      },
+      "degreeShort": {
+        "ko": "공학사",
+        "en": "B.E"
+      },
+      "institution": {
+        "ko": "한동대학교",
+        "en": "Handong Global University"
+      },
+      "school": {
+        "ko": "한동대학교 전산전자공학부",
+        "en": "School of Computer Science and Electrical Engineering, Handong Global University"
+      }
+    }
+  ],
+  "researchTitle": {
+    "ko": "연구",
+    "en": "Research"
+  },
+  "researchFocus": {
+    "ko": "신경망 양자화 · 신경망 구조 학습",
+    "en": "Neural-network quantization · Neural architecture learning"
+  },
+  "researchCredit": {
+    "ko": "IJCNN 2026 · 한국통신학회 2024·2025 학술대회 논문 제1저자",
+    "en": "First author on papers at IJCNN 2026 and KICS conferences in 2024/2025"
+  },
+  "asOf": {
+    "ko": "2026.10 기준",
+    "en": "As of October 2026"
+  },
+  "backgroundAsset": "assets/instructor-profile-background.png",
+  "backgroundKind": "AI-painted abstract mint and beige paper texture; no diagrams, icons, text, or portrait",
+  "representativePaper": {
+    "sourceId": "2026",
+    "title": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
+    "venue": "IJCNN 2026",
+    "authorRole": {
+      "ko": "제1저자",
+      "en": "First author"
+    },
+    "authors": [
+      "Soon Ho Choi",
+      "Soo Yong Kim"
+    ],
+    "url": "https://linklings.s3.amazonaws.com/organizations/WCCI/wcci2026/submissions/stype114/YihWd-ijcnn_pap3087s2.pdf"
+  },
+  "paperTitle": {
+    "ko": "대표 논문",
+    "en": "Representative paper"
+  }
 }

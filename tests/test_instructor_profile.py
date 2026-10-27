@@ -30,10 +30,20 @@ class InstructorProfileTests(unittest.TestCase):
         self.assertEqual(DATA['email'], portfolio['profile']['email'])
         self.assertEqual(DATA['url'], portfolio['profile']['portfolioUrl'])
         text = ' '.join(item['description']['ko'] for item in DATA['experience'])
-        self.assertIn('Codex 업무 비서 제작 과정 진행 중', text)
+        self.assertIn('Codex 업무 비서 제작 교육', text)
+        self.assertIn('하나생명', text)
+        self.assertIn('LG이노텍', text)
+        self.assertEqual(DATA['educationRecords'], portfolio['education'])
+        self.assertEqual({id for x in DATA['experience'] for id in x.get('sourceIds', [x.get('sourceId')])}, {'goyang-educore-2026-08', 'codyssey-modulabs-2026-06', 'hanalife-2026-10', 'lginnotek-elice-2026-07'})
         self.assertIn('학습 이슈 조율', text)
-        self.assertIn('자료구조·알고리즘', text)
-        self.assertNotIn('하나생명', json.dumps(DATA, ensure_ascii=False))
+        self.assertIn('PRD', text)
+        self.assertIn('AI·AX', text)
+        self.assertNotIn('코더랜드', text)
+        corporate = DATA['experience'][2]
+        self.assertEqual(corporate['period']['ko'], '2026')
+        self.assertNotIn('완료', corporate['description']['ko'])
+        self.assertEqual(DATA['representativePaper']['title'], portfolio['papers'][0]['title'])
+        self.assertEqual(DATA['representativePaper']['sourceId'], portfolio['papers'][0]['id'])
         self.assertTrue(all(p['authorRole'] == 'first' for p in portfolio['papers']))
 
     def test_download_is_inside_existing_document_area(self):
@@ -61,8 +71,18 @@ class InstructorProfileTests(unittest.TestCase):
         self.assertAlmostEqual(float(page.mediabox.width), 595.276, delta=.1)
         self.assertAlmostEqual(float(page.mediabox.height), 841.890, delta=.1)
         compact = ''.join(page.extract_text().split())
-        for value in [DATA['title']['ko'], DATA['email'], *[x['ko'] for x in DATA['paragraphs']], DATA['education']['ko'], DATA['research']['ko']]:
+        fields = [DATA['name']['ko'], DATA['email'], DATA['shortBio']['ko'], DATA['representativePaper']['title'], DATA['representativePaper']['venue'], DATA['representativePaper']['authorRole']['ko'], DATA['asOf']['ko']]
+        fields.extend(item[key]['ko'] for item in DATA['experience'] for key in ['organization', 'role', 'description', 'period'])
+        fields.extend(item[key]['ko'] for item in DATA['educationRecords'] for key in ['school', 'field', 'degree'])
+        for value in fields:
             self.assertIn(''.join(value.split()), compact)
+        self.assertNotIn(''.join(DATA['paragraphs'][0]['ko'].split()), compact)
+        self.assertTrue((ROOT / DATA['backgroundAsset']).is_file())
+        self.assertNotIn('visualAsset', DATA)
+        self.assertNotIn('visualSource', DATA)
+        self.assertEqual(sum(x.get_object().get('/Subtype') == '/Image' for x in page['/Resources']['/XObject'].values()), 1)
+        self.assertFalse((ROOT / 'assets/instructor-profile-visual.png').exists())
+        self.assertFalse((ROOT / 'assets/instructor-profile-visual.svg').exists())
         links = {str(x.get_object()['/A']['/URI']) for x in page.get('/Annots', [])
                  if x.get_object().get('/A', {}).get('/S') == '/URI'}
         self.assertIn('mailto:' + DATA['email'], links)

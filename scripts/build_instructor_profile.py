@@ -18,6 +18,7 @@ from pathlib import Path
 from reportlab.lib.colors import HexColor
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen.canvas import Canvas
@@ -76,10 +77,10 @@ def build(output_path: str | Path | None = None) -> Path:
     canvas.setViewerPreference("DisplayDocTitle", "true")
 
     page_width, page_height = A4
-    margin = 52.0
+    margin = 44.0
     width = page_width - margin * 2
     y = page_height - 50.0
-    minimum_bottom = 46.0
+    minimum_bottom = 38.0
     canvas.setFillColor(colors["paper"])
     canvas.rect(0, 0, page_width, page_height, stroke=0, fill=1)
 
@@ -87,6 +88,8 @@ def build(output_path: str | Path | None = None) -> Path:
         text: str,
         top: float,
         *,
+        x: float = margin,
+        available_width: float = width,
         size: float = 11.0,
         leading: float = 18.5,
         font: str = "ProfileBody",
@@ -100,66 +103,104 @@ def build(output_path: str | Path | None = None) -> Path:
         )
         normalized = text.replace("\u2011", "-").replace("\u2013", "-").replace("\u2014", "-")
         flowable = Paragraph(escape(normalized).replace("\n", "<br/>"), style)
-        _, height = flowable.wrap(width, page_height)
+        _, height = flowable.wrap(available_width, page_height)
         bottom = top - height
         if bottom < minimum_bottom:
             raise ValueError(f"One-page layout overflow at {text[:45]!r}: bottom={bottom:.1f}")
-        flowable.drawOn(canvas, margin, bottom)
+        flowable.drawOn(canvas, x, bottom)
         return bottom
 
-    y = paragraph(_ko(data["title"]), y, size=29, leading=38, font="ProfileHeading")
-    y -= 8
-    y = paragraph(_ko(data["role"]), y, size=11, leading=16, color="secondary")
-    y -= 26
+    # AI-painted paper background; all biographical text stays live and searchable.
+    background_path = ROOT / data["backgroundAsset"]
+    if not background_path.is_file():
+        raise FileNotFoundError(f"Missing profile background: {background_path}")
+    background = ImageReader(str(background_path))
+    image_width, image_height = background.getSize()
+    scale = max(page_width / image_width, page_height / image_height)
+    drawn_width, drawn_height = image_width * scale, image_height * scale
+    canvas.drawImage(background, (page_width-drawn_width)/2, (page_height-drawn_height)/2,
+                     width=drawn_width, height=drawn_height, mask='auto')
+    # A light paper veil keeps the painted texture while protecting small type.
+    canvas.saveState()
+    canvas.setFillColor(colors["paper"])
+    canvas.setFillAlpha(.25)
+    canvas.rect(0, 0, page_width, page_height, fill=1, stroke=0)
+    canvas.restoreState()
+    paragraph("강사 소개", 793, available_width=265, size=10.5, leading=15,
+              font="ProfileBold", color="secondary")
+    paragraph(_ko(data["name"]), 764, available_width=265, size=36, leading=45,
+              font="ProfileHeading")
+    paragraph("CHOI SOON HO", 712, available_width=265, size=10, leading=15,
+              font="ProfileBold", color="secondary")
+    paragraph(_ko(data["role"]), 683, available_width=270, size=10.5, leading=16)
+    paragraph(_ko(data["shortBio"]), 657, available_width=260, size=10.5,
+              leading=16, color="secondary")
 
-    for index, text in enumerate(data["paragraphs"]):
-        if index:
-            y -= 13
-        y = paragraph(_ko(text), y)
-
-    y -= 26
-    y = paragraph(_ko(data["experienceTitle"]), y, size=14, leading=20, font="ProfileHeading")
-    y -= 11
+    y = 604
+    y = paragraph(_ko(data["experienceTitle"]), y, size=19, leading=25, font="ProfileHeading")
+    y -= 17
     for index, experience in enumerate(data["experience"]):
-        if index:
-            y -= 12
-        heading = _ko(experience["organization"]) + "  |  " + _ko(experience["role"])
-        y = paragraph(heading, y, size=10.5, leading=16, font="ProfileBold")
+        top = y
+        paragraph(_ko(experience["period"]), top-1, available_width=100,
+                  size=9.5, leading=15, color="date", font="ProfileBold")
+        x = margin + 115
+        available = width - 115
+        y = paragraph(_ko(experience["organization"]), top, x=x, available_width=available,
+                      size=11.8, leading=17, font="ProfileBold")
         y -= 3
-        y = paragraph(_ko(experience["description"]), y, size=10.5, leading=16, color="secondary")
+        y = paragraph(_ko(experience["role"]), y, x=x, available_width=available,
+                      size=10.5, leading=15, color="accent")
+        y -= 5
+        y = paragraph(_ko(experience["description"]), y, x=x, available_width=available,
+                      size=10.5, leading=16, color="secondary")
+        y = min(y, top-63) - 12
 
-    y -= 24
-    y = paragraph(_ko(data["backgroundTitle"]), y, size=14, leading=20, font="ProfileHeading")
-    y -= 9
-    y = paragraph(_ko(data["education"]), y, size=10.5, leading=17)
-    y -= 5
-    y = paragraph(_ko(data["research"]), y, size=10.5, leading=17, color="secondary")
+    y -= 8
+    y = paragraph(_ko(data["educationTitle"]), y, size=19, leading=25, font="ProfileHeading")
+    y -= 14
+    education_top = y
+    column_width = (width - 28) / 2
+    bottoms = []
+    for index, education in enumerate(data["educationRecords"]):
+        x = margin + index * (column_width + 28)
+        top = paragraph(str(education["year"]), education_top, x=x,
+                        available_width=column_width, size=10, leading=15,
+                        color="date", font="ProfileBold") - 5
+        top = paragraph(_ko(education["degree"]), top, x=x, available_width=column_width,
+                        size=13, leading=19, font="ProfileBold") - 5
+        top = paragraph(_ko(education["school"]), top, x=x, available_width=column_width,
+                        size=10.5, leading=16) - 3
+        top = paragraph(_ko(education["field"]), top, x=x, available_width=column_width,
+                        size=10.5, leading=16, color="secondary")
+        bottoms.append(top)
+    y = min(bottoms) - 23
+    y = paragraph(_ko(data["paperTitle"]), y, size=14, leading=20, font="ProfileHeading") - 7
+    paper = data["representativePaper"]
+    y = paragraph(paper["title"], y, size=11, leading=16, font="ProfileBold") - 5
+    y = paragraph(paper["venue"] + " · " + _ko(paper["authorRole"]), y,
+                  size=10, leading=15, color="ink")
 
-    y -= 24
+    footer_y = 58
+    if y < footer_y + 28:
+        raise ValueError(f"Profile content overlaps footer: y={y}")
     canvas.setStrokeColor(colors["line"])
-    canvas.setLineWidth(0.6)
-    canvas.line(margin, y, page_width - margin, y)
-    y -= 15
-    y = paragraph(_ko(data["contactTitle"]), y, size=10.5, leading=15, font="ProfileBold", color="secondary")
-    y -= 7
-    link_size = 10.5
-    baseline = y - 10.5
-    if baseline < minimum_bottom:
-        raise ValueError(f"One-page layout overflow at contact links: {baseline:.1f}")
+    canvas.setLineWidth(.6)
+    canvas.line(margin, footer_y+20, page_width-margin, footer_y+20)
+    link_size = 10
     email = data["email"]
     web_url = data["url"]
     web_label = web_url.removeprefix("https://").rstrip("/")
-    web_width = pdfmetrics.stringWidth(web_label, "ProfileBody", link_size)
     email_width = pdfmetrics.stringWidth(email, "ProfileBody", link_size)
-    web_x = page_width - margin - web_width
-    if margin + email_width + 20 > web_x:
-        raise ValueError("Contact addresses do not fit on one line")
-    canvas.setFillColor(colors["accent"])
+    web_width = pdfmetrics.stringWidth(web_label, "ProfileBody", link_size)
+    canvas.setFillColor(colors["ink"])
     canvas.setFont("ProfileBody", link_size)
-    canvas.drawString(margin, baseline, email)
-    canvas.drawString(web_x, baseline, web_label)
-    canvas.linkURL(f"mailto:{email}", (margin, baseline - 3, margin + email_width, baseline + 12), relative=0, thickness=0)
-    canvas.linkURL(web_url, (web_x, baseline - 3, web_x + web_width, baseline + 12), relative=0, thickness=0)
+    canvas.drawString(margin, footer_y, email)
+    canvas.drawRightString(page_width-margin, footer_y, web_label)
+    canvas.setFillColor(colors["ink"])
+    canvas.setFont("ProfileBody", 9.5)
+    canvas.drawCentredString(page_width/2, footer_y, _ko(data["asOf"]))
+    canvas.linkURL(f"mailto:{email}", (margin, footer_y-3, margin+email_width, footer_y+12), relative=0, thickness=0)
+    canvas.linkURL(web_url, (page_width-margin-web_width, footer_y-3, page_width-margin, footer_y+12), relative=0, thickness=0)
 
     canvas.showPage()
     canvas.save()

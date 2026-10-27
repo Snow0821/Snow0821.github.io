@@ -145,6 +145,24 @@ class SharedDesignTests(unittest.TestCase):
         self.assertIn('.teaching-table td { display: block; width: 100%; }',css)
         self.assertIn(':focus-visible',css)
         self.assertIn('width: 44px; height: 44px',css)
+    def test_ink_web_theme_keeps_small_sign_and_large_hit_area(self):
+        css=(Path(__file__).resolve().parents[1]/'assets/site.css').read_text()
+        theme=css.split('/* Ink and paper:',1)[1]
+        toggle=' '.join(re.findall(r'(?m)^\s*\.career-toggle \{([^}]+)\}',css))
+        sign=re.findall(r'(?m)^\s*\.career-sign \{([^}]+)\}',theme)[0]
+        self.assertIn('width: 44px; height: 44px',toggle)
+        self.assertIn('width: 24px; height: 24px',sign)
+        self.assertIn('font-size: 16px',sign)
+        self.assertIn('border: 1px solid var(--control-border)',sign)
+        self.assertIn('pointer-events: none',theme)
+        self.assertIn('@media (forced-colors: active)',theme)
+        # Website palette is scoped so PDF token expectations stay unchanged.
+        ink_palette=dict(re.findall(r'--([a-z-]+): (#[A-Fa-f0-9]{6});',theme))
+        for text in ['ink','secondary','accent','date']:
+            for surface in ['paper','tint','beige']:
+                low,high=sorted([luminance(ink_palette[text]),luminance(ink_palette[surface])])
+                self.assertGreaterEqual((high+.05)/(low+.05),4.5,(text,surface))
+
     def test_decomposition_preserves_provider_course_role(self):
         for row in teaching_records():
             for lang in ['ko','en']:
