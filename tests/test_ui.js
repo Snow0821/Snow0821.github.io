@@ -1,62 +1,71 @@
-/* Exercise career disclosure state, independent buttons, and translated labels. */
+/* Exercise the delivered clipboard handler, including both failure paths. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const vm = require('node:vm');
 const path = require('node:path');
+const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, '../assets/site.js'), 'utf8');
-const messages = {
-  ko: {expand_career: '{title} 세부 이력 펼치기', collapse_career: '{title} 세부 이력 접기'},
-  en: {expand_career: 'Expand details for {title}', collapse_career: 'Collapse details for {title}'},
-};
-const panels = {};
-const languageListeners = [];
-const buttons = ['education', 'development', 'current'].map(id => {
-  const attrs = {'aria-expanded': 'false', 'aria-controls': id};
-  if (id === 'current') Object.assign(attrs, {'data-title-ko': '현재 강의', 'data-title-en': 'Current teaching'});
-  const listeners = {};
-  const sign = {textContent: '+'};
-  panels[id] = {hidden: true};
-  return {
-    attrs, listeners, sign,
-    closest: () => id === 'current' ? null : ({querySelector: selector => ({textContent: selector.includes('"ko"') ? '과정' : 'Course'})}),
-    getAttribute: key => attrs[key],
-    setAttribute: (key, value) => { attrs[key] = value; },
-    querySelector: () => sign,
-    addEventListener: (type, callback) => {listeners[type] = callback;},
+
+function fixture(writeText, execCommand) {
+  const markup = {
+    ref: 'Choi and Kim. Learning to Wire. IJCNN 2026.',
+    bib: '@inproceedings{choi2026,\n  title={Learning to Wire}\n}',
   };
-});
-const root = {lang: 'ko', querySelectorAll: () => buttons,
-  addEventListener: (type, callback) => {assert.equal(type, 'languagechange'); languageListeners.push(callback);}};
-const message = (key, values) => messages[root.lang][key].replace('{title}', values.title);
-const start = source.indexOf('  function initCareerDetails()');
-const end = source.indexOf('  function initPublications()', start);
-assert.ok(start >= 0 && end > start);
-vm.runInNewContext(source.slice(start, end) + '\ninitCareerDetails();', {root, message, document: {getElementById: id => panels[id]}});
-languageListeners.forEach(callback => callback());
-assert.equal(buttons[0].attrs['aria-label'], '과정 세부 이력 펼치기');
-buttons[0].listeners.click();
-assert.equal(buttons[0].attrs['aria-expanded'], 'true');
-assert.equal(buttons[0].sign.textContent, '−');
-assert.equal(panels.education.hidden, false);
-assert.equal(panels.development.hidden, true);
-root.lang = 'en'; languageListeners.forEach(callback => callback());
-assert.equal(buttons[0].attrs['aria-label'], 'Collapse details for Course');
-assert.equal(buttons[1].attrs['aria-label'], 'Expand details for Course');
-buttons[0].listeners.click();
-assert.equal(buttons[0].attrs['aria-expanded'], 'false');
-assert.equal(buttons[0].sign.textContent, '+');
-assert.equal(panels.education.hidden, true);
-for (let index = 0; index < 6; index++) buttons[1].listeners.click();
-assert.equal(buttons[1].attrs['aria-expanded'], 'false');
-assert.equal(panels.development.hidden, true);
-buttons[0].attrs['data-title-en'] = 'Program · Course';
-languageListeners.forEach(callback => callback());
-assert.equal(buttons[0].attrs['aria-label'], 'Expand details for Program · Course');
-buttons[2].listeners.click();
-assert.equal(panels.current.hidden, false);
-assert.equal(buttons[2].attrs['aria-label'], 'Collapse details for Current teaching');
-root.lang = 'ko'; languageListeners.forEach(callback => callback());
-assert.equal(buttons[2].attrs['aria-label'], '현재 강의 세부 이력 접기');
-buttons[2].listeners.click();
-assert.equal(panels.current.hidden, true);
-console.log('Career disclosure tests passed: open, close, repeated clicks, independent state, KO/EN labels.');
+  const status = {textContent: ''};
+  const fields = [];
+  const actions = {
+    dataset: {success: 'Copied', failure: 'Select the text to copy.'},
+    querySelector: key => key === '[data-copy-status]' ? status : fields.at(-1),
+    append: field => fields.push(field),
+  };
+  const buttons = Object.keys(markup).map(key => ({
+    dataset: {copy:key}, closest: selector => selector === '.paper-actions' ? actions : null,
+    addEventListener(name, fn) { if (name === 'click') this.click = fn; },
+    focus() { this.focused = true; },
+  }));
+  const document = {
+    body: {dataset: {page: 'work'}}, documentElement: {lang: 'en'},
+    querySelector: () => null,
+    querySelectorAll: selector => selector === 'button[data-copy]' ? buttons : [],
+    getElementById: id => markup[id] ? {content: {textContent: ' ' + markup[id] + ' '}} : null,
+    execCommand,
+    createElement(tag) {
+      assert.equal(tag,'textarea');
+      const field = {attrs:{},
+        setAttribute(key, value) { this.attrs[key] = value; },
+        focus() { this.focused = true; }, select() { this.selected = true; },
+        remove() { fields.splice(fields.indexOf(this), 1); },
+      };
+      return field;
+    },
+  };
+  vm.runInNewContext(source, {document, location:{hash:''}, URL, navigator:{clipboard:writeText ? {writeText} : undefined},
+    window:{addEventListener(){}}});
+  return {buttons, markup, status, fields};
+}
+
+(async () => {
+  const writes = [];
+  const modern = fixture(async text => { writes.push(text); }, () => assert.fail('unexpected fallback'));
+  await modern.buttons[0].click();
+  await modern.buttons[1].click();
+  assert.deepEqual(writes, [modern.markup.ref, modern.markup.bib]);
+  assert.equal(modern.status.textContent, 'Copied');
+  assert.equal(modern.fields.length, 0);
+
+  const fallback = fixture(undefined, command => { assert.equal(command, 'copy'); return true; });
+  await fallback.buttons[0].click();
+  assert.equal(fallback.status.textContent, 'Copied');
+  assert.equal(fallback.fields.length, 0);
+  assert.equal(fallback.buttons[0].focused, true);
+
+  const denied = fixture(async () => { throw new Error('Denied'); }, () => false);
+  await denied.buttons[0].click();
+  await denied.buttons[1].click();
+  assert.equal(denied.fields.length, 1);
+  const field = denied.fields[0];
+  assert.equal(field.value, denied.markup.bib);
+  assert.ok(field.readOnly && field.focused && field.selected);
+  assert.ok(field.attrs['aria-label']);
+  assert.equal(denied.status.textContent, 'Select the text to copy.');
+  console.log('Clipboard, fallback and accessible manual selection passed.');
+})().catch(error => { console.error(error); process.exitCode = 1; });

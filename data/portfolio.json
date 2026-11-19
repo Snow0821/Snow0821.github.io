@@ -11,7 +11,7 @@
       "flag": "assets/flag-us.svg"
     }
   ],
-  "updated": "2026-10-16",
+  "updated": "2026-11-18",
   "profile": {
     "name": {
       "ko": "최순호",
@@ -122,10 +122,17 @@
       ],
       "venue": "ijcnn2026",
       "month": null,
-      "pages": null,
-      "url": "https://linklings.s3.amazonaws.com/organizations/WCCI/wcci2026/submissions/stype114/YihWd-ijcnn_pap3087s2.pdf",
-      "linkLabel": "pdf",
+      "pages": [
+        1,
+        6
+      ],
+      "url": "https://dblp.org/rec/conf/ijcnn/ChoiK26",
+      "linkLabel": "DBLP",
       "citationKey": "choi2026learning",
+      "summary": {
+        "ko": "기호 논리 네트워크에서 각 논리 게이트가 입력으로 사용할 값을 선택하도록 학습해 게이트 간 연결 구조를 정하는 방법을 제안했습니다.",
+        "en": "The paper proposes learning which operands feed each logic gate, so the connections in a symbolic logic network can be learned end to end."
+      },
       "topics": [
         {
           "ko": "기호 논리 네트워크",
@@ -161,6 +168,10 @@
       "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12132696",
       "linkLabel": "DBpia",
       "citationKey": "choi2025ternaryvit",
+      "summary": {
+        "ko": "삼진 양자화 비전 트랜스포머를 이진 값으로 표현해 이미지 분류에 적용하는 방법을 연구했습니다.",
+        "en": "The study examines binary representations of a ternary-quantized vision transformer for image classification."
+      },
       "topics": [
         {
           "ko": "신경망 이진화",
@@ -181,6 +192,10 @@
           "bibtex": "Yoon, Soo Yeon",
           "initials": "S. Y. Yoon"
         }
+      },
+      "displayTitle": {
+        "ko": "이진화 기반 삼진 양자화 ViT 모델을 활용한 이미지 분류 기법에 관한 연구",
+        "en": "Binarization of Ternary ViT on Image Classification"
       }
     },
     {
@@ -200,6 +215,10 @@
       "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11906215",
       "linkLabel": "DBpia",
       "citationKey": "choi2024signquantized",
+      "summary": {
+        "ko": "소형 신경망에서 부호 양자화 층과 일반 선형층의 분류 정확도를 비교했습니다. 한국통신학회 하계 특별세션에서 발표했습니다.",
+        "en": "The study compares classification accuracy for sign-quantized layers and standard linear layers in small neural networks. It was presented in a special session at the KICS Summer Conference."
+      },
       "topics": [
         {
           "ko": "가중치 양자화",
@@ -238,6 +257,14 @@
     "lead": {
       "ko": "주강사",
       "en": "Lead instructor"
+    },
+    "coach": {
+      "ko": "코치",
+      "en": "Coach"
+    },
+    "mentor": {
+      "ko": "외부전문가 멘토",
+      "en": "External project mentor"
     }
   },
   "organizations": {
@@ -268,6 +295,10 @@
     "ablearn": {
       "ko": "에이블런",
       "en": "ABLEARN"
+    },
+    "elice-group": {
+      "ko": "엘리스그룹",
+      "en": "Elice Group"
     }
   },
   "education": [
@@ -293,7 +324,8 @@
       "school": {
         "ko": "국민대학교 소프트웨어융합대학원",
         "en": "Graduate School of Software Convergence, Kookmin University"
-      }
+      },
+      "awardedOn": "2025-08-20"
     },
     {
       "id": "bachelors",
@@ -317,7 +349,8 @@
       "school": {
         "ko": "한동대학교 전산전자공학부",
         "en": "School of Computer Science and Electrical Engineering, Handong Global University"
-      }
+      },
+      "awardedOn": "2019-08-16"
     }
   ],
   "qualifications": [
@@ -331,7 +364,8 @@
       "field": {
         "ko": "인공지능",
         "en": "Artificial intelligence"
-      }
+      },
+      "code": "200107"
     }
   ],
   "interests": [
@@ -438,8 +472,8 @@
         "en": "Python & C++ · Data structures & algorithms"
       },
       "note": {
-        "ko": "프로그래밍·알고리즘 교육 및 정보올림피아드 수상 지도(2024–2026).",
-        "en": "Programming and algorithms instruction; coaching award-winning Informatics Olympiad students (2024–2026)."
+        "ko": "Python·C++로 자료구조와 알고리즘을 가르치고 정보올림피아드 대비를 개별 지도합니다.",
+        "en": "Individual instruction in Python, C++, data structures and algorithms, including preparation for the Informatics Olympiad."
       }
     },
     "lginnotek": {
@@ -516,8 +550,8 @@
           "en": "Digital Saessak · Programming courses"
         },
         "unclassified": {
-          "ko": "디지털새싹 · 세부 과정 확인 중",
-          "en": "Digital Saessak · Course details to confirm"
+          "ko": "디지털새싹 · 학교별 수업",
+          "en": "Digital Saessak · School-based instruction"
         }
       },
       "program": {
@@ -576,8 +610,8 @@
           "en": "SW Donghaeng · Programming courses"
         },
         "unclassified": {
-          "ko": "SW동행 · 세부 과정 확인 중",
-          "en": "SW Donghaeng · Course details to confirm"
+          "ko": "SW동행 · 학교별 수업",
+          "en": "SW Donghaeng · School-based instruction"
         }
       },
       "program": {
@@ -633,6 +667,35 @@
         "ko": "코딩스쿨 교육.",
         "en": "Coding-school instruction."
       }
+    },
+    "aba3": {
+      "group": "ai",
+      "title": {
+        "ko": "AI 비즈니스 에이전트 트랙 3기",
+        "en": "AI Business Agent Track, Cohort 3"
+      },
+      "program": {
+        "ko": "AI캠퍼스",
+        "en": "AI Campus"
+      }
+    },
+    "incheon-creator": {
+      "group": "ai",
+      "title": {
+        "ko": "아이디어를 콘텐츠로, AI 크리에이터",
+        "en": "From Ideas to Content: AI Creator"
+      },
+      "program": {
+        "ko": "인천 AI디지털배움터",
+        "en": "Incheon AI Digital Learning Center"
+      }
+    },
+    "jingwang-mentoring": {
+      "group": "ai",
+      "title": {
+        "ko": "디지털새싹 문제해결경진대회",
+        "en": "Digital Saessak Problem-Solving Competition"
+      }
     }
   },
   "teaching": [
@@ -642,7 +705,7 @@
       "organization": "educore",
       "role": "instructor",
       "start": "2026-08",
-      "end": null,
+      "end": "2026-10",
       "details": [
         {
           "id": "goyang-web-1",
@@ -675,27 +738,25 @@
         {
           "id": "goyang-codex",
           "title": {
-            "ko": "Codex 업무 비서 과정",
-            "en": "Codex work assistant course"
+            "ko": "Codex로 나만의 업무 비서 만들기",
+            "en": "Building a Personal Work Assistant with Codex"
           },
           "start": "2026-10",
-          "end": null,
+          "end": "2026-10",
           "role": "instructor",
           "curriculum": {
             "ko": "시민 대상 Codex 업무 비서 제작 교육.",
             "en": "Taught citizens to build Codex work assistants."
           },
           "note": {
-            "ko": "2026.10 과정 진행 중 · 10월 종료 예정.",
-            "en": "October 2026 course in progress; scheduled to finish in October."
-          },
-          "plannedEnd": "2026-10"
+            "ko": "10월 13·20·27일, 회당 2시간 편성.",
+            "en": "October 13, 20 and 27; two hours scheduled per session."
+          }
         }
       ],
-      "plannedEnd": "2026-10",
       "summary": {
-        "ko": "AI 웹 제작·배포, LLM 에이전트 활용 및 Codex 업무 비서 제작 교육.",
-        "en": "Taught AI-assisted web development and deployment, LLM agents and Codex work-assistant creation."
+        "ko": "고양시민에게 AI 웹페이지 제작·배포와 Codex 업무 비서 제작을 지도했습니다. 10월 과정은 13·20·27일에 진행했습니다.",
+        "en": "Taught Goyang residents to build and deploy websites and create a work assistant with Codex. The October course met on October 13, 20 and 27."
       },
       "operator": {
         "ko": "에듀코어센터",
@@ -718,7 +779,7 @@
       "organization": "modulabs",
       "role": "facilitator",
       "start": "2026-06",
-      "end": null,
+      "end": "2026-10",
       "details": [
         {
           "id": "codyssey-learners",
@@ -727,19 +788,17 @@
             "en": "MODULABS · Codyssey learners"
           },
           "start": "2026-06",
-          "end": null,
+          "end": "2026-10",
           "role": "facilitator",
           "curriculum": {
             "ko": "PBL 학습 이슈 조율·과제 수행 지원·교양 세미나 개설·운영.",
             "en": "Coordinated PBL learning issues, supported assignments, and organized and ran general-interest seminars."
-          },
-          "plannedEnd": "2026-10"
+          }
         }
       ],
-      "plannedEnd": "2026-10",
       "summary": {
-        "ko": "학습 이슈 조율·과제 수행 지원·교양 세미나 개설·운영.",
-        "en": "Coordinated learning issues, supported assignments, and organized and ran general-interest seminars."
+        "ko": "PBL 과정에서 학습 이슈를 조율하고 과제 수행을 지원했습니다. 학습자 대상 교양 세미나를 기획·운영했습니다.",
+        "en": "Coordinated project-based learning, supported assignments and ran general-interest seminars for participants."
       },
       "relationships": [
         {
@@ -766,7 +825,12 @@
           },
           "summary": false
         }
-      ]
+      ],
+      "careerCategory": "employment",
+      "periodLabel": {
+        "ko": "2026.06.01–2026.10.31",
+        "en": "Jun 1 – Oct 31, 2026"
+      }
     },
     {
       "id": "algorithms-coderland-2023-03",
@@ -788,6 +852,10 @@
           "curriculum": {
             "ko": "Python·C++, 자료구조·알고리즘 교육 및 개별 학습 지도. 2024–2026 정보올림피아드 대비 지도.",
             "en": "Python, C++, data structures and algorithms, individual learning support, and Informatics Olympiad preparation (2024–2026)."
+          },
+          "note": {
+            "ko": "2023.01.19 프리랜서 강사 위촉.",
+            "en": "Appointed as a freelance instructor on January 19, 2023."
           }
         }
       ],
@@ -822,14 +890,14 @@
             "en": "AI/AX instruction and practice, workplace project guidance, and feedback on project-plan presentations."
           },
           "note": {
-            "ko": "계약상 56시간.",
-            "en": "56 contracted teaching hours."
+            "ko": "7일, 총 56시간 강의.",
+            "en": "Seven teaching days, 56 hours in total."
           }
         }
       ],
       "summary": {
-        "ko": "AI·AX 강의·실습 및 현업 과제 계획 수립·발표에 대한 피드백.",
-        "en": "AI/AX instruction and hands-on practice, with feedback on workplace project plans and presentations."
+        "ko": "AI·AX 실습을 진행하고 현업 프로젝트 계획과 발표에 피드백을 제공했습니다. 7일간 총 56시간을 강의했습니다.",
+        "en": "Taught AI and AX practice and provided feedback on workplace project plans and presentations over seven days (56 teaching hours)."
       },
       "operator": {
         "ko": "엘리스그룹",
@@ -838,6 +906,10 @@
       "audience": {
         "ko": "LG이노텍 임직원",
         "en": "LG Innotek employees"
+      },
+      "periodLabel": {
+        "ko": "2026.07.01–2026.07.09",
+        "en": "Jul 1–9, 2026"
       }
     },
     {
@@ -845,8 +917,8 @@
       "course": "tacademy",
       "organization": "mincoding",
       "role": "instructor",
-      "start": "2025",
-      "end": "2025",
+      "start": "2025-10",
+      "end": "2025-11",
       "details": [
         {
           "id": "tacademy-course",
@@ -854,8 +926,8 @@
             "ko": "T아카데미",
             "en": "T Academy"
           },
-          "start": "2025",
-          "end": "2025",
+          "start": "2025-10",
+          "end": "2025-11",
           "role": "instructor",
           "curriculum": {
             "ko": "코딩테스트 문제해결·학습법, 복잡도, Python 자료구조·재귀·그래프·DFS/BFS.",
@@ -1693,6 +1765,10 @@
           "curriculum": {
             "ko": "업무 문제 정의·검증 기준·PRD 기반 AI PoC 실습 및 프로젝트 피드백.",
             "en": "AI PoC exercises based on business-problem definition, validation criteria and PRDs, with project feedback."
+          },
+          "note": {
+            "ko": "10월 14일, 8시간 편성.",
+            "en": "Eight hours scheduled on October 14."
           }
         }
       ],
@@ -1725,7 +1801,11 @@
           },
           "summary": false
         }
-      ]
+      ],
+      "periodLabel": {
+        "ko": "2026.10.14",
+        "en": "Oct 14, 2026"
+      }
     },
     {
       "id": "paju-ablearn-2026-05",
@@ -1869,6 +1949,74 @@
         "ko": "엘리스그룹",
         "en": "Elice Group"
       }
+    },
+    {
+      "id": "aba3-elice-2026-11",
+      "course": "aba3",
+      "organization": "elice-group",
+      "role": "coach",
+      "start": "2026-11",
+      "end": null,
+      "plannedEnd": "2026-12",
+      "periodLabel": {
+        "ko": "2026.11.11–2026.12.18 예정",
+        "en": "Nov 11 – Dec 18, 2026 (scheduled)"
+      },
+      "operator": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      },
+      "summary": {
+        "ko": "이론 수업과 2차 프로젝트를 코칭하고, 데이터 기반 업무 자동화 실습을 지원합니다.",
+        "en": "Coach participants during theory sessions and their second project, and support hands-on work in data-driven automation."
+      },
+      "details": []
+    },
+    {
+      "id": "incheon-ablearn-2026-11",
+      "course": "incheon-creator",
+      "organization": "ablearn",
+      "role": "lead",
+      "start": "2026-11",
+      "end": "2026-11",
+      "periodLabel": {
+        "ko": "2026.11.09",
+        "en": "Nov 9, 2026"
+      },
+      "operator": {
+        "ko": "에이블런",
+        "en": "ABLEARN"
+      },
+      "summary": {
+        "ko": "생성형 AI를 활용한 온라인 콘텐츠 제작 과정의 주강사를 맡았습니다. 1일 8시간 편성 과정입니다.",
+        "en": "Lead instructor for an online course on creating content with generative AI, scheduled as one eight-hour day."
+      },
+      "details": []
+    },
+    {
+      "id": "jingwang-educore-2026-10",
+      "course": "jingwang-mentoring",
+      "organization": "educore",
+      "role": "mentor",
+      "start": "2026-10",
+      "end": "2026-10",
+      "periodLabel": {
+        "ko": "2026.10.21",
+        "en": "Oct 21, 2026"
+      },
+      "operator": {
+        "ko": "한성대학교 산학협력단 · 에듀코어센터",
+        "en": "Hansung University Industry-Academic Cooperation Foundation · EduCore Center"
+      },
+      "audience": {
+        "ko": "진광고등학교",
+        "en": "Jingwang High School"
+      },
+      "summary": {
+        "ko": "청소년 금융안전 AI 프로젝트의 문제 정의와 구현 방향을 지도했습니다. 온라인 멘토링 90분을 진행했습니다.",
+        "en": "Mentored students for 90 minutes online on defining the problem and planning implementation for an AI project on youth financial safety."
+      },
+      "details": []
     }
   ],
   "otherExperience": [
@@ -1889,7 +2037,8 @@
       "teachingAssignments": [
         "tacademy-mincoding-2025",
         "sds-mincoding-2025"
-      ]
+      ],
+      "careerCategory": "teachingGroup"
     },
     {
       "id": "notitle",
@@ -1907,7 +2056,8 @@
       "description": {
         "ko": "백엔드 FastAPI · 프론트엔드 Next.js·React.",
         "en": "Backend: FastAPI · Frontend: Next.js and React."
-      }
+      },
+      "careerCategory": "employment"
     },
     {
       "id": "ted",
@@ -1924,7 +2074,9 @@
       "description": {
         "ko": "HTML·CSS·JavaScript 기반 서비스 프론트엔드 개발. 네이버·카카오 OAuth 로그인, 실명인증·결제 API 연동.",
         "en": "Service frontend development with HTML, CSS and JavaScript; Naver and Kakao OAuth login, identity verification and payment API integrations."
-      }
+      },
+      "careerCategory": "employment",
+      "portfolioProject": true
     },
     {
       "id": "goorm-kdigital-nlp",
@@ -1935,14 +2087,15 @@
       "start": "2022",
       "end": "2022",
       "role": {
-        "ko": "수료",
-        "en": "Completed"
+        "ko": "교육 참여",
+        "en": "Participant"
       },
       "description": {
         "ko": "Python·Jupyter Notebook 기반 머신러닝 기초 및 LSTM 등 자연어 처리 모델 구현.",
         "en": "Machine-learning fundamentals and NLP model implementation, including LSTM, using Python and Jupyter Notebook."
       },
-      "group": "activities"
+      "group": "activities",
+      "careerCategory": "training"
     },
     {
       "id": "42seoul",
@@ -1950,17 +2103,18 @@
         "ko": "42서울",
         "en": "42 Seoul"
       },
-      "start": "2020-07",
-      "end": "2021-11",
+      "start": "2020",
+      "end": "2021",
       "role": {
         "ko": "라피신 참가 · 본과정 Cadet",
         "en": "La Piscine participant · Core-program Cadet"
       },
       "description": {
-        "ko": "라피신: 2020.07–2020.08. 본과정 Cadet: 2020.09–2021.11.",
-        "en": "La Piscine: 2020.07–2020.08. Core program (Cadet): 2020.09–2021.11."
+        "ko": "라피신과 본과정에 참여해 소프트웨어 프로젝트를 수행했습니다.",
+        "en": "Participated in La Piscine and the core program, working on software projects."
       },
-      "group": "activities"
+      "group": "activities",
+      "careerCategory": "training"
     },
     {
       "id": "cleaning-service",
@@ -1978,13 +2132,15 @@
         "ko": "청소 예약·공간 관리 기능 개발 및 소스 코드·MySQL DB 구조 인계.",
         "en": "Developed cleaning reservation and space-management functionality and handed over source code and the MySQL database structure."
       },
-      "group": "development"
+      "group": "development",
+      "careerCategory": "project",
+      "portfolioProject": true
     },
     {
       "id": "kimanna-capstone",
       "title": {
-        "ko": "KimAnNa · 구인구직 SNS 졸업프로젝트",
-        "en": "KimAnNa · Recruitment SNS Capstone Project"
+        "ko": "KimAnNa2 · 구인구직 SNS 졸업 프로젝트",
+        "en": "KimAnNa2 · Recruitment Network Capstone"
       },
       "start": "2018",
       "end": "2018",
@@ -1993,11 +2149,13 @@
         "en": "Web development"
       },
       "description": {
-        "ko": "피드·친구 관계·댓글·채팅 기능 및 데이터베이스·서버 연동 구현.",
-        "en": "Implemented feed, friend-relationship, comment and chat features with database and server integration."
+        "ko": "채용을 위한 SNS의 웹 개발에 참여했습니다. Node.js·Express·MongoDB 기반으로 피드, 댓글, 채팅과 사용자 간 연결을 구현한 팀 프로젝트입니다.",
+        "en": "Contributed to a recruitment network built with Node.js, Express and MongoDB. The team project included a feed, comments, chat and social connections."
       },
       "url": "https://github.com/Snowiner/KimAnNa2",
-      "group": "activities"
+      "group": "activities",
+      "careerCategory": "project",
+      "portfolioProject": true
     },
     {
       "id": "openaithon",
@@ -2015,7 +2173,9 @@
         "ko": "프로젝트 제안, 데이터·게임 설계, Python 기반 경쟁 학습 게임 실험과 결과 발표.",
         "en": "Project proposals, data and game design, Python-based competitive-learning game experiments, and result presentations."
       },
-      "group": "activities"
+      "group": "activities",
+      "careerCategory": "project",
+      "portfolioProject": true
     },
     {
       "id": "manlev",
@@ -2023,8 +2183,8 @@
         "ko": "주식회사 만렙게임즈 · 서먼러시",
         "en": "Manlev Games · Summon Rush"
       },
-      "start": "2014-06",
-      "end": "2015-01",
+      "start": "2014",
+      "end": "2015",
       "role": {
         "ko": "기획팀 · 게임기획자",
         "en": "Game designer"
@@ -2033,57 +2193,26 @@
         "ko": "모바일게임의 레벨 디자인·스토리·밸런싱, 확률·과금 구조 설계.",
         "en": "Mobile-game level design, story, balancing, probability and monetization design."
       },
-      "group": "development"
+      "group": "development",
+      "careerCategory": "employment"
     }
   ],
   "currentRoles": [
     {
-      "id": "educore",
-      "teaching": "goyang-educore-2026-08",
+      "id": "elice-aba3",
+      "teaching": "aba3-elice-2026-11",
       "title": {
-        "ko": "고양 스마트시티즌",
-        "en": "Goyang Smart Citizen"
-      },
-      "context": {
-        "ko": "AI 웹 제작 과정 · Codex 업무 비서 과정",
-        "en": "AI-assisted web development course · Codex work assistant course"
-      }
-    },
-    {
-      "id": "modulabs",
-      "teaching": "codyssey-modulabs-2026-06",
-      "title": {
-        "ko": "PBL 퍼실리테이터",
-        "en": "PBL facilitator"
-      },
-      "context": {
-        "ko": "코디세이 · AI Native 과정",
-        "en": "Codyssey · AI Native course"
+        "ko": "AI 비즈니스 에이전트 트랙 3기 코치",
+        "en": "AI Business Agent Track coach, Cohort 3"
       }
     },
     {
       "id": "coderland",
       "teaching": "algorithms-coderland-2023-03",
       "title": {
-        "ko": "온라인 프로그래밍 교육(프리랜서)",
-        "en": "Freelance online programming education"
+        "ko": "온라인 코딩강사 · 프리랜서",
+        "en": "Freelance online coding instructor"
       }
-    },
-    {
-      "id": "elice",
-      "organization": "elice",
-      "start": "2023-01",
-      "end": null,
-      "title": {
-        "ko": "프로젝트별 프리랜서 강사",
-        "en": "Project-based freelance instructor"
-      },
-      "periodBasis": "selection_and_onboarding",
-      "periodLabel": {
-        "ko": "2023.01 · 선발·온보딩",
-        "en": "2023.01 · Selection / onboarding"
-      },
-      "display": false
     }
   ],
   "researchTopics": [
@@ -2094,6 +2223,40 @@
     {
       "ko": "신경망 구조 학습",
       "en": "Neural Architecture Learning"
+    }
+  ],
+  "professionalDevelopment": [
+    {
+      "id": "ablearn-partner-training-2026-11",
+      "date": "2026-11-11",
+      "title": {
+        "ko": "AI 시대 직장인의 필수 상식: 보안부터 효율, 책임 있는 활용까지",
+        "en": "AI at Work: Security, Efficiency and Responsible Use"
+      },
+      "organization": {
+        "ko": "에이블런",
+        "en": "ABLEARN"
+      },
+      "summary": {
+        "ko": "파트너 강사 보수교육에 참석해 AI 윤리와 보안, 책임 있는 활용을 다뤘습니다.",
+        "en": "Attended partner-instructor development on AI ethics, security and responsible use."
+      }
+    },
+    {
+      "id": "edge-llm-training-2026-04",
+      "date": "2026-04-13",
+      "title": {
+        "ko": "Edge와 LLM을 활용한 현장 문제 해결형 AI 시스템 설계",
+        "en": "Designing AI Systems for Workplace Problems with Edge Computing and LLMs"
+      },
+      "organization": {
+        "ko": "능력개발교육원",
+        "en": "Human Resources Development Institute"
+      },
+      "summary": {
+        "ko": "인공지능 분야 강사 보수교육 12시간을 이수했습니다.",
+        "en": "Completed 12 hours of professional development for AI instructors."
+      }
     }
   ]
 }

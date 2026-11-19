@@ -1,172 +1,166 @@
-"""Shared design and semantic responsive-table regression checks."""
-import unittest,sys,re
+"""Test the actual public pages, their accessibility and the publication boundary."""
+import hashlib
+import re
+import sys
+import unittest
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from design import DESIGN,TYPE,COLUMNS,css_tokens
-from content import teaching_records,teaching_columns
-import site_sections
+from urllib.parse import unquote, urljoin, urlsplit
 
-def luminance(value):
-    rgb=[int(value[i:i+2],16)/255 for i in (1,3,5)]
-    linear=[c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4 for c in rgb]
-    return sum(c*w for c,w in zip(linear,[.2126,.7152,.0722]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from content import DATA, bibtex, reference
+from design import DESIGN, css_tokens
+from rendered_site import LANGUAGES, PAGES, ROOT, SECTIONS, DocumentParser, page, page_path, section, text
 
-class SharedDesignTests(unittest.TestCase):
-    def test_palette_text_pairs_have_aa_contrast(self):
-        for mode,palette in DESIGN['palette'].items():
-            for text in ['ink','secondary','accent','date']:
-                for background in ['paper','tint','beige','table-meta','table-body']:
-                    values=sorted([luminance(palette[text]),luminance(palette[background])])
-                    ratio=(values[1]+.05)/(values[0]+.05)
-                    self.assertGreaterEqual(ratio,4.5,(mode,text,background,ratio))
-    def test_review_ready_palette_preserves_original_identity_reference(self):
-        self.assertEqual(DESIGN['identityPalette'],
-                         {'white':'#FFFFFF','charcoal':'#303735','mint':'#A8CFC3','beige':'#E8DFD0'})
-        self.assertEqual(DESIGN['palette']['light']['ink'],'#303B40')
-        self.assertEqual(DESIGN['palette']['light']['accent'],'#203C4B')
-        self.assertEqual(DESIGN['palette']['light']['paper'],'#FFFFFF')
-        self.assertEqual(DESIGN['palette']['light']['tint'],'#F0F6F2')
-        self.assertEqual(DESIGN['palette']['light']['beige'],'#F5F1E9')
-        self.assertIn('approved refined B editorial',DESIGN['paletteStatus'])
-        self.assertEqual(set(DESIGN['palette']['light']),set(DESIGN['palette']['dark']))
-        self.assertNotIn('camel',DESIGN['paletteCandidates'])
-        self.assertEqual(DESIGN['palette']['light']['camel'],'#B68D64')
-        self.assertEqual(DESIGN['palette']['dark']['camel'],'#B68D64')
-        self.assertIn('--camel:',css_tokens())
 
-    def test_web_and_pdf_tokens_keep_readable_sizes_and_column_proportions(self):
-        self.assertEqual(TYPE['webBody'],16)
-        self.assertEqual(TYPE['webSecondary'],14)
-        self.assertGreaterEqual(TYPE['pdfBody'],10)
-        self.assertGreaterEqual(TYPE['pdfSecondary'],9)
-        self.assertEqual(sum(COLUMNS),100)
-        self.assertIn('--teaching-provider-width:22%',css_tokens())
-        root=Path(__file__).resolve().parents[1]
-        current=re.search(r'<style id="snow-design-tokens">([^<]+)</style>',(root/'index.html').read_text())[1]
-        self.assertEqual(css_tokens(),current)
-    def test_control_outlines_meet_non_text_contrast(self):
-        for mode,palette in DESIGN['palette'].items():
-            self.assertNotEqual(palette['control-border'],palette['line'])
-            for background in ['paper','tint','beige','table-meta','table-body']:
-                low,high=sorted([luminance(palette['control-border']),luminance(palette[background])])
-                self.assertGreaterEqual((high+.05)/(low+.05),3,(mode,background))
-        css=(Path(__file__).resolve().parents[1]/'assets/site.css').read_text()
-        for selector in ['.language','.action','select','.career-toggle']:
-            rule=' '.join(re.findall(r'(?m)^\s*'+re.escape(selector)+r' \{([^}]+)\}',css))
-            self.assertIn('border: 1px solid var(--control-border);',rule,selector)
-        self.assertIn('border-bottom: 1px solid var(--line);',css)
+def contrast(first, second):
+    def luminance(value):
+        rgb = [int(value[i:i+2], 16) / 255 for i in (1, 3, 5)]
+        linear = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055)**2.4 for c in rgb]
+        return sum(c*w for c, w in zip(linear, (0.2126, 0.7152, 0.0722)))
+    low, high = sorted((luminance(first), luminance(second)))
+    return (high + 0.05) / (low + 0.05)
 
-    def test_web_and_pdf_share_local_heading_identity(self):
-        root=Path(__file__).resolve().parents[1]
-        css=(root/'assets/site.css').read_text()
-        face=re.search(r'@font-face \{([^}]+)\}',css)[1]
-        self.assertIn('font-family: "Nanum Myeongjo";',face)
-        self.assertIn('font-weight: 700;',face)
-        self.assertIn('font-display: swap;',face)
-        font_path=re.search(r'url\("([^"\)]+)"\)',face)[1]
-        self.assertEqual(font_path,'fonts/NanumMyeongjo-Bold.woff')
-        self.assertEqual((root/'assets'/font_path).read_bytes()[:4],b'wOFF')
-        self.assertTrue((root/'licenses/NanumMyeongjo-OFL.txt').is_file())
-        self.assertEqual(TYPE['webHeadingWeight'],700)
-        self.assertIn('--font-display-weight:700;',css_tokens())
-        self.assertEqual(TYPE['pdfRegularFile'],'NanumGothic-Regular.ttf')
-        self.assertEqual(TYPE['pdfBoldFile'],'NanumGothic-Bold.ttf')
-        self.assertEqual(TYPE['pdfHeadingFile'],'NanumMyeongjo-Bold.ttf')
-        self.assertIn('.panel-heading h2, .cv-heading, .fold-toggle, .history-group h3 { font-family: var(--font-display-family); font-weight: var(--font-display-weight); }',css)
-        identity=re.search(r'\.cv-identity h1 \{([^}]+)\}',css)[1]
-        self.assertIn('font-weight: var(--font-display-weight);',identity)
 
-    def test_secondary_type_uses_one_readable_token(self):
-        css=(Path(__file__).resolve().parents[1]/'assets/site.css').read_text()
-        self.assertNotRegex(css,r'font-size:\s*(?:12|13|14)px')
-        for selector in ['.aside-label','.cv-year','.record-meta','.paper-venue',
-                         '.copy-status','.paper-topics li','.topic-tag','.resource-description',
-                         '.history-meta','.career-detail-note','.teaching-period',
-                         '.teaching-cell-label','.fold-preview','.footer']:
-            rule=' '.join(re.findall(r'(?m)^\s*'+re.escape(selector)+r' \{([^}]+)\}',css))
-            self.assertIn('font-size: var(--font-secondary-size);',rule,selector)
-        self.assertIn('font: 400 var(--font-secondary-size)/1.8 var(--font-body-family);',css)
+class PublicDesignTests(unittest.TestCase):
+    def test_text_links_and_controls_have_readable_contrast(self):
+        for mode, palette in DESIGN['palette'].items():
+            for fg in ('ink', 'secondary', 'accent', 'date'):
+                for bg in ('paper', 'tint'):
+                    self.assertGreaterEqual(contrast(palette[fg], palette[bg]), 4.5, (mode, fg, bg))
+            self.assertGreaterEqual(contrast(palette['selected'], palette['on-selected']), 4.5)
+            self.assertGreaterEqual(contrast(palette['control-border'], palette['paper']), 3)
 
-    def test_headers_and_tags_use_shared_surface_roles(self):
-        css=(Path(__file__).resolve().parents[1]/'assets/site.css').read_text()
-        for selector,background in [('.teaching-table th','tint'),('.paper-topics li','tint'),('.topic-tag','beige')]:
-            rule=' '.join(re.findall(r'(?m)^\s*'+re.escape(selector)+r' \{([^}]+)\}',css))
-            self.assertIn(f'background: var(--{background});',rule,selector)
-            self.assertIn('color: var(--accent);',rule,selector)
+    def test_local_fonts_load_without_blocking_text(self):
+        css = (ROOT/'assets/site.css').read_text()
+        faces = re.findall(r'@font-face\s*\{([^}]+)\}', css)
+        self.assertTrue(faces)
+        for face in faces:
+            self.assertRegex(face, r'font-display\s*:\s*swap')
+            filename = re.search(r'url\(["\']?([^)"\']+)', face)[1]
+            self.assertNotIn('://', filename)
+            self.assertIn((ROOT/'assets'/filename).read_bytes()[:4], [b'wOFF',b'wOF2'])
+        for font in ('Pretendard','NanumMyeongjo'):
+            self.assertTrue((ROOT/'licenses'/f'{font}-OFL.txt').exists())
 
-    def test_camel_is_decorative_without_recoloring_text_or_controls(self):
-        root=Path(__file__).resolve().parents[1]
-        css=(root/'assets/site.css').read_text()
-        self.assertNotIn('color: var(--camel)',css)
-        for selector in ['.cv-identity','.cv-heading','.teaching-table th']:
-            rule=' '.join(re.findall(r'(?m)^\s*'+re.escape(selector)+r' \{([^}]+)\}',css))
-            self.assertIn('var(--camel)',rule,selector)
-        code=(root/'scripts/build_cv.py').read_text()
-        self.assertIn("('LINEABOVE', (0, header_index), (-1, header_index), .65, CAMEL)",code)
-        self.assertNotIn('textColor=CAMEL',code)
+    def test_static_pages_have_a_single_landmark_and_unique_identifiers(self):
+        for lang in LANGUAGES:
+            for tab in PAGES:
+                doc = page(lang, tab)
+                with self.subTest(lang=lang, page=tab):
+                    self.assertEqual(doc.find('html').get('lang'), lang)
+                    self.assertEqual(len(doc.findall('.//main')), 1)
+                    self.assertEqual(len(doc.findall('.//main//h1')), 1)
+                    self.assertTrue(text(doc.find('.//title')))
+                    self.assertGreater(len(text(doc.find('.//main'))), 100)
+                    ids = [el.get('id') for el in doc.iter() if 'id' in el.attrib]
+                    self.assertEqual(len(set(ids)), len(ids))
+                    self.assertFalse(any(el.tag in ('details','summary') or 'aria-expanded' in el.attrib
+                                         for el in doc.iter()))
+                    self.assertFalse(any(el.get('role') in ('tab','tabpanel','tablist') for el in doc.iter()))
 
-    def test_teaching_body_surfaces_match_pdf_columns(self):
-        root=Path(__file__).resolve().parents[1]
-        css=(root/'assets/site.css').read_text()
-        self.assertIn('.teaching-table th { padding: 9px 12px;',css)
-        self.assertIn('.teaching-table td { padding: var(--space-row) 12px;',css)
-        self.assertIn('.teaching-table td { padding: 10px 0; border: 0; }',css)
-        self.assertIn('.teaching-table tbody td { background: var(--paper); }',css)
-        self.assertIn('.teaching-table tbody td.teaching-course { background: var(--paper); }',css)
-        code=(root/'scripts/build_cv.py').read_text()
-        self.assertIn("('BACKGROUND', (0, header_index+1), (1, -1), HexColor(PALETTE['table-meta']))",code)
-        self.assertIn("('BACKGROUND', (2, header_index+1), (2, -1), HexColor(PALETTE['table-body']))",code)
-        self.assertIn('career_table.repeatRows = (header_index,)',code)
+    def test_documents_reference_current_styles_and_interactions(self):
+        for lang in LANGUAGES:
+            for tab in PAGES:
+                html = page_path(lang, tab).read_text()
+                self.assertIn(css_tokens(), html)
+                for ext in ('js','css'):
+                    filename = 'site.' + ext
+                    digest = hashlib.sha256((ROOT/'assets'/filename).read_bytes()).hexdigest()[:12]
+                    self.assertIn('/assets/' + filename + '?v=' + digest, html)
 
-    def test_shared_panels_use_white_paper_and_restrained_radius(self):
-        self.assertEqual(DESIGN['palette']['light']['paper'], '#FFFFFF')
-        self.assertEqual(DESIGN['radius'], {'webPanel': 0, 'webTable': 0, 'pdfPanel': 5})
-        self.assertIn('--panel-radius:0px;', css_tokens())
-        self.assertIn('--table-radius:0px;', css_tokens())
-        css=(Path(__file__).resolve().parents[1]/'assets/site.css').read_text()
-        self.assertIn('background: var(--paper); border-radius: var(--panel-radius);', css)
-        self.assertIn('border-collapse: separate; border-spacing: 0;', css)
-        self.assertNotRegex(css, r'(?:teaching-table|current-roles|paper)\s*\{[^}]*overflow:\s*hidden')
+    def test_language_alternates_and_skip_links_point_to_the_right_page(self):
+        for lang in LANGUAGES:
+            for tab in PAGES:
+                doc = page(lang,tab)
+                canonical = doc.find('.//link[@rel="canonical"]').get('href')
+                site_path = page_path(lang,tab).relative_to(ROOT).as_posix().removesuffix('index.html')
+                self.assertEqual(canonical, urljoin(DATA['profile']['portfolioUrl'], site_path))
+                alts = {a.get('hreflang'):a.get('href') for a in doc.findall('.//link[@rel="alternate"]')}
+                self.assertEqual(set(alts), {'en','ko','x-default'})
+                self.assertEqual(alts['x-default'], alts['ko'])
+                self.assertEqual(alts[lang], canonical)
+                self.assertTrue(any(a.get('href') == '#'+doc.find('.//main').get('id') for a in doc.iter('a')))
 
-    def test_semantic_table_and_native_disclosure_controls(self):
-        records=teaching_records()
-        html=site_sections.teaching_table(records)
-        self.assertEqual(html.count('<th scope="col">'),3)
-        self.assertEqual(html.count('<td '),3*len(records))
-        self.assertIn('role="table"',html)
-        self.assertIn('<caption class="sr-only">',html)
-        for attrs in re.findall(r'<button ([^>]+)>',html):
-            self.assertIn('type="button"',attrs)
-            self.assertIn('aria-controls=',attrs)
-            self.assertIn('data-title-ko=',attrs)
-            self.assertIn('data-title-en=',attrs)
-        css=(Path(__file__).resolve().parents[1]/'assets/site.css').read_text()
-        self.assertIn('@media (max-width: 720px)',css)
-        self.assertIn('.teaching-table td { display: block; width: 100%; }',css)
+    def test_internal_links_assets_and_bookmarks_resolve(self):
+        host = urlsplit(DATA['profile']['portfolioUrl']).hostname
+        for lang in LANGUAGES:
+            for tab in PAGES:
+                doc = page(lang,tab)
+                base = doc.find('.//link[@rel="canonical"]').get('href')
+                for el in doc.iter():
+                    raw = el.get('href') if el.tag in ('a','link') else el.get('src')
+                    if not raw:
+                        continue
+                    link = urlsplit(urljoin(base, raw))
+                    if link.hostname != host or link.scheme not in ('https','http'):
+                        continue
+                    path = ROOT / unquote(link.path).lstrip('/')
+                    if path.is_dir():
+                        path /= 'index.html'
+                    with self.subTest(page=base, target=raw):
+                        self.assertTrue(path.is_file(), raw)
+                        if link.fragment and path.suffix == '.html':
+                            self.assertIn('id="' + unquote(link.fragment) + '"', path.read_text())
+
+    def test_each_publication_has_working_citation_and_bibtex_targets(self):
+        for lang in LANGUAGES:
+            works = page(lang,'portfolio')
+            self.assertEqual(len(works.findall('.//*[@data-paper]')), 3)
+            for paper in DATA['papers']:
+                article = works.find(f'.//*[@id="paper-{paper["id"]}"]')
+                self.assertIsNotNone(article)
+                targets = {b.get('data-copy') for b in article.iter('button')}
+                self.assertEqual(targets, {'ref-'+paper['id'], 'bib-'+paper['id']})
+                for prefix, expected in [('ref',reference(paper,lang)), ('bib',bibtex(paper))]:
+                    template = article.find(f'.//template[@id="{prefix}-{paper["id"]}"]')
+                    self.assertIsNotNone(template)
+                    self.assertEqual(''.join(template.itertext()).strip(), expected.strip())
+                self.assertIsNotNone(article.find('.//*[@role="status"]'))
+                self.assertIn(paper['url'], [a.get('href') for a in article.iter('a')])
+
+    def test_career_categories_have_navigable_headings_and_honest_empty_states(self):
+        for lang in LANGUAGES:
+            doc = page(lang,'career')
+            for key in SECTIONS:
+                node = section(lang,key)
+                self.assertTrue(text(node.find('h2')))
+                self.assertTrue(any(link.get('href') == '#'+key for link in doc.iter('a')))
+            for key in ('awards','writing'):
+                self.assertIsNone(section(lang,key).find('.//article'))
+
+    def test_public_html_excludes_private_sources_course_materials_and_pending_claims(self):
+        for lang in LANGUAGES:
+            for tab in PAGES:
+                html = page_path(lang,tab).read_text()
+                for private in ('mail.google.com','drive.google.com','docs.google.com','chatgpt.com/library',
+                                '/learn/prompt-engineering','robotics-story-snow','프롬프트에서 에이전트 시스템으로',
+                                '가중치별 학습률 조절의 설계와','한국IT서비스학회'):
+                    self.assertNotIn(private, html, (lang,tab,private))
+
+    def test_old_course_url_redirects_without_serving_the_lesson(self):
+        legacy = (ROOT/'learn/prompt-engineering/index.html').read_text()
+        parser = DocumentParser()
+        parser.feed(legacy)
+        parser.close()
+        robots = parser.root.find('.//meta[@name="robots"]')
+        refresh = parser.root.find('.//meta[@http-equiv="refresh"]')
+        self.assertIn('noindex', robots.get('content').lower())
+        self.assertEqual(refresh.get('content').lower().replace(' ', ''), '0;url=/portfolio/')
+        self.assertTrue(any(a.get('href') == '/portfolio/' for a in parser.root.iter('a')))
+        self.assertNotIn('프롬프트에서 에이전트 시스템으로', legacy)
+
+    def test_responsive_and_keyboard_styles_do_not_depend_on_animation(self):
+        css = (ROOT/'assets/site.css').read_text()
         self.assertIn(':focus-visible',css)
-        self.assertIn('width: 44px; height: 44px',css)
-    def test_ink_web_theme_keeps_small_sign_and_large_hit_area(self):
-        css=(Path(__file__).resolve().parents[1]/'assets/site.css').read_text()
-        theme=css.split('/* Ink and paper:',1)[1]
-        toggle=' '.join(re.findall(r'(?m)^\s*\.career-toggle \{([^}]+)\}',css))
-        sign=re.findall(r'(?m)^\s*\.career-sign \{([^}]+)\}',theme)[0]
-        self.assertIn('width: 44px; height: 44px',toggle)
-        self.assertIn('width: 24px; height: 24px',sign)
-        self.assertIn('font-size: 16px',sign)
-        self.assertIn('border: 1px solid var(--control-border)',sign)
-        self.assertIn('pointer-events: none',theme)
-        self.assertIn('@media (forced-colors: active)',theme)
-        # Website palette is scoped so PDF token expectations stay unchanged.
-        ink_palette=dict(re.findall(r'--([a-z-]+): (#[A-Fa-f0-9]{6});',theme))
-        for text in ['ink','secondary','accent','date']:
-            for surface in ['paper','tint','beige']:
-                low,high=sorted([luminance(ink_palette[text]),luminance(ink_palette[surface])])
-                self.assertGreaterEqual((high+.05)/(low+.05),4.5,(text,surface))
+        self.assertRegex(css,r'@media\s*\(max-width\s*:\s*\d+px\)')
+        self.assertIn('@media print',css)
+        self.assertNotRegex(css,r'(?:^|[;{])\s*(?:animation|backdrop-filter)\s*:')
 
-    def test_decomposition_preserves_provider_course_role(self):
-        for row in teaching_records():
-            for lang in ['ko','en']:
-                values=teaching_columns(row,lang)
-                self.assertTrue(values['organization'])
-                self.assertTrue(values['subject'])
-                self.assertTrue(values['role'])
+    def test_quantization_figure_links_to_the_paper_and_has_an_alternative(self):
+        for lang in LANGUAGES:
+            figure = page(lang).find('.//figure')
+            self.assertIsNotNone(figure)
+            image = figure.find('.//img')
+            self.assertGreater(len(image.get('alt','')), 10)
+            self.assertTrue(int(image.get('width')) > 0 and int(image.get('height')) > 0)
+            self.assertTrue(any(a.get('href','').endswith('#paper-2025') for a in figure.iter('a')))

@@ -1,13 +1,13 @@
 {
   "palette": {
     "light": {
-      "paper": "#FFFFFF",
-      "ink": "#303B40",
-      "secondary": "#526267",
-      "line": "#DBE3DF",
-      "accent": "#203C4B",
-      "tint": "#F0F6F2",
-      "selected": "#203C4B",
+      "paper": "#F8F7F3",
+      "ink": "#202C2B",
+      "secondary": "#4E5D59",
+      "line": "#CDD2C9",
+      "accent": "#285D50",
+      "tint": "#E9EEE7",
+      "selected": "#285D50",
       "on-selected": "#FFFFFF",
       "beige": "#F5F1E9",
       "tag-border": "#A2B2AB",
@@ -15,7 +15,7 @@
       "camel": "#B68D64",
       "table-meta": "#FAF8F4",
       "table-body": "#FFFFFF",
-      "date": "#4A7063"
+      "date": "#475E54"
     },
     "dark": {
       "paper": "#222831",
@@ -38,8 +38,8 @@
   "typography": {
     "webBody": 16,
     "webSecondary": 14,
-    "webTitle": "\"Nanum Myeongjo\", \"Noto Serif KR\", Georgia, \"Batang\", serif",
-    "webBodyFamily": "\"Nanum Gothic\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+    "webTitle": "\"Nanum Myeongjo\", Georgia, \"Batang\", serif",
+    "webBodyFamily": "\"Portfolio Sans\", \"Pretendard\", -apple-system, BlinkMacSystemFont, \"Apple SD Gothic Neo\", \"Malgun Gothic\", sans-serif",
     "pdfBody": 10,
     "pdfSecondary": 9,
     "pdfLeading": 13.5,
@@ -61,7 +61,7 @@
     22,
     60
   ],
-  "paletteStatus": "approved refined B editorial: white paper, serif headings, thin camel rules, restrained mint and beige accents",
+  "paletteStatus": "Ink on warm paper, forest-green links, sage research figure",
   "identityPalette": {
     "mint": "#A8CFC3",
     "beige": "#E8DFD0",

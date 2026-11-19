@@ -1,49 +1,38 @@
 """Verified course names remain associated with their own schools and tracks."""
 import sys,unittest
 from pathlib import Path
-from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from content import DATA,teaching_records,detail_program_titles,school_program_groups
-import site_sections
+from rendered_site import section, text
 
 class VerifiedCourseTitlesTests(unittest.TestCase):
     def records(self,course):
         return [r for r in teaching_records() if r['course']==course]
 
-    def test_schools_and_formal_names_reach_all_three_surfaces(self):
-        import build_cv
-        from html import escape, unescape
-        for row in self.records('donghaeng-data')+self.records('saessak')+self.records('donghaeng'):
-            for lang in ['ko','en']:
-                expected=[title for group in school_program_groups(row,lang) for title in group['titles']]
-                summary=site_sections.teaching_entry(row,True)
-                details=site_sections.teaching_entry(row,False)
-                with patch.object(build_cv,'p',side_effect=lambda value,*a,**k:value):
-                    rendered=str(build_cv.teaching_pdf_rows(row,lang))
-                for title in expected:
-                    self.assertIn(escape(title),details)
-                    self.assertIn(escape(title),summary)
-                    self.assertIn(escape(title),rendered)
-                expected_schools={d['title'][lang].split(' · ')[0] for d in row['details']}
-                names=[school for group in school_program_groups(row,lang) for school in group['schools']]
-                self.assertEqual(set(names),expected_schools)
-                self.assertEqual(len(names),len(expected_schools))
-                for school in expected_schools:
-                    for output in [summary,rendered]:
-                        self.assertIn(school,unescape(output))
-                school_block=summary.split('<div class="teaching-programs">')[1].split('</div>')[0]
-                self.assertNotIn('cv-sub',school_block)
-                for role in DATA['roles'].values():
-                    self.assertNotIn('>'+role[lang]+'<',school_block)
-                self.assertNotIn('2024.',school_block)
+    def test_verified_course_names_are_attached_to_their_own_school(self):
+        for row in self.records('donghaeng-data') + self.records('saessak') + self.records('donghaeng'):
+            for lang in ['ko', 'en']:
+                schools = row['details']
+                expected = {detail['title'][lang].split(' · ')[0] for detail in schools}
+                grouped = [school for group in school_program_groups(row, lang) for school in group['schools']]
+                self.assertEqual(set(grouped), expected)
+                self.assertEqual(len(grouped), len(expected))
+                for detail in schools:
+                    with self.subTest(school=detail['id'], language=lang):
+                        element = section(lang, 'teaching').find(f'.//*[@data-detail="{detail["id"]}"]')
+                        self.assertIsNotNone(element)
+                        display = text(element)
+                        self.assertIn(detail['title'][lang].split(' · ')[0], display)
+                        for title in detail_program_titles(detail):
+                            self.assertIn(title[lang], display)
 
     def test_school_only_names_do_not_duplicate_classes_or_erase_details(self):
         row=self.records('donghaeng-data')[0]
         groups=school_program_groups(row,'ko')
         self.assertEqual([g['schools'] for g in groups if '한동글로벌학교' in g['schools']], [['한동글로벌학교']])
         self.assertEqual(len([d for d in row['details'] if d['id'].startswith('handong')]),2)
-        self.assertIn('한동글로벌학교 · A반',site_sections.teaching_details(row))
-        self.assertIn('한동글로벌학교 · B반',site_sections.teaching_details(row))
+        self.assertIn('한동글로벌학교 · A반',text(section('ko', 'teaching')))
+        self.assertIn('한동글로벌학교 · B반',text(section('ko', 'teaching')))
 
     def test_sudo_tracks_merge_without_duplicate_course_names(self):
         row=self.records('saessak')[0]
@@ -73,7 +62,7 @@ class VerifiedCourseTitlesTests(unittest.TestCase):
         self.assertEqual((title['verifiedTeachingStart'],title['verifiedTeachingEnd']),('2024-11','2024-12'))
         self.assertEqual(details['cheongwon-girls']['start'],'2024-09')
         row=self.records('saessak')[0]
-        self.assertIn('2024.11–2024.12',site_sections.teaching_details(row))
+        self.assertIn('2024.11–2024.12',text(section('ko', 'teaching')))
         groups=school_program_groups(row,'ko')
         self.assertTrue(all('2024.' not in title for g in groups for title in g['titles']))
 
@@ -125,11 +114,10 @@ class VerifiedCourseTitlesTests(unittest.TestCase):
         self.assertEqual(gosaek['audience'],'고색고등학교')
         self.assertEqual(gosaek['organizationLabel'],'')
         for lang in ['ko','en']:
-            html=site_sections.teaching_entry(rows['hanalife-2026-10'],True)
-            middle=html.split('class="teaching-provider"')[1].split('</td>')[0]
-            right=html.split('class="teaching-course"')[1].split('</td>')[0]
-            self.assertNotIn(rows['hanalife-2026-10']['audience'][lang],middle)
-            self.assertIn(rows['hanalife-2026-10']['audience'][lang],right)
+            item=section(lang, 'teaching').find('.//*[@data-record="hanalife-2026-10"]')
+            public = text(item)
+            self.assertIn(rows['hanalife-2026-10']['audience'][lang], public)
+            self.assertIn(rows['hanalife-2026-10']['operator'][lang], public)
 
     def test_workshop_uses_verified_round_and_event_without_inventing_date(self):
         row=next(r for r in DATA['teaching'] if r['course']=='ai-workshop')

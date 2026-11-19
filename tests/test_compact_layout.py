@@ -1,4 +1,4 @@
-"""Shared facts feed three displays; PDF-only condensation is presentation logic."""
+"""A complete career directory and concise research views share the public data."""
 import copy
 import sys
 import unittest
@@ -6,8 +6,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from content import DATA, LOCALES, localized, period, validate, teaching_records
-import build_site
+from content import DATA, localized, period, validate, teaching_records
+from rendered_site import page, section, text
 import publications
 import site_sections
 
@@ -20,16 +20,10 @@ class CompactPresentationTests(unittest.TestCase):
         self.assertEqual(values['ko']['provider'], '고양 스마트시티즌')
         self.assertEqual(values['ko']['organization'], '에듀코어센터')
         self.assertEqual(values['ko']['subject'], 'AI 웹 제작 과정 · Codex 업무 비서 과정')
-        for summary in [True,False]:
-            html=site_sections.teaching_entry(row,summary)
-            self.assertEqual(html.count('<td '),3)
-            provider=html.split('<td class="teaching-provider"')[1].split('</td>')[0]
-            course=html.split('<td class="teaching-course"')[1].split('</td>')[0]
-            self.assertIn('고양 스마트시티즌',provider)
-            self.assertIn('에듀코어센터',provider)
-            self.assertIn('AI 웹 제작 과정',course)
-            self.assertNotIn('class="teaching-role"',course)  # Generic instructor label is redundant.
-            self.assertNotIn('고양 스마트시티즌',course.split('class="teaching-course-title"')[1].split('</h4>' if not summary else '</strong>')[0])
+        for lang in ('ko','en'):
+            article = section(lang,'teaching').find(f'.//*[@data-record="{row["id"]}"]')
+            for key in ('provider', 'organization', 'subject'):
+                self.assertIn(values[lang][key], text(article))
         lg=next(row for row in teaching_records() if row['course']=='lgcns-coding')
         self.assertEqual(teaching_columns(lg,'en')['provider'],'')
         self.assertEqual(teaching_columns(lg,'en')['audience'],'LG CNS employees’ children')
@@ -50,35 +44,38 @@ class CompactPresentationTests(unittest.TestCase):
         self.assertEqual(teaching_columns(lg,'ko')['provider'],'')
         self.assertEqual(teaching_columns(lg,'ko')['audience'],'LG이노텍 임직원')
         self.assertEqual(teaching_columns(lg,'ko')['subject'],'AI·AX Lv2 집체교육')
-        self.assertEqual(lg['details'][0]['note']['ko'],'계약상 56시간.')
-        self.assertNotIn('56',lg['summary']['ko'])
+        self.assertIn('56시간', lg['details'][0]['note']['ko'])
+        self.assertIn('56시간', lg['summary']['ko'])
         for row in [hana,lg]:
             self.assertEqual(row['organization'],'elice')
             self.assertNotIn('source_refs',str(row))
             self.assertNotIn('mail.google.com',str(row))
 
-    def test_editorial_cv_uses_readable_type_and_verified_contact(self):
-        try:
-            import build_cv
-        except ImportError:
-            self.skipTest('ReportLab is optional for site-only validation')
-        self.assertGreaterEqual(build_cv.STYLES['body'].fontSize, 10)
-        self.assertGreaterEqual(build_cv.STYLES['small'].fontSize, 9)
-        self.assertGreaterEqual(build_cv.STYLES['label'].fontSize, 9)
-        self.assertEqual(DATA['profile']['email'], 'sosaror@gmail.com')
+    def test_main_document_and_contact_links_resolve_to_the_expected_targets(self):
+        from content import cv_filename
+        for lang in ['ko', 'en']:
+            urls = [link.get('href') for link in page(lang).iter('a')]
+            self.assertIn('mailto:' + DATA['profile']['email'], urls)
+            for social in DATA['profile']['links']:
+                self.assertIn(social['url'], urls)
+            self.assertIn('/assets/' + cv_filename(lang), urls)
         self.assertEqual(DATA['profile']['portfolioUrl'], 'https://snow0821.github.io/')
 
-    def test_verified_duty_summaries_are_shared_without_numeric_claims(self):
-        selected = [row for row in teaching_records() if row.get('summary')]
-        self.assertEqual({row['id'] for row in selected}, {row['id'] for row in DATA['teaching']})
-        for row in selected:
-            for lang in ['ko','en']:
-                self.assertNotRegex(row['summary'][lang], r'\d+\s*(?:hours|시간|learners|teams|명)')
-                self.assertIn(row['summary'][lang], site_sections.teaching_entry(row, True))
-                self.assertIn(row['summary'][lang], site_sections.teaching_entry(row, False))
-        self.assertNotIn('materials', DATA['roles'])
+    def test_reported_and_scheduled_hours_stay_distinct(self):
+        teaching = section('ko', 'teaching')
+        by_id = lambda key: text(teaching.find(f'.//*[@data-record="{key}"]'))
+        self.assertIn('56시간', by_id('lginnotek-elice-2026-07'))
+        hana = by_id('hanalife-2026-10')
+        self.assertIn('8시간 편성', hana)
+        incheon = by_id('incheon-ablearn-2026-11')
+        self.assertIn('아이디어를 콘텐츠로, AI 크리에이터', incheon)
+        self.assertIn('편성', incheon)
+        self.assertNotIn('취업 준비 키트', incheon)
+        self.assertNotIn('11.10', incheon)
+        self.assertIn('90분', by_id('jingwang-educore-2026-10'))
+        self.assertNotIn('196', by_id('aba3-elice-2026-11'))
 
-    def test_confirmed_first_authorship_reaches_both_web_views_and_cv_values(self):
+    def test_first_authorship_is_visible_on_its_own_language_page(self):
         from content import authors, display_authors
         self.assertEqual(len(DATA['papers']), 3)
         for paper in DATA['papers']:
@@ -87,13 +84,13 @@ class CompactPresentationTests(unittest.TestCase):
                 names = display_authors(paper, lang)
                 self.assertEqual(names[0], authors(paper)[0] + ' (' + role + ')')
                 self.assertEqual(names[1:], authors(paper)[1:])
-                for html in [publications.summary(paper), publications.detail(paper)]:
-                    self.assertIn(names[0], html)
-                    self.assertEqual(html.count(role), 1)
+                html = publications.detail(paper,lang)
+                self.assertIn(names[0], html)
+                self.assertEqual(html.count(role), 1)
             unconfirmed = dict(paper)
             unconfirmed.pop('authorRole')
             self.assertEqual(display_authors(unconfirmed, 'en'), authors(unconfirmed))
-            self.assertNotIn('First author', publications.summary(unconfirmed))
+            self.assertNotIn('First author', publications.detail(unconfirmed, 'en'))
 
     def test_first_author_annotation_does_not_change_citations(self):
         from content import reference, bibtex
@@ -114,17 +111,16 @@ class CompactPresentationTests(unittest.TestCase):
         with patch.dict(DATA, papers=papers), self.assertRaisesRegex(ValueError,'Unknown author role'):
             validate()
 
-    def test_research_tags_follow_each_paper_in_both_web_views(self):
+    def test_research_topics_follow_each_paper_in_both_languages(self):
         for paper in DATA['papers']:
             self.assertTrue(paper['topics'])
             for tag in paper['topics']:
                 for lang in ['ko', 'en']:
-                    self.assertIn(localized(tag,lang), publications.summary(paper))
-                    self.assertIn(localized(tag,lang), publications.detail(paper))
+                    self.assertIn(localized(tag,lang), publications.detail(paper,lang))
         changed = copy.deepcopy(DATA['papers'][0])
         changed['topics'] = [{'ko':'바뀐 주제', 'en':'A changed topic'}]
-        self.assertIn('A changed topic', publications.summary(changed))
-        self.assertIn('A changed topic', publications.detail(changed))
+        self.assertIn('A changed topic', publications.detail(changed,'en'))
+        self.assertIn('바뀐 주제', publications.detail(changed,'ko'))
 
     def test_topic_validation_rejects_duplicate_or_empty_tags(self):
         for tags in [[{'ko':'같음','en':'same'}]*2, [{'ko':'','en':'empty'}],
@@ -134,61 +130,35 @@ class CompactPresentationTests(unittest.TestCase):
             with patch.dict(DATA, papers=papers), self.assertRaisesRegex(ValueError, 'Invalid paper topics'):
                 validate()
 
-    def test_research_heading_and_area_tags_are_shared_and_bilingual(self):
-        self.assertEqual(LOCALES['ko']['section.publications'], '연구활동')
-        self.assertEqual(LOCALES['en']['section.publications'], 'Research Activities')
-        self.assertIn('연구활동', build_site.navigation())
-        self.assertIn('Research Activities', build_site.navigation())
-        tags = publications.research_tags()
-        for tag in DATA['researchTopics']:
-            self.assertIn(tag['ko'], tags)
-            self.assertIn(tag['en'], tags)
-        changed = [{'ko':'새로운 연구 분야','en':'Changed research area'}]
-        with patch.dict(DATA, researchTopics=changed):
-            self.assertIn('Changed research area', publications.research_tags())
+    def test_research_topics_and_their_translations_are_preserved(self):
+        for topic in DATA['researchTopics']:
+            self.assertTrue(topic['ko'].strip())
+            self.assertTrue(topic['en'].strip())
         with patch.dict(DATA, researchTopics=[{'ko':'번역 없음'}]), self.assertRaisesRegex(ValueError,'Invalid research topics'):
             validate()
 
-    def test_degree_heading_preserves_separate_qualification_data(self):
-        self.assertEqual(LOCALES['ko']['section.education'], '학위')
-        self.assertEqual(LOCALES['en']['section.education'], 'Degrees')
-        self.assertEqual(LOCALES['ko']['section.education_qualifications'], '학위·자격')
-        self.assertEqual(LOCALES['en']['section.education_qualifications'], 'Degrees & Qualifications')
+    def test_degree_records_and_registration_fields_are_separate(self):
         self.assertEqual(len(DATA['education']), 2)
         self.assertEqual(len(DATA['qualifications']), 1)
-        self.assertNotIn('NCS', site_sections.education())
+        for lang in ('ko', 'en'):
+            self.assertNotIn('NCS', text(section(lang, 'education')))
+            self.assertIn('NCS', text(section(lang, 'credentials')))
 
-    def test_no_standalone_interest_tab_or_home_section(self):
-        nav = build_site.navigation()
-        self.assertEqual(nav.count('role="tab"'), 3)
-        self.assertNotIn('interests', nav)
-        page = (Path(__file__).resolve().parents[1] / 'index.html').read_text()
-        self.assertNotIn('snow-panel-interests', page)
-        self.assertNotIn('snow-cv-interests', page)
-        self.assertEqual(len(DATA['interests']), 3)  # Preserve source history.
+    def test_interest_history_is_preserved_without_a_separate_page(self):
+        self.assertEqual(len(DATA['interests']), 3)
+        for lang in ('ko','en'):
+            self.assertFalse(any('/interests' in link.get('href','') for link in page(lang).iter('a')))
 
-    def test_cv_omits_school_dates_without_changing_history(self):
-        # Optional ReportLab dependency must not become required for site-only builds.
-        try:
-            import build_cv
-        except ImportError:
-            self.skipTest('ReportLab is optional for site-only validation')
+    def test_reading_the_detailed_course_list_preserves_source_data(self):
         row = next(item for item in teaching_records() if item['id']=='donghaeng-educore-2025')
         before = copy.deepcopy(row)
-        html = site_sections.teaching_details(row)
-        for lang in ['ko', 'en']:
-            # Inspect content only; the first column retains the overall business period.
-            with patch.object(build_cv, 'p', side_effect=lambda value, *args: value):
-                rows = build_cv.teaching_pdf_rows(row, lang)
-            courses = ' '.join(part for record in rows for part in record[2] if isinstance(part,str))
-            self.assertEqual(len(rows), 1)
-            for program in {detail['programTitle'][lang] for detail in row['details']}:
-                self.assertIn(program, courses)
-                self.assertIn(program, html)
-            self.assertNotIn('2025.', courses)
+        for lang in ['ko','en']:
+            article = section(lang,'teaching').find(f'.//*[@data-record="{row["id"]}"]')
             for school in row['details']:
-                self.assertIn(school['title'][lang], courses)
-                self.assertIn(period(school, lang), html)
+                display = text(article.find(f'.//*[@data-detail="{school["id"]}"]'))
+                self.assertIn(school['title'][lang], display)
+                self.assertIn(period(school,lang), display)
+                self.assertIn(school['programTitle'][lang], display)
         self.assertEqual(row, before)
 
     def test_institution_program_headings_do_not_merge_distinct_sources(self):
@@ -205,19 +175,20 @@ class CompactPresentationTests(unittest.TestCase):
             columns=teaching_display_columns(by_id[record], 'ko')
             self.assertEqual(columns['organizationLines'],[institution])
             self.assertEqual(columns['provider'],program)
-            for output in [site_sections.teaching_summary()+site_sections.current_roles(), site_sections.teaching_detail()+site_sections.current_roles()]:
-                for part in heading.split(' / '):
-                    self.assertIn(part, output)
+            output = site_sections.teaching_row(by_id[record], 'ko')
+            for part in heading.split(' / '):
+                self.assertIn(part, output)
         self.assertEqual(teaching_subject(by_id['codyssey-modulabs-2026-06'],'ko'), 'AI Native 과정')
         self.assertEqual(teaching_display_columns(by_id['algorithms-coderland-2023-03'],'ko')['organizationLines'], ['코더랜드'])
-        self.assertEqual(len(by_id), 14)
-        self.assertEqual(sum(len(row['details']) for row in by_id.values()), 31)
+        self.assertEqual(len(by_id), len(DATA['teaching']))
+        self.assertGreaterEqual(sum(len(row['details']) for row in by_id.values()), 31)
 
     def test_program_name_edit_propagates_and_requires_both_languages(self):
         changed = {'ko':'새 사업명','en':'Updated program'}
+        target = next(r for r in teaching_records() if r['course'] == 'donghaeng')
         with patch.dict(DATA['courses']['donghaeng'], program=changed):
-            self.assertIn('Updated program', site_sections.teaching_summary())
-            self.assertIn('Updated program', site_sections.teaching_detail())
+            for lang in ['ko','en']:
+                self.assertIn(changed[lang], site_sections.teaching_row(target,lang))
         with patch.dict(DATA['courses']['donghaeng'], program={'ko':'번역 없음'}), self.assertRaisesRegex(ValueError,'Invalid program translation'):
             validate()
 

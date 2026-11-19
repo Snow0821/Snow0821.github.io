@@ -1,25 +1,59 @@
-"""Build responsive, accessible reading editions from reviewed public text."""
-import json
+"""Generate responsive Korean reading pages from the same copy as the PDFs."""
 from html import escape
-from content import DATA, ROOT, write_if_changed
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DOCUMENTS = {
+    "cv": ("국문 CV", "Choi-Soon-Ho-CV-KO.pdf"),
+    "career-statement": ("경력기술서", "Choi-Soon-Ho-Career-Statement-KO.pdf"),
+}
+
+
+def read_copy(slug):
+    return json.loads((ROOT / "data" / f"{slug}-public.json").read_text(encoding="utf-8"))
+
+
+def write_if_changed(path, data):
+    if not path.is_file() or path.read_bytes() != data:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+
+
+def html_block(block):
+    tag = {"heading": "h2", "lead": "h3", "body": "p", "meta": "p"}[block["role"]]
+    value = "<br>".join(escape(line) for line in block["text"].splitlines())
+    if block.get("link"):
+        value = f'<a href="{escape(block["link"], quote=True)}">{value}</a>'
+    attrs = ' class="entry-meta"' if block["role"] == "meta" else ""
+    return f"<{tag}{attrs}>{value}</{tag}>"
+
+
 def build():
-    papers=DATA['papers']
-    for slug,title,pdf in [('cv','CV','Choi-Soon-Ho-CV-KO.pdf'),('career-statement','경력기술서','Choi-Soon-Ho-Career-Statement-KO.pdf')]:
-        data=json.loads((ROOT/'data'/f'{slug}-public.json').read_text())
-        sections=[]
-        for page in data['pages']:
-            blocks=[]
-            for b in page['blocks']:
-                t=b['text']
-                if t=='최순호' or 'sosaror@gmail.com' in t or t.startswith('AI Native 퍼실리테이터 ·'): continue
-                tag={'heading':'h2','lead':'h3','body':'p'}[b['role']]
-                rendered=escape(t).replace('\n','<br>')
-                for paper in papers:
-                    if t.startswith(paper['title']):
-                        rendered='<a href="'+escape(paper['url'],quote=True)+'">'+rendered+'</a>'
-                        break
-                blocks.append(f'<{tag}>'+rendered+f'</{tag}>')
-            sections.append('<section>'+''.join(blocks)+'</section>')
-        css='''@font-face{font-family:G;src:url(../assets/fonts/NanumGothic-Regular.woff)}@font-face{font-family:M;src:url(../assets/fonts/NanumMyeongjo-Bold.woff)}*{box-sizing:border-box}body{margin:0;color:#303B40;background:white;font:16px/1.8 G,sans-serif}main{max-width:900px;margin:auto;padding:36px 48px 72px}nav{display:flex;gap:24px;flex-wrap:wrap;font-size:14px}a{color:#203C4B;text-underline-offset:5px;display:inline-block;padding:10px 0}a:focus-visible{outline:2px solid #203C4B;outline-offset:4px}header{border-bottom:1px solid #B68D64;padding:32px 0;margin-bottom:36px}h1{font:700 36px/1.4 M,serif;margin:0 0 10px}header p{color:#526267;margin:0}h2{font:700 23px/1.6 M,serif;border-bottom:1px solid #DBE3DF;padding:0 0 10px;margin:36px 0 22px}h3{font-size:17px;color:#203C4B;margin:26px 0 6px}section p{margin:6px 0 12px;padding-left:14px;border-left:2px solid #DBE3DF;white-space:normal;overflow-wrap:anywhere}footer{font-size:12px;color:#526267;border-top:1px solid #B68D64;margin-top:40px;padding-top:16px}@media(max-width:600px){main{padding:20px 22px 48px}h1{font-size:30px}h2{font-size:21px}nav{gap:16px}}@media print{nav{display:none}main{padding:0}h2,h3{break-after:avoid}section p{break-inside:avoid}}'''
-        write_if_changed(ROOT/slug/'index.html', '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="최순호 '+title+'"><title>최순호 · '+title+'</title><style>'+css+'</style></head><body><main><nav aria-label="문서 탐색"><a href="../">포트폴리오</a><a href="../cv/">CV</a><a href="../career-statement/">경력기술서</a><a href="../assets/'+pdf+'" download>PDF 다운로드</a></nav><header><h1>최순호 · '+title+'</h1><p>AI 강사 · 연구자</p><a href="mailto:sosaror@gmail.com">sosaror@gmail.com</a></header>'+''.join(sections)+'<footer>최종 업데이트 · 2026.10.16</footer></main></body></html>')
-if __name__=='__main__':build()
+    for slug, (title, filename) in DOCUMENTS.items():
+        copy = read_copy(slug)
+        content = "\n".join(html_block(block) for page in copy["pages"] for block in page["blocks"])
+        date = copy["updated"]
+        related = '<a href="../assets/Choi-Soon-Ho-CV-EN.pdf">English CV (PDF)</a>' if slug == "cv" else '<a href="../cv/">국문 CV</a>'
+        html = f"""<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="독립연구자이자 AI·CS 강사 최순호의 {title}">
+<title>최순호 · {title}</title><link rel="stylesheet" href="../cv/documents.css">
+</head><body>
+<a class="skip" href="#document">본문 바로가기</a>
+<header class="masthead"><a class="name" href="../">최순호</a>
+<nav aria-label="사이트 탐색"><a href="../">메인</a><a href="../portfolio/">포트폴리오</a><a href="../career/">전체 이력</a></nav></header>
+<main id="document"><header class="doc-intro"><h1>{title}</h1>
+<p>최순호 <span>·</span> 독립연구자 · AI·CS 강사</p>
+<div class="doc-actions"><a href="../assets/{filename}" download>PDF 다운로드</a>{related}
+<a href="mailto:sosaror@gmail.com">이메일</a></div></header>
+<article aria-label="{title}">{content}</article>
+<footer><time datetime="{date}">{date.replace('-', '.')} 기준</time><a href="../career/">전체 이력</a></footer>
+</main></body></html>
+"""
+        write_if_changed(ROOT / slug / "index.html", html.encode("utf-8"))
+
+
+if __name__ == "__main__":
+    build()

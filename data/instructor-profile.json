@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-11-18",
   "pdfFilename": "Choi-Soon-Ho-Instructor-Profile-KO.pdf",
   "title": {
     "ko": "최순호 강사 소개",
     "en": "Choi Soon Ho · Instructor Profile"
   },
   "role": {
-    "ko": "프로그래밍·AI 교육 | 신경망 연구",
-    "en": "Programming and AI education | Neural-network research"
+    "ko": "독립연구자 · AI·CS 강사",
+    "en": "Independent researcher · AI and computer science instructor"
   },
   "paragraphs": [
     {
@@ -25,6 +25,24 @@
   },
   "experience": [
     {
+      "period": {
+        "ko": "2026.11.09",
+        "en": "9 Nov 2026"
+      },
+      "organization": {
+        "ko": "에이블런 · 인천 AI디지털배움터",
+        "en": "ABLEARN · Incheon AI Digital Learning Center"
+      },
+      "role": {
+        "ko": "온라인 파견교육 주강사",
+        "en": "Lead instructor, online classes"
+      },
+      "description": {
+        "ko": "「아이디어를 콘텐츠로, AI 크리에이터」 과정 주강사로 온라인 수업을 담당했습니다.",
+        "en": "Led the online course Ideas into Content: AI Creator."
+      }
+    },
+    {
       "organization": {
         "ko": "고양 스마트시티즌 · 에듀코어센터",
         "en": "Goyang Smart Citizen · EduCore Center"
@@ -34,13 +52,13 @@
         "en": "Applied AI education"
       },
       "description": {
-        "ko": "시민 대상 AI 웹 제작·배포 실습 및 Codex 업무 비서 제작 교육.",
-        "en": "AI-assisted webpage creation/deployment and Codex work-assistant education for citizens."
+        "ko": "시민 대상 AI 웹 제작·배포 실습 및 Codex 업무 비서 제작 교육. 10월 27일 마지막 회차를 진행했습니다.",
+        "en": "Taught AI-assisted web development and deployment and Codex work-assistant development. The final class took place on 27 October."
       },
       "sourceId": "goyang-educore-2026-08",
       "period": {
-        "ko": "2026.08 - 현재",
-        "en": "Aug 2026 - present"
+        "ko": "2026.08–10",
+        "en": "Aug–Oct 2026"
       }
     },
     {
@@ -58,8 +76,8 @@
       },
       "sourceId": "codyssey-modulabs-2026-06",
       "period": {
-        "ko": "2026.06 - 현재",
-        "en": "Jun 2026 - present"
+        "ko": "2026.06.01–10.31",
+        "en": "1 Jun–31 Oct 2026"
       }
     },
     {
@@ -72,8 +90,8 @@
         "en": "Corporate training · Applied AI instruction and practice"
       },
       "description": {
-        "ko": "하나생명: 업무 문제 정의·PRD 기반 AI PoC 실습·프로젝트 피드백.\nLG이노텍: AI·AX 강의·실습 및 현업 프로젝트 계획·발표 피드백.",
-        "en": "Hana Life: Business-problem/PRD-based AI PoC exercises and project feedback.\nLG Innotek: AI/AX instruction and practice, with feedback on project plans and presentations."
+        "ko": "하나생명 임직원 대상 PRD 기반 AI PoC 실습, LG이노텍 임직원 대상 AI·AX 실무 교육과 프로젝트 피드백을 진행했습니다.",
+        "en": "Taught PRD-based AI proof-of-concept exercises at Hana Life and AI/AX practice and project workshops at LG Innotek."
       },
       "sourceIds": [
         "hanalife-2026-10",
@@ -110,22 +128,22 @@
     "en": "Instructor profile"
   },
   "cardDescription": {
-    "ko": "주요 교육 경력과 학력, 연구 분야를 시각적으로 정리한 한 장 소개서",
-    "en": "A visual one-page profile of selected teaching experience, education, and research"
+    "ko": "교육 분야, 주요 강의 경력, 학력과 연구를 정리한 한 장 소개서",
+    "en": "A one-page overview of instruction, experience, education and research"
   },
   "downloadLabel": {
     "ko": "소개서 PDF 다운로드",
     "en": "Download profile PDF"
   },
   "downloadMeta": {
-    "ko": "한국어 · 1쪽 · 2026.10.27",
-    "en": "Korean · 1 page · 27 Oct 2026"
+    "ko": "한국어 · 1쪽 · 2026.11.18",
+    "en": "Korean · 1 page · 18 Nov 2026"
   },
   "email": "sosaror@gmail.com",
   "url": "https://snow0821.github.io/",
   "shortBio": {
-    "ko": "프로그래밍과 AI 활용을 가르치고, 신경망의 구조와 연산을 연구합니다.",
-    "en": "I teach programming and applied AI, and study neural-network structures and operations."
+    "ko": "Python·C++와 생성형 AI 활용을 가르치고, 신경망의 구조와 연산을 연구합니다.",
+    "en": "I teach Python, C++ and applied generative AI, and study neural-network structures and operations."
   },
   "name": {
     "ko": "최순호",
@@ -212,11 +230,9 @@
     "en": "First author on papers at IJCNN 2026 and KICS conferences in 2024/2025"
   },
   "asOf": {
-    "ko": "2026.10 기준",
-    "en": "As of October 2026"
+    "ko": "2026.11.18 기준",
+    "en": "As of 18 Nov 2026"
   },
-  "backgroundAsset": "assets/instructor-profile-background.png",
-  "backgroundKind": "AI-painted abstract mint and beige paper texture; no diagrams, icons, text, or portrait",
   "representativePaper": {
     "sourceId": "2026",
     "title": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
@@ -229,10 +245,52 @@
       "Soon Ho Choi",
       "Soo Yong Kim"
     ],
-    "url": "https://linklings.s3.amazonaws.com/organizations/WCCI/wcci2026/submissions/stype114/YihWd-ijcnn_pap3087s2.pdf"
+    "url": "https://dblp.org/rec/conf/ijcnn/ChoiK26"
   },
   "paperTitle": {
     "ko": "대표 논문",
     "en": "Representative paper"
-  }
+  },
+  "currentTitle": {
+    "ko": "현재 활동",
+    "en": "Current work"
+  },
+  "current": [
+    {
+      "period": {
+        "ko": "2026.11.11–12.18 예정",
+        "en": "11 Nov–18 Dec 2026 (scheduled end)"
+      },
+      "organization": {
+        "ko": "엘리스그룹",
+        "en": "Elice Group"
+      },
+      "role": {
+        "ko": "AI 비즈니스 에이전트 트랙 3기 코치",
+        "en": "AI Business Agent Track coach, Cohort 3"
+      },
+      "description": {
+        "ko": "잔여 이론 수업의 실습과 2차 프로젝트를 코칭합니다.",
+        "en": "Coaching theory-class practicals and the second project."
+      }
+    },
+    {
+      "period": {
+        "ko": "2023.01.19 위촉",
+        "en": "Appointed 19 Jan 2023"
+      },
+      "organization": {
+        "ko": "코더랜드",
+        "en": "Coderland"
+      },
+      "role": {
+        "ko": "온라인 코딩강사 · 프리랜서",
+        "en": "Freelance online programming instructor"
+      },
+      "description": {
+        "ko": "Python·C++ 자료구조와 알고리즘, 정보올림피아드 대비를 지도합니다.",
+        "en": "Individual instruction in Python, C++, algorithms and Informatics Olympiad preparation."
+      }
+    }
+  ]
 }

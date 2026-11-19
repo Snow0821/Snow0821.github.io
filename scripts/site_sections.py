@@ -1,228 +1,168 @@
-"""Profile, education, documents, and teaching views built from shared records."""
+"""Home, portfolio and career views built from the public record."""
 from content import (
-    ROOT, DATA, LANGUAGES, DEFAULT_LANGUAGE, EXPERIENCE_GROUPS, localized, text,
-    cv_filename, teaching_history_records, teaching_primary, teaching_display_columns,
-    teaching_detail_context, current_role_context, detail_program_titles,
-    school_program_groups, current_role_records, period, experience_records,
+    DATA, current_role_records, cv_filename, detail_program_titles, localized,
+    period, teaching_columns, teaching_detail_context, teaching_records, text,
 )
-import re
-import json
-from html_components import h, pair, label, mapped, preview, fold, external_link, asset_icon
+from html_components import anchor, h, label, local, route
+from publications import detail as paper_detail, paper_title
 
 
-def editorial_role(value):
-    """Hide repetitive generic teaching labels, preserving specific responsibilities."""
-    return '' if value in {'강사', '주강사', '온라인 강사', 'Instructor', 'Lead instructor', 'Online instructor'} else value
+CAREER_SECTIONS = ('education', 'employment', 'teaching', 'training', 'credentials', 'awards', 'writing')
 
 
-def editorial_description(values):
-    return {lang: re.sub(r' · (?:주강사|강사|Lead instructor|Instructor)(?=\s*(?:\||$))', '', localized(values, lang)) for lang in LANGUAGES}
+def link_line(url, title, metadata):
+    return f'<a class="index-link" href="{h(url)}"><div><p class="index-meta">{h(metadata)}</p><h3>{h(title)}</h3></div><span class="index-arrow" aria-hidden="true">↗</span></a>'
 
 
-def role_markup(values):
-    roles = {lang: editorial_role(localized(values, lang)) for lang in LANGUAGES}
-    return '<p class="teaching-role">'+pair(roles)+'</p>' if any(roles.values()) else ''
-
-
-def profile():
-    person=DATA['profile']
-    actions=[]
-    for link in person['links']:
-        actions.append(external_link(link['url'],asset_icon(link['icon']),'action icon-action',link['label']))
-    filename=cv_filename(DEFAULT_LANGUAGE)
-    download_label=text('ui.download_cv',DEFAULT_LANGUAGE)
-    actions.append(f'<a id="snow-cv-download" class="action icon-action cv-download cursor-interaction" href="assets/{h(filename)}" download="{h(filename)}" aria-label="{h(download_label)}" title="{h(download_label)}">{asset_icon("file-down.svg","file-icon")}<span class="cv-mark" aria-hidden="true">CV</span></a>')
-    mail_icon='<svg class="mail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>'
-    email=h(person['email'])
-    return f'''<div class="cv-identity" data-block>
-<div class="identity-name"><p class="identity-kicker">PORTFOLIO · EDUCATION &amp; RESEARCH</p>
-<h1>{pair(person['name'])}</h1>
-<div class="roles">{''.join(pair(DATA['roles'][role]) for role in person['roles'])}</div>
-</div>
-<div class="identity-description"><p class="cv-intro">{pair(person['intro'])}</p></div>
-<div class="identity-contact"><div class="actions cv-contact">{''.join(actions)}</div>
-<a class="contact-email cursor-interaction" href="mailto:{email}" aria-label="{h(text('ui.email',DEFAULT_LANGUAGE,email=person['email']))}">{mail_icon}<span>{email}</span></a></div>
-</div>'''
-
-
-def education():
-    records=sorted(DATA['education'],key=lambda item:item['year'],reverse=True)
-    rows=[]
-    for item in records:
-        title=mapped(lambda lang:h(localized(item['field'],lang))+f'<span class="degree-type">{h(localized(item["degree"],lang))}</span>')
-        rows.append(f'<article class="cv-education" data-record data-education="{item["id"]}"><span class="cv-year">{item["year"]}</span><div><strong>{pair(title,markup=True)}</strong><p class="cv-sub">{pair(item["school"])}</p></div></article>')
-    summary=''
-    if records:
-        latest=records[0]
-        title=mapped(lambda lang:h(localized(latest['field'],lang))+f' <span class="preview-degree">· {h(localized(latest["degreeShort"],lang))}</span>')
-        summary=preview(title,mapped(lambda lang:f'{localized(latest["institution"],lang)} · {latest["year"]}'),markup=True)
-    return fold('snow-cv-education','section.education',len(records),''.join(rows),summary)
-
-
-def qualifications():
-    records=sorted(DATA['qualifications'],key=lambda item:item['year'],reverse=True)
-    rows=[f'<article class="cv-education" data-record data-qualification="{item["id"]}"><span class="cv-year">{item["year"]}</span><div><strong>{pair(item["title"])}</strong><p class="cv-sub">{pair(item["field"])}</p></div></article>' for item in records]
-    summary=preview(records[0]['title'],mapped(lambda lang:f'{records[0]["year"]} · {localized(records[0]["field"],lang)}')) if records else ''
-    return fold('snow-cv-qualifications','section.qualifications',len(records),''.join(rows),summary)
-
-
-def current_roles():
-    records = current_role_records()
-    if not records:
-        return ''
-    rows = []
-    for item in records:
-        organization = DATA['organizations'][item['organization']]
-        dates = mapped(lambda lang: period(item, lang, include_planned_notice=False))
-        context_value = mapped(lambda lang:current_role_context(item,lang))
-        context = f'<p class="current-role-context">{pair(context_value)}</p>' if any(context_value.values()) else ''
-        duty = f'<p class="cv-sub current-role-summary">{pair(item["summary"])}</p>' if item.get('summary') else ''
-        source = item.get('courseRecord')
-        details = teaching_details(source) if source else ''
-        toggle = career_toggle(source['id'], item['title']) if details else ''
-        rows.append(f'<li class="current-role" data-current-role="{h(item["id"])}"><p class="current-role-date">{pair(dates)}</p><div><div class="teaching-course-heading"><h3>{pair(item["title"])}</h3>{toggle}</div>{context}<p class="current-role-organization">{pair(organization)}</p>{duty}{details}</div></li>')
-    return f'<section class="current-roles" aria-labelledby="snow-current-roles-heading" data-block><h2 class="cv-heading" id="snow-current-roles-heading">{label("section.current_roles")}</h2><ul class="current-role-list">{"".join(rows)}</ul></section>'
-
-
-def teaching_preview(records):
-    if not records:
-        return ''
-    item=records[0]
-    title=mapped(lambda lang:teaching_primary(item,lang))
-    organization=item.get('operator') or DATA['organizations'][item['organization']]
-    detail=mapped(lambda lang:' · '.join(filter(None, [period(item,lang), localized(organization,lang), editorial_role(localized(DATA["roles"][item["role"]],lang))])))
-    return preview(title,detail)
-
-
-def teaching_table(records, summary=False):
-    headings = ''.join('<th scope="col">'+label(key)+'</th>' for key in
-                       ['label.period','label.org_program','label.role_course'])
-    rows = ''.join(teaching_entry(item,summary) for item in records)
-    return ('<table class="teaching-table" role="table"><caption class="sr-only">'+label('section.teaching_history')+'</caption>'
-            '<colgroup><col class="teaching-period-col"><col class="teaching-provider-col"><col class="teaching-course-col"></colgroup>'
-            '<thead><tr>'+headings+'</tr></thead><tbody>'+rows+'</tbody></table>')
-
-
-def teaching_entry(item, summary):
-    values={lang:teaching_display_columns(item,lang) for lang in LANGUAGES}
-    field=lambda key:{lang:value[key] for lang,value in values.items()}
-    dates=mapped(lambda lang:period(item,lang).replace(' (','\n('))
-    provider = '<strong class="teaching-program">'+pair(field('provider'))+'</strong>' if any(field('provider').values()) else ''
-    organization = '<p class="teaching-organization">'+pair(mapped(lambda lang:'<br>'.join(h(line) for line in values[lang]['organizationLines'])),markup=True)+'</p>' if any(field('organizationLabel').values()) else ''
-    schools=f'<p class="cv-sub teaching-schools">{pair(item["schoolSummary"])}</p>' if item.get('schoolSummary') else ''
-    program_groups = {lang:school_program_groups(item,lang) for lang in LANGUAGES}
-    if any(program_groups.values()):
-        schools = '<div class="teaching-programs">'+''.join('<p><strong>'+pair({lang:' · '.join(program_groups[lang][index]['schools']) for lang in LANGUAGES})+'</strong> <span class="teaching-role">'+pair({lang:('· '+editorial_role(program_groups[lang][index]['role'])) if editorial_role(program_groups[lang][index]['role']) else '' for lang in LANGUAGES})+'</span><br>'+pair({lang:' · '.join(program_groups[lang][index]['titles']) or ('Python 프로그래밍' if lang=='ko' else 'Python programming') for lang in LANGUAGES})+'</p>' for index in range(len(program_groups[DEFAULT_LANGUAGE])))+'</div>'
-    duty=f'<p class="cv-sub">{pair(item["summary"])}</p>' if item.get('summary') else ''
-    course=DATA['courses'][item['course']]
-    note = '<p class="history-note">'+pair(course['note'])+'</p>' if not summary and not (schools or duty) and course.get('note') else ''
-    details='' if summary else teaching_details(item)
-    toggle=career_toggle(item['id'],mapped(lambda lang:teaching_primary(item,lang))) if details else ''
-    title_tag='strong' if summary else 'h4'
-    title='' if any(program_groups.values()) else f'<{title_tag} class="teaching-course-title">{pair(field("subject"))}</{title_tag}>'
-    audience = '<p class="teaching-audience"><strong>'+pair(field('audience'))+'</strong></p>' if any(field('audience').values()) else ''
-    course_title=audience+f'<div class="teaching-course-heading">{title}{toggle}</div>'
-    role='' if any(program_groups.values()) else role_markup(field('role'))
-    cls='teaching-row' if summary else 'history-entry teaching-row'
-    return f'''<tr class="{cls}" data-record data-teaching="{h(item['id'])}" role="row">
-<td class="teaching-period" role="cell"><span class="teaching-cell-label" aria-hidden="true">{label('label.period')}</span>{pair(dates)}</td>
-<td class="teaching-provider" role="cell"><span class="teaching-cell-label" aria-hidden="true">{label('label.org_program')}</span>{provider}{organization}</td>
-<td class="teaching-course" role="cell"><span class="teaching-cell-label" aria-hidden="true">{label('label.role_course')}</span>{course_title}{role}{duty}{schools}{note}{details}</td></tr>'''
-
-
-def career_toggle(record_id, title):
-    target='snow-career-'+record_id
-    aria=text('ui.expand_career',DEFAULT_LANGUAGE,title=localized(title,DEFAULT_LANGUAGE))
-    titles=''.join(f' data-title-{lang}="{h(localized(title,lang))}"' for lang in LANGUAGES)
-    return f'<button type="button" class="career-toggle cursor-interaction" aria-expanded="false" aria-controls="{h(target)}" aria-label="{h(aria)}"{titles}><span class="career-sign" aria-hidden="true">+</span></button>'
-
-
-def teaching_details(item, *, wrap=True):
-    records=item.get('details', [])
-    if not records:
-        return ''
-    rows=[]
-    for detail in records:
-        meta=mapped(lambda lang:" · ".join(filter(None, [period(detail,lang), editorial_role(localized(DATA['roles'][detail['role']],lang))])))
-        note=f'<p class="career-detail-note">{pair(detail["note"])}</p>' if detail.get('note') else ''
-        program=''
-        for title in detail_program_titles(detail):
-            scope = ''
-            if title.get('verifiedTeachingStart'):
-                scope = ' '+pair(mapped(lambda lang:period({'start':title['verifiedTeachingStart'],'end':title['verifiedTeachingEnd']},lang)))
-            program += f'<p class="verified-course-title"><strong>{pair(title)}</strong>{scope}</p>' 
-        curriculum = ''.join(f'<p><strong>{pair(track["title"])}</strong></p><p>{pair(track["curriculum"])}</p>'
-                             for track in detail.get('tracks', [])) or f'<p>{pair(detail["curriculum"])}</p>'
-        rows.append(f'<li data-career-detail="{h(detail["id"])}"><h5>{pair(detail["title"])}</h5><div class="career-detail-meta">{pair(meta)}</div>{program}{curriculum}{note}</li>')
-    context=teaching_detail_context(item,DEFAULT_LANGUAGE)
-    context_html='<p class="career-detail-note">'+pair(mapped(lambda lang:' · '.join(teaching_detail_context(item,lang))))+'</p>' if context else ''
-    body = context_html+'<ul>'+''.join(rows)+'</ul>'
-    return f'<div class="career-details" id="snow-career-{h(item["id"])}" hidden>{body}</div>' if wrap else body
-
-
-def other_experience(summary=False, group='development'):
-    records=experience_records(group)
-    rows=[]
-    for item in records:
-        date=pair(mapped(lambda lang:period(item,lang)))
-        title=pair(item['title'])
-        if item.get('url'):
-            title=f'<a href="{h(item["url"])}" target="_blank" rel="noopener noreferrer">{title}</a>'
-        if summary:
-            assignments = f'<p class="cv-sub">{pair(editorial_description(item["description"]))}</p>' if item.get('assignments') else ''
-            rows.append(f'<article class="cv-job" data-record data-other-experience="{h(item["id"])}"><span class="cv-date">{date}</span><div><strong>{title}</strong><p class="cv-sub">{pair(item["role"])}</p>{assignments}</div></article>')
-            continue
-        note=f'<p class="career-detail-note">{pair(item["note"])}</p>' if item.get('note') else ''
-        description=f'<p class="history-note">{pair(item["description"])}</p>' if item.get('description') else ''
-        if item.get('assignments'):
-            description = ''.join(teaching_details(row, wrap=False) for row in item['assignments'])
-        has_details=bool(description or note)
-        details=f'<div class="career-details" id="snow-career-{h(item["id"])}" hidden>{description}{note}</div>' if has_details else ''
-        toggle=career_toggle(item['id'],item['title']) if has_details else ''
-        rows.append(f'<article class="history-entry" data-other-experience="{h(item["id"])}"><div class="history-title"><h4>{title}</h4>{toggle}</div><div class="history-meta">{pair(item["role"])}{date}</div>{details}</article>')
-    if summary:
-        return ''.join(rows)
-    summary_html=preview(records[0]['title'],mapped(lambda lang:f"{period(records[0],lang)} · {localized(records[0]['role'],lang)}")) if records else ''
-    return fold('snow-history-'+group,dict(EXPERIENCE_GROUPS)[group],len(records),''.join(rows),summary_html,classes='history-group history-'+group,level=3) if records else ''
-
-
-def teaching_summary():
-    records=teaching_history_records()
-    groups=[teaching_table(records,True)]
-    for group, heading in EXPERIENCE_GROUPS:
-        if experience_records(group):
-            groups.append(f'<h3 class="cv-group-label">{label(heading)}</h3>'+other_experience(summary=True,group=group))
-    count=len(records)+len(DATA.get('otherExperience',[]))
-    return fold('snow-cv-career','section.teaching',count,''.join(groups),teaching_preview(records),classes='cv-section cv-career',short_key='section.teaching_tab')
-
-
-def teaching_detail():
-    records=teaching_history_records()
-    groups=[fold('snow-history-teaching','section.teaching_history',None,teaching_table(records),teaching_preview(records),classes='history-group',level=3)]
-    groups.extend(other_experience(group=group) for group,_ in EXPERIENCE_GROUPS)
-    return '<div class="history-columns">'+''.join(groups)+'</div>'
-
-
-def profile_link(link_id, label_key, primary=False):
-    link=next(item for item in DATA['profile']['links'] if item['id']==link_id)
-    return external_link(link['url'],label(label_key)+'<span aria-hidden="true">↗</span>','action'+(' primary' if primary else ''))
-
-
-
-
-def documents():
-    profile = json.loads((ROOT / 'data/instructor-profile.json').read_text())
-    cards = [
-        '<article class="document-card document-card-profile" id="instructor-profile">'
-        '<h3>'+pair(profile['cardTitle'])+'</h3>'
-        '<p>'+pair(profile['cardDescription'])+'</p>'
-        '<span class="document-meta">'+pair(profile['downloadMeta'])+'</span>'
-        '<div class="document-links"><a class="profile-download" href="assets/'+h(profile['pdfFilename'])+'" download="'+h(profile['pdfFilename'])+'" type="application/pdf">'+pair(profile['downloadLabel'])+'</a></div></article>'
+def documents(lang='ko'):
+    core = '/assets/'
+    records = [
+        ('docprofile', None, 'Choi-Soon-Ho-Instructor-Profile-KO.pdf', 'KO'),
+        ('doccv', '/cv/' if lang == 'ko' else None, cv_filename(lang), lang.upper()),
+        ('doccareer', '/career-statement/', 'Choi-Soon-Ho-Career-Statement-KO.pdf', 'KO'),
     ]
-    for name, title, desc, pages in [
-        ('cv', {'ko':'CV', 'en':'CV'}, {'ko':'학력·연구 관심사·논문을 중심으로 정리한 이력서', 'en':'An academic overview of education, research interests, and publications'}, 2),
-        ('career-statement', {'ko':'경력기술서', 'en':'Career statement'}, {'ko':'주요 교육과 프로젝트의 역할·수행 내용을 정리한 문서', 'en':'Selected teaching and projects, with roles and contributions'}, 4),
-    ]:
-        pdf='Choi-Soon-Ho-CV-KO.pdf' if name=='cv' else 'Choi-Soon-Ho-Career-Statement-KO.pdf'
-        cards.append('<article class="document-card"><h3>'+pair(title)+'</h3><p>'+pair(desc)+'</p><span class="document-meta">'+pair({'ko':f'한국어 · {pages}쪽 · 2026.10.16', 'en':f'Korean · {pages} pages · 16 Oct 2026'})+'</span><div class="document-links"><a href="'+name+'/">'+pair({'ko':'웹에서 읽기','en':'Read online'})+'</a><a href="assets/'+pdf+'" download>'+pair({'ko':'PDF 다운로드','en':'Download PDF'})+'</a></div></article>')
-    return '<section class="documents" aria-labelledby="documents-heading"><h2 id="documents-heading">'+pair({'ko':'이력 문서','en':'Documents'})+'</h2><div class="document-grid">'+''.join(cards)+'</div></section>'
+    entries = []
+    for key, screen, file, language in records:
+        read = (anchor(screen, text('home.read',lang) + (' · KO' if lang != 'ko' else '')) if screen else '')
+        pdf = f'<a href="{core}{h(file)}" download>{label("home.pdf",lang)} <span class="file-language">{language}</span></a>'
+        entries.append(f'<article class="document"><h3>{label("home."+key,lang)}</h3><p>{label("home."+key+"_desc",lang)}</p><div class="document-links">{pdf}{read}</div></article>')
+    return f'<section class="documents" id="documents"><h2>{label("home.docs",lang)}</h2><div class="document-list">{"".join(entries)}</div></section>'
+
+
+def home(lang):
+    works, career = route('work',lang), route('career',lang)
+    chart = f'''<figure class="quant-figure">
+<a class="figure-link" href="{works}#paper-2025">
+<img src="/assets/ternary-quantization.png" width="1536" height="924" alt="{label('figure.alt',lang)}" decoding="async">
+<div class="figure-caption"><div><strong>{label('figure.name',lang)}</strong><span>{label('figure.caption',lang)}</span></div><span aria-hidden="true" class="figure-arrow">↗</span></div>
+</a></figure>'''
+    hero = f'''<section class="hero"><div class="hero-copy"><p class="profession">{label('hero.role',lang)}</p>
+<h1><span>{label('hero.title1',lang)}</span><span>{label('hero.title2',lang)}</span></h1>
+<p class="introduction">{label('hero.body',lang)}</p><div class="hero-actions">
+<a class="primary-link" href="{works}">{label('hero.explore',lang)} <span aria-hidden="true">→</span></a>
+<a class="secondary-link" href="/assets/{h(cv_filename(lang))}" download>{label('hero.cv',lang)} <span aria-hidden="true">↓</span></a>
+</div></div>{chart}</section>'''
+    activities = []
+    for position in current_role_records():
+        record = position.get('courseRecord') or position
+        organization = localized(DATA['organizations'][position['organization']],lang)
+        role = localized(position['title'],lang)
+        activities.append(link_line(career+'#record-'+record['id'], role,
+                                    organization+' · '+period(record,lang)))
+    papers = sorted(DATA['papers'],key=lambda p:p['year'],reverse=True)
+    projects = [p for p in DATA['otherExperience'] if p.get('portfolioProject') and p.get('url')]
+    selected = []
+    if papers:
+        p = papers[0]
+        selected.append(link_line(works+'#paper-'+p['id'],paper_title(p,lang),
+                                  str(p['year'])+' · '+localized(DATA['venues'][p['venue']]['short'],lang)))
+    if projects:
+        p = projects[0]
+        selected.append(link_line(works+'#project-'+p['id'],localized(p['title'],lang),
+                                  text('works.kind_project',lang)+' · '+localized(p['role'],lang)))
+    return hero+f'''<div class="home-index">
+<section><div class="section-heading"><h2>{label('section.current_roles',lang)}</h2>{anchor(career,text('home.allcareer',lang),'section-link')}</div>{''.join(activities)}</section>
+<section><div class="section-heading"><h2>{label('home.selected',lang)}</h2>{anchor(works,text('home.allwork',lang),'section-link')}</div>{''.join(selected)}</section>
+</div>'''+documents(lang)
+
+
+def page_head(title, desc, lang):
+    return f'<header class="page-intro"><h1>{label(title,lang)}</h1><p>{label(desc,lang)}</p></header>'
+
+
+def section_shell(key, title, body):
+    return f'<section class="directory-section" id="{h(key)}" aria-labelledby="heading-{h(key)}"><h2 id="heading-{h(key)}">{h(title)}</h2>{body}</section>'
+
+
+def contents(entries, lang):
+    links = ''.join(anchor('#'+key,title) for key,title in entries)
+    return f'<nav class="contents" aria-label="{label("jump.sections",lang)}">{links}</nav>'
+
+
+def project(item, lang):
+    url = item.get('url')
+    link = anchor(url,text('works.project_link',lang),'source-link',True) if url else ''
+    return f'''<article class="record-row project" id="project-{h(item['id'])}">
+<div class="row-margin"><span class="year">{h(period(item,lang))}</span></div><div><h3>{local(item['title'],lang)}</h3>
+<p class="byline">{local(item['role'],lang)}</p><p>{local(item['description'],lang)}</p>{link}</div></article>'''
+
+
+def portfolio(lang):
+    papers = sorted(DATA['papers'],key=lambda p:p['year'],reverse=True)
+    projects = sorted((p for p in DATA['otherExperience'] if p.get('portfolioProject')), key=lambda p:p['start'],reverse=True)
+    groups = [('papers',text('works.papers',lang)),('projects',text('works.projects',lang))]
+    publication_html = ''.join(paper_detail(p,lang) for p in papers)
+    project_html = ''.join(project(p,lang) for p in projects)
+    return page_head('nav.work','works.research_info',lang)+f'''<div class="directory">
+{contents(groups,lang)}<div class="directory-body">{section_shell(*groups[0],publication_html)}{section_shell(*groups[1],project_html)}</div></div>'''
+
+
+def record_row(record_id, date, title, metadata='', summary='', extra=''):
+    meta = f'<p class="byline">{h(metadata)}</p>' if metadata else ''
+    body = f'<p>{h(summary)}</p>' if summary else ''
+    return f'''<article class="record-row" id="record-{h(record_id)}" data-record="{h(record_id)}">
+<div class="row-margin"><span class="year">{h(date)}</span></div><div><h3>{h(title)}</h3>{meta}{body}{extra}</div></article>'''
+
+
+def school_details(item, lang):
+    rows = []
+    for school in item.get('details',[]):
+        role = localized(DATA['roles'][school['role']],lang)
+        date = period(school,lang)
+        courses = []
+        for title in detail_program_titles(school):
+            name = localized(title,lang)
+            if title.get('verifiedTeachingStart'):
+                name += ' ('+title['verifiedTeachingStart'].replace('-','.')+'–'+title['verifiedTeachingEnd'].replace('-','.')+')'
+            if name not in courses:
+                courses.append(name)
+        programs = f'<p class="school-program">{h(" · ".join(courses))}</p>' if courses else ''
+        if school.get('tracks'):
+            detail = ''.join(f'<p>{local(t["title"],lang)} · {local(t["curriculum"],lang)}</p>' for t in school['tracks'])
+        else:
+            detail = f'<p>{local(school["curriculum"],lang)}</p>' if school.get('curriculum') else ''
+        note = f'<p>{local(school["note"],lang)}</p>' if school.get('note') else ''
+        rows.append(f'<li data-detail="{h(school["id"])}"><div class="school-head"><strong>{local(school["title"],lang)}</strong><span>{h(date)} · {h(role)}</span></div>{programs}{detail}{note}</li>')
+    return '<ul class="school-list">'+''.join(rows)+'</ul>' if rows else ''
+
+
+def teaching_row(item, lang):
+    info = teaching_columns(item,lang)
+    org = localized(item.get('operator') or DATA['organizations'][item['organization']],lang)
+    # Enterprise clients and program operators have distinct roles in the record.
+    title = ' · '.join(dict.fromkeys(v for v in [info['provider'],info['audience'],info['subject']] if v))
+    meta = ' · '.join(dict.fromkeys([org,info['role']]))
+    context = teaching_detail_context(item,lang)
+    secondary = [part for part in context if part != org and part.split(': ')[-1] != org]
+    relationships = '<p class="program-context">'+h(' / '.join(secondary))+'</p>' if secondary else ''
+    description = localized(item['summary'],lang) if item.get('summary') else ''
+    return record_row(item['id'],period(item,lang),title,meta,description,relationships+school_details(item,lang))
+
+
+def experience_row(item, lang):
+    return record_row(item['id'],period(item,lang),localized(item['title'],lang),
+                      localized(item['role'],lang),localized(item['description'],lang))
+
+
+def career(lang):
+    rows = {key:[] for key in CAREER_SECTIONS}
+    for school in sorted(DATA['education'],key=lambda s:s['year'],reverse=True):
+        date = school.get('awardedOn',str(school['year'])).replace('-','.')
+        rows['education'].append(record_row(school['id'],date,localized(school['school'],lang),
+            localized(school['field'],lang)+' · '+localized(school['degree'],lang)))
+    history = sorted(teaching_records(),key=lambda t:(t['end'] is None,t['end'] or '',t['start']),reverse=True)
+    for item in history:
+        group = 'employment' if item.get('careerCategory')=='employment' else 'teaching'
+        rows[group].append(teaching_row(item,lang))
+    for development in sorted(DATA.get('professionalDevelopment',[]),key=lambda p:p['date'],reverse=True):
+        rows['training'].append(record_row(development['id'],development['date'].replace('-','.'),
+            localized(development['title'],lang),localized(development['organization'],lang),
+            localized(development['summary'],lang)))
+    for item in sorted(DATA['otherExperience'],key=lambda v:v['start'],reverse=True):
+        if item.get('careerCategory') in ('training','employment'):
+            rows[item['careerCategory']].append(experience_row(item,lang))
+    for item in DATA['qualifications']:
+        rows['credentials'].append(record_row(item['id'],str(item['year']),localized(item['title'],lang),localized(item['field'],lang)))
+    groups = [(key,text('career.'+key,lang)) for key in CAREER_SECTIONS]
+    parts = [section_shell(key,title,''.join(rows[key]) or '<p class="empty">'+label('career.empty',lang)+'</p>') for key,title in groups]
+    return page_head('nav.career','career.intro',lang)+f'<div class="directory">{contents(groups,lang)}<div class="directory-body">{"".join(parts)}</div></div>'

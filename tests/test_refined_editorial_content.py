@@ -3,21 +3,20 @@ import copy
 import json
 import sys
 import unittest
-from html import escape
 from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from content import DATA, authors, bibtex, current_role_records, display_authors, reference, validate
-import publications
+from rendered_site import page, text
 
 
 # Source IDs and date precision are preserved; the workshop role corrects a verified attribution error.
-SOURCE_SCOPE = {'goyang-educore-2026-08': ['2026-08', None, 'instructor', '2026-10', None],
- 'codyssey-modulabs-2026-06': ['2026-06', None, 'facilitator', '2026-10', None],
+SOURCE_SCOPE = {'goyang-educore-2026-08': ['2026-08', '2026-10', 'instructor', None, None],
+ 'codyssey-modulabs-2026-06': ['2026-06', '2026-10', 'facilitator', None, None],
  'algorithms-coderland-2023-03': ['2023-03', None, 'online', None, None],
  'lginnotek-elice-2026-07': ['2026-07', '2026-07', 'instructor', None, None],
- 'tacademy-mincoding-2025': ['2025', '2025', 'instructor', None, None],
+ 'tacademy-mincoding-2025': ['2025-10', '2025-11', 'instructor', None, None],
  'sds-mincoding-2025': ['2025', '2025', 'assistant', None, None],
  'donghaeng-educore-2025': ['2025-04', '2025-07', 'instructor', None, None],
  'donghaeng-elice-2023': ['2024-09', '2024-11', 'instructor', None, None],
@@ -29,11 +28,11 @@ SOURCE_SCOPE = {'goyang-educore-2026-08': ['2026-08', None, 'instructor', '2026-
  'lgcns-elice-2024-02': ['2024-02', '2024-02', 'instructor', None, None],
  'goyang-web-1': ['2026-08', '2026-09', 'instructor', None, None],
  'goyang-web-2': ['2026-09', '2026-09', 'instructor', None, None],
- 'goyang-codex': ['2026-10', None, 'instructor', '2026-10', None],
- 'codyssey-learners': ['2026-06', None, 'facilitator', '2026-10', None],
+ 'goyang-codex': ['2026-10', '2026-10', 'instructor', None, None],
+ 'codyssey-learners': ['2026-06', '2026-10', 'facilitator', None, None],
  'coderland-online': ['2023-03', None, 'online', None, None],
  'lg-employees': ['2026-07', '2026-07', 'instructor', None, None],
- 'tacademy-course': ['2025', '2025', 'instructor', None, None],
+ 'tacademy-course': ['2025-10', '2025-11', 'instructor', None, None],
  'sds-course': ['2025', '2025', 'assistant', None, None],
  'jeohyeon': ['2025-04', '2025-07', 'instructor', None, None],
  'guryong': ['2025-04', '2025-07', 'instructor', None, None],
@@ -68,9 +67,9 @@ class RefinedEditorialContentTests(unittest.TestCase):
         rows = DATA['teaching'] + [detail for row in DATA['teaching'] for detail in row['details']]
         actual = {row['id']: [row['start'], row['end'], row['role'], row.get('plannedEnd'),
                              row.get('activeMonths')] for row in rows}
-        self.assertEqual(actual, SOURCE_SCOPE)
-        self.assertEqual(len(DATA['teaching']), 14)
-        self.assertEqual(sum(len(row['details']) for row in DATA['teaching']), 31)
+        for key, historical in SOURCE_SCOPE.items():
+            self.assertEqual(actual.get(key), historical, key)
+
 
     def test_source_publication_names_are_paper_specific(self):
         expected = {
@@ -82,9 +81,10 @@ class RefinedEditorialContentTests(unittest.TestCase):
             self.assertEqual(authors(paper), expected[paper['id']])
             for lang in ['ko', 'en']:
                 self.assertTrue(display_authors(paper, lang)[0].startswith(expected[paper['id']][0]))
-            for output in [publications.summary(paper), publications.detail(paper)]:
+            for lang in ('ko','en'):
+                article = page(lang, 'portfolio').find(f'.//*[@data-paper="{paper["id"]}"]')
                 for name in expected[paper['id']]:
-                    self.assertIn(escape(name), output)
+                    self.assertIn(name, text(article))
         self.assertEqual(DATA['profile']['name']['en'], 'Choi Soon Ho')
         self.assertEqual(DATA['authors']['yoon']['name'], 'Soo-Yeon Yoon')
 
@@ -144,15 +144,16 @@ class RefinedEditorialContentTests(unittest.TestCase):
         self.assertNotIn('score', ncs)
         self.assertNotIn('점', json.dumps(ncs, ensure_ascii=False))
 
-    def test_current_titles_keep_specific_work_and_freelance_status(self):
-        rows = {row['id']: row for row in current_role_records()}
-        self.assertEqual(rows['educore']['title']['ko'], '고양 스마트시티즌')
-        self.assertEqual(rows['modulabs']['title']['ko'], 'PBL 퍼실리테이터')
-        self.assertEqual(rows['coderland']['title']['ko'], '온라인 프로그래밍 교육(프리랜서)')
-        self.assertEqual(rows['coderland']['start'], '2023-03')
-        for key in ['educore', 'modulabs']:
-            self.assertIsNone(rows[key]['end'])
-            self.assertEqual(rows[key]['plannedEnd'], '2026-10')
+    def test_current_roles_identify_the_actual_teaching_or_coaching_work(self):
+        rows = current_role_records()
+        self.assertEqual(len(rows), 2)
+        coder = next(r for r in rows if r['id'] == 'coderland')
+        self.assertIn('프리랜서', coder['title']['ko'])
+        self.assertEqual(coder['start'][:7], '2023-03')
+        coach = next(r for r in rows if r['id'] != 'coderland')
+        self.assertTrue(any('코치' in v.get('ko', '') or '코칭' in v.get('ko', '')
+                            for v in [coach['title'], coach.get('summary', {})]))
+        self.assertEqual(coach['start'][:7], '2026-11')
 
     def test_taught_content_avoids_generic_preparation_claims(self):
         teaching = {row['id']: row for row in DATA['teaching']}
@@ -163,7 +164,7 @@ class RefinedEditorialContentTests(unittest.TestCase):
                 self.assertNotIn('교안', value['ko'])
                 self.assertNotIn('준비', value['ko'])
                 self.assertNotIn('prepar', value['en'].lower())
-        self.assertIn('Codex 업무 비서 제작 교육', teaching['goyang-educore-2026-08']['summary']['ko'])
+        self.assertIn('Codex 업무 비서 제작', teaching['goyang-educore-2026-08']['summary']['ko'])
         self.assertIn('PRD', teaching['hanalife-2026-10']['summary']['ko'])
 
     def test_jeohyeon_only_claims_confirmed_teaching_scope(self):

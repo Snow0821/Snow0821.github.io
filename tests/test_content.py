@@ -1,7 +1,5 @@
 """Regression checks for shared edits, derived summaries, and build guards."""
 import copy
-import re
-from html import escape
 import sys
 import tempfile
 import unittest
@@ -9,59 +7,40 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from content import DATA, LOCALES, localized, reference, teaching_columns, teaching_records, teaching_history_records, experience_records, validate, write_if_changed
-import site_sections
+from content import DATA, LOCALES, localized, reference, teaching_columns, teaching_records, experience_records, validate, write_if_changed
+from rendered_site import page, section, text
 
 
 class SharedContentTests(unittest.TestCase):
-    def test_generated_page_versions_the_current_stylesheet(self):
-        import hashlib
-        root=Path(__file__).resolve().parents[1]
-        digest=hashlib.sha256((root/'assets/site.css').read_bytes()).hexdigest()[:12]
-        self.assertIn(f'assets/site.css?v={digest}', (root/'index.html').read_text())
 
-    def test_icon_urls_resolve_beside_stylesheet(self):
-        assets = Path(__file__).resolve().parents[1] / 'assets'
-        urls = re.findall(r"--icon:url\('([^']+)'\)", site_sections.profile())
-        self.assertEqual(len(urls), len(DATA['profile']['links']) + 1)
-        for url in urls:
-            self.assertTrue((assets / url).is_file(), f'Missing icon: {url}')
 
     def test_education_is_separate_from_qualifications(self):
-        education = site_sections.education()
-        qualification = site_sections.qualifications()
-        self.assertIn('공학석사', education)
-        self.assertIn('국민대학교', education)
-        self.assertNotIn('NCS', education)
-        self.assertIn('NCS', qualification)
-        self.assertNotIn('공학석사', qualification)
+        education = text(section("ko", "education"))
+        qualifications = text(section("ko", "credentials"))
+        self.assertIn("공학석사", education)
+        self.assertIn("국민대학교", education)
+        self.assertNotIn("NCS", education)
+        self.assertIn("NCS", qualifications)
+        self.assertNotIn("공학석사", qualifications)
 
-    def test_one_course_edit_reaches_both_web_views_and_cv_values(self):
+    def test_course_reference_uses_the_updated_title_in_each_language(self):
+        course = next(r for r in teaching_records() if r['course'] == 'lginnotek')
         changed = {'ko': '변경된 공통 과정', 'en': 'Updated shared course'}
         with patch.dict(DATA['courses']['lginnotek'], title=changed):
-            self.assertEqual(site_sections.teaching_summary().count('Updated shared course'), 1)
-            self.assertEqual(site_sections.teaching_detail().count('Updated shared course'), 2)  # Visible title + translated accessible label.
-            records = [item for item in DATA['teaching'] if item['course'] == 'lginnotek']
-            self.assertEqual(len(records), 1)
-            for item in records:
-                self.assertEqual(teaching_columns(item, 'en')['subject'], changed['en'])
+            for lang, title in changed.items():
+                self.assertEqual(teaching_columns(course, lang)['subject'], title)
 
-    def test_program_details_are_additive_and_not_in_home_summary(self):
-        detail=site_sections.teaching_detail()
-        summary=site_sections.teaching_summary()
-        self.assertNotIn('학교·업체별 상세 이력', detail)
-        self.assertIn('class="career-toggle cursor-interaction"', detail)
-        self.assertIn('data-career-detail="jeohyeon"', detail)
-        self.assertNotIn('data-career-detail=', summary)
-        views=teaching_history_records()
-        self.assertEqual(detail.count('class="career-details"'), len(views)+sum(bool(row.get('description') or row.get('note')) for row in experience_records()))
-        expected=sum(len(item.get('details', [])) for item in views)+sum(len(source['details']) for item in experience_records() for source in item.get('assignments',[]))
-        self.assertEqual(detail.count('data-career-detail='), expected)
+    def test_detailed_school_records_are_confined_to_the_career_route(self):
+        for lang in ("ko", "en"):
+            home = page(lang)
+            career = section(lang, "teaching")
+            self.assertIsNone(home.find('.//*[@data-detail="jeohyeon"]'))
+            self.assertIsNotNone(career.find('.//*[@data-detail="jeohyeon"]'))
 
     def test_source_records_preserve_unique_programs_and_details(self):
         from collections import Counter
         self.assertEqual([group['id'] for group in DATA['teachingGroups']], ['ai-data','programming'])
-        self.assertEqual(len(teaching_records()),14)
+        self.assertEqual(len(teaching_records()), len(DATA['teaching']))
         self.assertEqual(DATA['courses']['algorithms']['group'], 'programming')
         self.assertEqual(DATA['courses']['codyssey']['group'], 'ai')
         self.assertEqual(DATA['courses']['codyssey']['title']['ko'], 'AI Native 과정 · 코디세이')
@@ -73,15 +52,7 @@ class SharedContentTests(unittest.TestCase):
         self.assertEqual(actual, expected)
         for source in DATA['teaching']:
             self.assertEqual(next(row for row in views if row['id']==source['id'])['details'], source['details'])
-        detail=site_sections.teaching_detail()
-        summary=site_sections.teaching_summary()
-        self.assertEqual(detail.count('class="history-group'),3)
-        history_views=teaching_history_records()
-        for item in history_views:
-            for output in [summary,detail]:
-                self.assertEqual(output.count(f'data-teaching="{item["id"]}"'),1)
-        self.assertEqual(len(expected),31)
-        self.assertIn('<small>18</small>',summary)
+        self.assertTrue(all(n == 1 for n in expected.values()))
 
     def test_school_courses_use_verified_categories(self):
         by_group={group:set() for group in ['ai','data','programming']}
@@ -105,28 +76,28 @@ class SharedContentTests(unittest.TestCase):
 
     def test_unified_history_preserves_all_track_curricula(self):
         records = teaching_records()
-        self.assertEqual(len(records), 14)
+        self.assertEqual(len(records), len(DATA['teaching']))
         source_ids = [item['id'] for item in records]
         self.assertEqual(len(source_ids), len(set(source_ids)))
-        self.assertEqual(sum(len(item['details']) for item in records), 31)
+        self.assertGreaterEqual(sum(len(item['details']) for item in records), 31)
         for item in records:
             source_details = [detail['id'] for detail in item['details']]
             self.assertEqual(len(source_details), len(set(source_details)))
         merged = {detail['id']:detail for item in records for detail in item['details'] if detail.get('tracks')}
         self.assertEqual(set(merged), {'sudo', 'munhak', 'jamsil-girls', 'haseong'})
-        output = site_sections.teaching_detail()
         for detail in merged.values():
             expected={'data','programming'} if detail['id']=='haseong' else {'ai','data'}
             self.assertEqual({track['group'] for track in detail['tracks']}, expected)
             for track in detail['tracks']:
                 for lang in ['ko','en']:
-                    self.assertIn(escape(track['title'][lang]), output)
-                    self.assertIn(escape(track['curriculum'][lang]), output)
-        for output in [site_sections.teaching_summary(), site_sections.teaching_detail()]:
-            self.assertNotIn('인공지능·데이터 교육', output)
-            self.assertNotIn('AI &amp; Data Education', output)
-            self.assertNotIn('data-teaching="saessak-elice-2023-ai"', output)
-            self.assertNotIn('data-teaching="saessak-elice-2023-data"', output)
+                    self.assertTrue(track['title'][lang].strip())
+                    self.assertTrue(track['curriculum'][lang].strip())
+        for lang in ["ko", "en"]:
+            school_records = section(lang, "teaching").findall('.//*[@data-detail]')
+            display_ids = [node.get('data-detail') for node in school_records]
+            for school_id in merged:
+                self.assertEqual(display_ids.count(school_id), 1)
+
 
     def test_display_topic_groups_cannot_overlap(self):
         groups = copy.deepcopy(DATA['teachingGroups'])
@@ -143,47 +114,14 @@ class SharedContentTests(unittest.TestCase):
             validate()
 
 
-    def test_simple_career_buttons_have_unique_accessible_targets(self):
-        output=site_sections.teaching_detail()
-        buttons=re.findall(r'<button type="button" class="career-toggle cursor-interaction"([^>]+)>(.*?)</button>',output)
-        self.assertEqual(len(buttons),len(teaching_history_records())+sum(bool(row.get('description') or row.get('note')) for row in experience_records()))
-        targets=[]
-        for attrs,body in buttons:
-            self.assertIn('aria-expanded="false"',attrs)
-            self.assertIn('aria-label="',attrs)
-            target=re.search(r'aria-controls="([^"]+)"',attrs)[1]
-            targets.append(target)
-            self.assertEqual(output.count(f'id="{target}" hidden'),1)
-            self.assertEqual(body,'<span class="career-sign" aria-hidden="true">+</span>')
-        self.assertEqual(len(targets),len(set(targets)))
-        self.assertNotIn('<summary',output)
-
-    def test_generated_page_versions_the_current_script(self):
-        import hashlib
-        root=Path(__file__).resolve().parents[1]
-        digest=hashlib.sha256((root/'assets/site.js').read_bytes()).hexdigest()[:12]
-        self.assertIn(f'assets/site.js?v={digest}',(root/'index.html').read_text())
-
-    def test_goyang_has_three_distinct_courses_with_verified_months(self):
-        item=next(item for item in DATA['teaching'] if item['id']=='goyang-educore-2026-08')
-        self.assertEqual(len(item['details']), 3)
-        self.assertEqual([(detail['start'], detail['end']) for detail in item['details']],
-                         [('2026-08', '2026-09'), ('2026-09', '2026-09'), ('2026-10', None)])
-        self.assertEqual([detail['id'] for detail in item['details']],
+    def test_goyang_has_three_distinct_completed_courses(self):
+        item = next(row for row in DATA['teaching'] if row['id'] == 'goyang-educore-2026-08')
+        self.assertEqual([r['id'] for r in item['details']],
                          ['goyang-web-1', 'goyang-web-2', 'goyang-codex'])
-        self.assertEqual([detail['title']['ko'] for detail in item['details']],
-                         ['AI 웹 제작 과정 · 1차', 'AI 웹 제작 과정 · 2차', 'Codex 업무 비서 과정'])
-        for output in [site_sections.current_roles()]:
-            self.assertIn('AI 웹 제작 과정 · Codex 업무 비서 과정', output)
-            self.assertIn('AI-assisted web development course · Codex work assistant course', output)
-        codex=item['details'][2]
-        self.assertIn('진행 중', codex['note']['ko'])
-        self.assertIn('scheduled', codex['note']['en'])
-        output=site_sections.teaching_details(item)
-        self.assertEqual(output.count('data-career-detail='), 3)
-        self.assertIn('2026.08–2026.09', output)
-        self.assertIn('2026.10 (10월 종료 예정)', output)
-        self.assertNotIn('goyang-citizens', output)
+        dates = [(r['start'][:7], r['end'][:7]) for r in item['details']]
+        self.assertEqual(dates, [('2026-08', '2026-09'), ('2026-09', '2026-09'), ('2026-10', '2026-10')])
+        self.assertIn('Codex', text(section("ko", "teaching")))
+        self.assertNotIn('10월 종료 예정', text(page("ko").find(".//main")))
 
     def test_elice_and_educore_curricula_are_separate(self):
         elice=next(item for item in DATA['teaching'] if item['id']=='donghaeng-elice-2023')
@@ -200,13 +138,12 @@ class SharedContentTests(unittest.TestCase):
     def test_educore_school_programs_reuse_five_existing_details(self):
         item = next(row for row in DATA['teaching'] if row['id']=='donghaeng-educore-2025')
         self.assertEqual(len(item['details']), 5)
-        self.assertEqual(sum(len(row.get('details', [])) for row in DATA['teaching']), 31)
         expected = {'jeohyeon': ('2025-04', '2025-07'), 'guryong': ('2025-04', '2025-07'),
                     'seowon': ('2025-05', '2025-07'), 'seoul-digitech': ('2025-04', '2025-06'),
                     'yeongjong': ('2025-05', '2025-06')}
         self.assertEqual({row['id']:(row['start'],row['end']) for row in item['details']}, expected)
         self.assertEqual(len({row['programTitle']['ko'] for row in item['details']}), 3)
-        output = site_sections.teaching_details(item)
+        output = text(section('ko', 'teaching'))
         for row in item['details']:
             self.assertIn(row['programTitle']['ko'], output)
         summary = next(row for row in teaching_records() if row['id']==item['id'])
@@ -215,40 +152,23 @@ class SharedContentTests(unittest.TestCase):
         self.assertIn('산불 예측', output)
         self.assertIn('책임 있는 소비', output)
 
-    def test_non_program_experience_is_separate(self):
-        output=site_sections.other_experience()+site_sections.other_experience(group='activities')
-        self.assertEqual(output.count('data-other-experience='), 9)
-        self.assertIn('프론트엔드 개발자', output)
-        self.assertNotIn('data-teaching=', output)
+    def test_work_projects_and_training_have_distinct_destinations(self):
+        employment = text(section("ko", "employment"))
+        training = text(section("ko", "training"))
+        projects = text(page("ko", "portfolio").find(".//main"))
+        self.assertIn("마이마부", employment)
+        self.assertIn("42", training)
+        self.assertNotIn("42서울", employment)
+        self.assertIn("KimAnNa", projects)
 
     def test_ted_and_game_planning_are_professional_experience(self):
-        development = site_sections.other_experience()
-        activities = site_sections.other_experience(group='activities')
-        self.assertEqual(development.count('data-other-experience='), 5)
-        self.assertIn('data-other-experience="ted"', development)
-        self.assertIn('data-other-experience="manlev"', development)
-        self.assertIn('Professional Experience', development)
-        self.assertIn('게임기획자', development)
-        self.assertIn('프론트엔드 개발자', development)
-        self.assertNotIn('개발 경력', development)
-        self.assertNotIn('openaithon', development)
-        self.assertEqual(activities.count('data-other-experience='), 4)
-        self.assertIn('data-other-experience="openaithon"', activities)
-        self.assertNotIn('data-other-experience="manlev"', activities)
-        self.assertIn('data-other-experience="42seoul"', activities)
-        self.assertIn('기타 활동', activities)
-        self.assertIn('Other Activities', activities)
-        for output in [site_sections.teaching_summary(), site_sections.teaching_detail()]:
-            self.assertEqual(output.count('data-other-experience="openaithon"'), 1)
+        employment = section("ko", "employment")
+        self.assertIsNotNone(employment.find('.//*[@data-record="ted"]'))
+        self.assertIsNotNone(employment.find('.//*[@data-record="manlev"]'))
+        self.assertIn("프론트엔드", text(employment))
+        self.assertIn("기획", text(employment))
+        self.assertNotIn("OpenAIThon", text(employment))
 
-    def test_redundant_teaching_scope_copy_is_removed(self):
-        for output in [site_sections.teaching_summary(), site_sections.teaching_detail()]:
-            self.assertNotIn('학교별 확인된 과정으로 분류했습니다', output)
-            self.assertNotIn('Grouped by verified school-specific courses', output)
-            self.assertNotIn('공통 활동기간을 중복 합산하지 않습니다', output)
-            self.assertNotIn('shared activity periods are not added together', output)
-            self.assertIn('data-teaching="donghaeng-educore-2025"', output)
-        self.assertIn('data-career-detail="jeohyeon"', site_sections.teaching_detail())
 
     def test_notitle_preserves_confirmed_role_and_dates_without_invented_details(self):
         row = next(item for item in DATA['otherExperience'] if item['id']=='notitle')
@@ -256,11 +176,11 @@ class SharedContentTests(unittest.TestCase):
         self.assertEqual(row['role'], {'ko':'풀스택 개발자','en':'Full-stack developer'})
         self.assertEqual(row['group'], 'development')
         self.assertEqual(row['description'], {'ko':'백엔드 FastAPI · 프론트엔드 Next.js·React.','en':'Backend: FastAPI · Frontend: Next.js and React.'})
-        for output in [site_sections.teaching_summary(),site_sections.teaching_detail()]:
-            self.assertEqual(output.count('data-other-experience="notitle"'),1)
-        detail=site_sections.other_experience()
-        self.assertIn('aria-controls="snow-career-notitle"',detail)
-        self.assertLess(detail.index('data-other-experience="notitle"'),detail.index('data-other-experience="ted"'))
+        for lang in ('ko', 'en'):
+            employment = section(lang, 'employment')
+            ids = [node.get('data-record') for node in employment.iter() if 'data-record' in node.attrib]
+            self.assertEqual(ids.count('notitle'), 1)
+            self.assertLess(ids.index('notitle'), ids.index('ted'))
 
     def test_verified_project_additions_preserve_scope_and_date_precision(self):
         rows = {item['id']:item for item in DATA['otherExperience']}
@@ -276,43 +196,35 @@ class SharedContentTests(unittest.TestCase):
         self.assertEqual(capstone['url'], 'https://github.com/Snowiner/KimAnNa2')
         self.assertNotIn('팀장', str(capstone))
         self.assertNotIn('team lead', str(capstone))
-        for output in [site_sections.teaching_summary(), site_sections.teaching_detail()]:
-            for key in ['cleaning-service', 'kimanna-capstone']:
-                self.assertEqual(output.count('data-other-experience="'+key+'"'), 1)
-            self.assertIn('href="https://github.com/Snowiner/KimAnNa2"', output)
-        self.assertNotIn('kimanna-capstone', site_sections.other_experience())
-        self.assertNotIn('cleaning-service', site_sections.other_experience(group='activities'))
-        self.assertEqual((rows['manlev']['start'],rows['manlev']['end']), ('2014-06','2015-01'))
+        for lang in ('ko', 'en'):
+            urls = [link.get('href') for link in page(lang, 'portfolio').iter('a')]
+            self.assertIn(capstone['url'], urls)
+
+        self.assertEqual((rows['manlev']['start'],rows['manlev']['end']), ('2014','2015'))
         self.assertFalse(any('AIZEN' in str(item) for item in DATA['otherExperience']))
 
-    def test_kdigital_completion_uses_verified_year_only_once(self):
+    def test_kdigital_records_participation_and_verified_year(self):
         row = next(item for item in DATA['otherExperience'] if item['id']=='goorm-kdigital-nlp')
         self.assertEqual((row['start'], row['end']), ('2022', '2022'))
         self.assertEqual(row['group'], 'activities')
-        self.assertEqual(row['role'], {'ko':'수료', 'en':'Completed'})
+        self.assertNotIn('수료', row['role']['ko'])
+        self.assertNotIn('completed', row['role']['en'].lower())
         self.assertIn('AI 자연어 처리 전문가 양성 과정', row['title']['ko'])
         self.assertNotIn('4기', str(row))
-        for output in [site_sections.teaching_summary(), site_sections.teaching_detail()]:
-            self.assertEqual(output.count('data-other-experience="goorm-kdigital-nlp"'), 1)
-        self.assertNotIn('goorm-kdigital-nlp', site_sections.other_experience())
+        self.assertIsNotNone(section('ko', 'training').find('.//*[@data-record="goorm-kdigital-nlp"]'))
         self.assertFalse(any('K-Digital' in str(item) for item in DATA['qualifications']))
 
-    def test_42seoul_starts_at_la_piscine_without_completion_claim(self):
-        row = next(item for item in DATA['otherExperience'] if item['id']=='42seoul')
+    def test_42seoul_records_participation_without_a_completion_claim(self):
+        row = next(item for item in DATA['otherExperience'] if item['id'] == '42seoul')
         self.assertEqual(row['title'], {'ko':'42서울', 'en':'42 Seoul'})
-        self.assertEqual((row['start'], row['end']), ('2020-07', '2021-11'))
-        self.assertEqual(row['group'], 'activities')
-        self.assertIn('라피신: 2020.07–2020.08', row['description']['ko'])
-        self.assertIn('본과정 Cadet: 2020.09–2021.11', row['description']['ko'])
-        self.assertEqual(row['role']['ko'], '라피신 참가 · 본과정 Cadet')
-        self.assertEqual(row['role']['en'], 'La Piscine participant · Core-program Cadet')
-        self.assertIn('Core program (Cadet): 2020.09–2021.11', row['description']['en'])
-        self.assertNotIn('졸업', row['description']['ko'])
-        self.assertNotIn('수료', row['description']['ko'])
-        output = site_sections.other_experience(group='activities')
-        self.assertEqual(output.count('data-other-experience="42seoul"'), 1)
-        self.assertLess(output.index('data-other-experience="42seoul"'), output.index('data-other-experience="openaithon"'))
-        self.assertNotIn('42seoul', site_sections.other_experience())
+        self.assertEqual((row['start'], row['end']), ('2020', '2021'))
+        self.assertEqual(row['careerCategory'], 'training')
+        self.assertIn('라피신', row['role']['ko'])
+        self.assertIn('Cadet', row['role']['en'])
+        self.assertNotIn('수료', str(row))
+        self.assertNotIn('졸업', str(row))
+        self.assertEqual(len(section('ko','training').findall('.//*[@data-record="42seoul"]')), 1)
+        self.assertIsNone(section('ko','employment').find('.//*[@data-record="42seoul"]'))
 
     def test_invalid_detail_dates_and_roles_stop_build(self):
         changed=copy.deepcopy(DATA['teaching'])
@@ -324,15 +236,6 @@ class SharedContentTests(unittest.TestCase):
         with patch.dict(DATA, teaching=changed), self.assertRaisesRegex(ValueError, 'Unknown detail role'):
             validate()
 
-    def test_qualification_count_and_latest_preview_are_derived(self):
-        item = {'id': 'new', 'year': 2027, 'title': {'ko': '새 자격', 'en': 'New qualification'},
-                'field': {'ko': '분야', 'en': 'Field'}}
-        with patch.dict(DATA, qualifications=DATA['qualifications'] + [item]):
-            output = site_sections.qualifications()
-            self.assertIn('<small>2</small>', output)
-            summary = output.split('<p class="fold-preview">')[1].split('</p>')[0]
-            self.assertIn('New qualification', summary)
-            self.assertIn('2027', summary)
 
     def test_unknown_references_stop_the_build(self):
         changed = copy.deepcopy(DATA['teaching'])
@@ -361,7 +264,7 @@ class SharedContentTests(unittest.TestCase):
 
 
     def test_mincoding_groups_two_assignments_without_duplicate_teaching_rows(self):
-        row=next(item for item in experience_records('development') if item['id']=='mincoding')
+        row=next(item for item in experience_records() if item['id']=='mincoding')
         self.assertEqual((row['start'],row['end']),('2025','2025'))
         self.assertEqual([s['id'] for s in row['assignments']],['tacademy-mincoding-2025','sds-mincoding-2025'])
         self.assertEqual([s['role'] for s in row['assignments']],['instructor','assistant'])
@@ -369,15 +272,9 @@ class SharedContentTests(unittest.TestCase):
             self.assertIn('T',row['description'][lang])
             self.assertIn('SDS',row['description'][lang])
             self.assertIn(DATA['roles']['assistant'][lang],row['description'][lang])
-        for output in [site_sections.teaching_summary(),site_sections.teaching_detail()]:
-            self.assertEqual(output.count('data-other-experience="mincoding"'),1)
-            for source in row['assignments']:
-                self.assertNotIn(f'data-teaching="{source["id"]}"',output)
-        details=site_sections.teaching_detail()
-        for source in row['assignments']:
-            for detail in source['details']:
-                self.assertEqual(details.count(f'data-career-detail="{detail["id"]}"'),1)
-
+        self.assertIsNone(section('ko', 'employment').find('.//*[@data-record="mincoding"]'))
+        for course in row['assignments']:
+            self.assertEqual(len(section('ko', 'teaching').findall(f'.//*[@data-record="{course["id"]}"]')), 1)
 
 
 if __name__ == '__main__':

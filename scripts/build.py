@@ -1,4 +1,4 @@
-"""Generate the website and non-Korean CVs; preserve reviewed Korean PDFs."""
+"""Generate the website, its document reading pages and downloadable PDFs."""
 import argparse
 from content import LANGUAGES, validate
 from build_site import build as build_site
@@ -9,16 +9,16 @@ def main():
     parser.add_argument('--site-only',action='store_true',help='Skip PDF generation for changes that only affect the website.')
     args=parser.parse_args()
     validate()
-    if not args.site_only:
-        from build_cv import build as build_cv, configure_fonts
-        configure_fonts()
     build_site()
     from build_documents import build as build_documents
     build_documents()
     if not args.site_only:
+        from build_cv import build as build_cv, build_career_statement
+        from build_instructor_profile import build as build_instructor_profile
         for lang in LANGUAGES:
-            if lang != 'ko':
-                build_cv(lang)
+            build_cv(lang)
+        build_career_statement()
+        build_instructor_profile()
 
 
 if __name__=='__main__':

@@ -1,127 +1,88 @@
-"""Geometry checks for PDF pills, independent of locally installed CJK fonts."""
-import sys
-import unittest
+"""The public CVs and career statement retain their intended content, links and page layouts."""
+from html import unescape
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-try:
-    from build_cv import PillTags,table
-except ImportError:
-    PillTags=None
+import re
+import tempfile
+import unittest
+from unittest.mock import patch
 
-@unittest.skipIf(PillTags is None,'ReportLab is optional for site-only validation')
-class PDFLayoutTests(unittest.TestCase):
-    def tags(self,labels,width):
-        result=PillTags(labels)
-        result.font_name='Helvetica'
-        result.wrap(width,1000)
-        return result
-
-    def assert_bounds(self,result):
-        for x,y,w,h,paragraph in result.placements:
-            self.assertGreaterEqual(x,0)
-            self.assertGreaterEqual(y,-.001)
-            self.assertLessEqual(x+w,result.width+.001)
-            self.assertLessEqual(y+h,result.height+.001)
-            self.assertGreaterEqual(w-paragraph.width,result.pad_x*2-.001)
-            self.assertGreaterEqual(h-paragraph.height,result.pad_y*2-.001)
-
-    def test_tags_have_measured_internal_padding(self):
-        result=self.tags(['Weight Quantization','Vision Transformers'],400)
-        self.assert_bounds(result)
-        self.assertEqual(len(result.placements),2)
-        first,second=result.placements
-        self.assertGreaterEqual(second[0]-first[0]-first[2],result.gap-.001)
-        self.assertEqual(first[1],second[1])
-
-    def test_tags_wrap_at_narrow_bounds_without_shrinking_type(self):
-        result=self.tags(['Neural Architecture Learning','VeryLongUnbrokenResearchMethodLabel','Short'],100)
-        self.assert_bounds(result)
-        self.assertEqual(result.font_size,9)
-        self.assertGreater(len({row[1] for row in result.placements}),1)
-        self.assertTrue(all(row[4].style.fontSize==9 for row in result.placements))
-
-    def test_empty_tag_set_is_safe(self):
-        result=self.tags([],300)
-        self.assertEqual(result.height,0)
-        self.assertEqual(result.placements,[])
-
-    def test_career_rows_cannot_split_internally(self):
-        result=table([['date','course']],[100,300],header=False)
-        self.assertEqual(result.splitByRow,1)
-        self.assertEqual(result.splitInRow,0)
+ROOT = Path(__file__).resolve().parents[1]
+import sys
+sys.path.insert(0, str(ROOT / "scripts"))
+from build_documents import DOCUMENTS, read_copy
 
 
-    def test_rounded_panel_geometry_keeps_padding_inside_corners(self):
-        result=table([['date','course']],[100,300],header=False,pad=5,
-                     surface='table-body',rounded=True)
-        self.assertEqual(result._cornerRadii,[5,5,5,5])
-        for cell in result._cellStyles[0]:
-            self.assertGreaterEqual(cell.leftPadding,5)
-            self.assertGreaterEqual(cell.rightPadding,5)
-            self.assertGreaterEqual(cell.topPadding,5)
-            self.assertGreaterEqual(cell.bottomPadding,5)
+def compact(text):
+    return re.sub(r'\s+', '', text)
+
+
+class DocumentReadingTests(unittest.TestCase):
+    def test_reading_pages_show_source_text(self):
+        for slug, (_, filename) in DOCUMENTS.items():
+            copy = read_copy(slug)
+            html = (ROOT / slug / "index.html").read_text(encoding="utf-8")
+            self.assertIn(f'href="../assets/{filename}"', html)
+            self.assertNotRegex(html.lower(), r'<(details|summary|script)\b')
+            self.assertIn(copy["updated"], html)
+            visible = compact(unescape(re.sub(r'<[^>]+>', '', html)))
+            for page in copy["pages"]:
+                for block in page["blocks"]:
+                    self.assertIn(compact(block["text"]), visible)
+                    if block.get("link"):
+                        self.assertIn(block["link"], html)
+
 
 class FinishedPDFOutputTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
             from pypdf import PdfReader
+            from build_cv import build, build_career_statement
         except ImportError:
-            raise unittest.SkipTest('pypdf is optional for site-only validation')
-        cls.read_pdf = staticmethod(PdfReader)
-        cls.root = Path(__file__).resolve().parents[1]
+            raise unittest.SkipTest("Optional PDF dependencies are unavailable")
+        cls.reader = staticmethod(PdfReader)
+        cls.build = staticmethod(build)
+        cls.build_career = staticmethod(build_career_statement)
 
-    def test_complete_sections_follow_teaching_first_order_at_readable_size(self):
-        for lang, career, ai, programming, other in [
-            ('EN', 'Professional Experience', 'AI & Data Education',
-             'Programming, Data Structures & Algorithms Education', 'Other Activities')]:
-            reader = self.read_pdf(self.root / 'assets' / f'Choi-Soon-Ho-CV-{lang}.pdf')
-            self.assertEqual(len(reader.pages), 3)
-            pages = [page.extract_text() for page in reader.pages]
-            career_page=2
-            programming_page=1
-            self.assertNotIn(career, pages[0].splitlines())
-            self.assertIn(career, pages[career_page])
-            self.assertIn('2024.03-2024.05', pages[career_page])
-            self.assertIn('2014.06-2015.01', pages[career_page])
-            self.assertNotIn(ai, ''.join(pages))
-            self.assertIn('교육 경력' if lang=='KO' else 'Teaching Experience',pages[0])
-            self.assertIn('2026.08-2026.10', pages[0])
-            self.assertNotIn(programming, ''.join(pages))
-            self.assertIn('Do IT!',pages[1])
-            other_page=next(i for i,page in enumerate(pages) if other in page)
-            self.assertGreaterEqual(other_page,career_page)
-            self.assertNotIn('(계속)', ''.join(pages))
-            self.assertNotIn('(continued)', ''.join(pages))
-            self.assertIn('KimAnNa', pages[other_page])
-            role = '제1저자' if lang == 'KO' else 'First author'
-            self.assertEqual(sum(page.count(role) for page in pages), 3)
-            self.assertTrue(any(page.count(role)==3 for page in pages))
-            self.assertIn('Cadet', pages[other_page])
+    def test_files_rebuild_without_relying_on_reviewed_binary_copies(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.dict('os.environ', {"CV_OUTPUT_DIR": directory}):
+                built = [self.build("ko"), self.build("en"), self.build_career()]
+            for file in built:
+                self.assertEqual(file.read_bytes(), (ROOT / "assets" / file.name).read_bytes())
 
-    def test_separate_current_korean_documents(self):
-        reader = self.read_pdf(self.root / 'assets' / 'Choi-Soon-Ho-CV-KO.pdf')
-        self.assertEqual(len(reader.pages), 2)
-        text = '\n'.join(p.extract_text() for p in reader.pages)
-        for required in ['AI Native 퍼실리테이터', '하나생명', 'Education', 'Research Interests', 'Publications', '교육 경력', '디지털새싹', 'Cadet']:
-            self.assertIn(required, text)
-        statement = self.read_pdf(self.root / 'assets' / 'Choi-Soon-Ho-Career-Statement-KO.pdf')
-        self.assertEqual(len(statement.pages), 4)
-        for path in ['cv/index.html', 'career-statement/index.html']:
-            self.assertTrue((self.root / path).exists())
-
-    def test_embedded_korean_fonts_keep_unicode_maps(self):
-        for lang in ['KO', 'EN']:
-            reader = self.read_pdf(self.root / 'assets' / f'Choi-Soon-Ho-CV-{lang}.pdf')
-            font_names = set()
-            for page in reader.pages:
+    def test_all_reviewed_blocks_are_searchable_in_their_own_pdf_pages(self):
+        for slug, key, filename, length in [
+            ("cv", "pages", DOCUMENTS["cv"][1], 2),
+            ("cv", "english_pages", "Choi-Soon-Ho-CV-EN.pdf", 3),
+            ("career-statement", "pages", DOCUMENTS["career-statement"][1], 4),
+        ]:
+            copy = read_copy(slug)
+            pdf = self.reader(ROOT / "assets" / filename)
+            self.assertEqual(len(pdf.pages), length)
+            for index, (page, source) in enumerate(zip(pdf.pages, copy[key]), 1):
+                visible = compact(page.extract_text())
+                self.assertIn(copy["updated"].replace("-", "."), visible)
+                self.assertIn(f"{index}/{length}", visible)
+                for block in source["blocks"]:
+                    self.assertIn(compact(block["text"]), visible, block["text"])
+                links = {str(a.get_object()["/A"]["/URI"]) for a in page["/Annots"]}
+                self.assertTrue({b["link"] for b in source["blocks"] if "link" in b}.issubset(links))
+                for link in links:
+                    self.assertNotRegex(link, r'drive\.google|docs\.google|mail\.google|/learn/')
                 for reference in page['/Resources']['/Font'].values():
                     font = reference.get_object()
-                    if font.get('/Subtype') != '/TrueType':
-                        continue
-                    font_names.add(str(font['/BaseFont']))
-                    self.assertIn('/ToUnicode', font)
-                    self.assertIn('/FontFile2', font['/FontDescriptor'].get_object())
-            self.assertTrue(any('NanumMyeongjoBold' in name for name in font_names))
-            self.assertTrue(any('NanumGothic' in name for name in font_names))
+                    if font.get('/Subtype') == '/TrueType':
+                        self.assertIn('/ToUnicode', font)
+                        self.assertIn('/FontFile2', font['/FontDescriptor'].get_object())
 
+    def test_verified_current_roles_and_awards(self):
+        for lang in ("KO", "EN"):
+            reader = self.reader(ROOT / "assets" / f"Choi-Soon-Ho-CV-{lang}.pdf")
+            all_text = " ".join(page.extract_text() for page in reader.pages)
+            self.assertIn("아이디어를 콘텐츠로, AI 크리에이터" if lang == "KO" else "Ideas into Content: AI Creator", all_text)
+            self.assertIn("코치" if lang == "KO" else "Coach", all_text)
+            self.assertIn("정보올림피아드" if lang == "KO" else "Olympiad", all_text)
+            self.assertNotIn("3년 연속", all_text)
+            self.assertNotIn("우수논문상", all_text)
+            self.assertNotIn("12.31", all_text)

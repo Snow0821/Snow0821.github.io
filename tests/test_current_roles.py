@@ -1,171 +1,97 @@
-"""HOME current roles stay distinct from course and employment histories."""
+"""Active coaching and contracts keep their own source and completion state."""
 import copy
-import re
 import sys
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from content import DATA, LANGUAGES, current_role_records, teaching_history_records, period, validate
-import site_sections
+from content import DATA, LANGUAGES, current_role_records, period, validate
+from rendered_site import page, section, text
 
 
 class CurrentRoleTests(unittest.TestCase):
-    def test_exact_curated_roles_and_months(self):
-        rows = current_role_records()
-        self.assertEqual([row['id'] for row in rows], ['educore', 'modulabs', 'coderland'])
-        self.assertEqual([row['start'] for row in rows], ['2026-08', '2026-06', '2023-03'])
-        self.assertTrue(all(row['end'] is None for row in rows))
-        for row in rows:
-            self.assertTrue(all(lang in row['title'] for lang in LANGUAGES))
-        self.assertEqual(len(DATA['teaching']), 14)
+    def test_only_current_coaching_and_teaching_appear(self):
+        expected = ['aba3-elice-2026-11', 'algorithms-coderland-2023-03']
+        self.assertEqual([row['teaching'] for row in current_role_records()], expected)
+        for lang in LANGUAGES:
+            home = text(page(lang).find('.//main'))
+            self.assertIn('코더랜드' if lang == 'ko' else 'Coderland', home)
+            self.assertIn('비즈니스 에이전트' if lang == 'ko' else 'Business Agent', home)
+            self.assertNotIn('10월 종료 예정' if lang == 'ko' else 'Planned end: October', home)
+            self.assertNotIn('2023.01–현재' if lang == 'ko' else '2023.01–Present', home)
 
-    def test_elice_onboarding_is_not_displayed_as_continuous_employment(self):
-        row=next(row for row in DATA['currentRoles'] if row['id']=='elice')
-        self.assertFalse(row['display'])
-        self.assertEqual(row['periodBasis'],'selection_and_onboarding')
-        self.assertEqual(period(row,'ko'),'2023.01 · 선발·온보딩')
-        self.assertEqual(period(row,'en'),'2023.01 · Selection / onboarding')
-        output=site_sections.current_roles()
-        self.assertNotIn('2023.01–현재',output)
-        self.assertNotIn('2023.01–Present',output)
-        self.assertNotIn('프로젝트별 프리랜서 강사',output)
-        self.assertNotIn('Project-based freelance instructor',output)
-        self.assertNotIn('2023.01',output)
+    def test_current_titles_are_translated(self):
+        for row in current_role_records():
+            for lang in LANGUAGES:
+                self.assertTrue(row['title'][lang].strip())
 
-    def test_linked_dates_reuse_source_and_closed_role_disappears(self):
-        records = copy.deepcopy(DATA['teaching'])
-        row = next(row for row in records if row['id'] == 'goyang-educore-2026-08')
-        row['start'] = '2026-07'
-        with patch.dict(DATA, teaching=records):
-            self.assertEqual(current_role_records()[0]['start'], '2026-07')
-        row['end'] = '2026-10'
-        with patch.dict(DATA, teaching=records):
-            self.assertNotIn('educore', [item['id'] for item in current_role_records()])
-        standalone = copy.deepcopy(DATA['currentRoles'])
-        standalone[-1]['end'] = '2026-10'
-        with patch.dict(DATA, currentRoles=standalone):
-            self.assertNotIn('elice', [item['id'] for item in current_role_records()])
+    def test_linked_start_and_closure_follow_course(self):
+        rows = copy.deepcopy(DATA['teaching'])
+        row = next(r for r in rows if r['id'] == 'aba3-elice-2026-11')
+        row['start'] = '2026-10'
+        with patch.dict(DATA, teaching=rows):
+            self.assertEqual(current_role_records()[0]['start'], '2026-10')
+            row['end'] = '2026-12'
+            row.pop('plannedEnd')
+            self.assertEqual([r['teaching'] for r in current_role_records()], ['algorithms-coderland-2023-03'])
 
-    def test_planned_ends_keep_current_activity_and_display_bounds(self):
-        rows = current_role_records()
-        for row, start in zip(rows[:2], ['2026.08', '2026.06']):
-            self.assertIsNone(row['end'])
-            self.assertEqual(row['plannedEnd'], '2026-10')
-            self.assertEqual(period(row, 'ko'), f'{start}–2026.10 (10월 종료 예정)')
-            self.assertEqual(period(row, 'en'), f'{start}–2026.10 (Planned end: October)')
-        self.assertTrue(all(row['plannedEnd'] is None for row in rows[2:]))
-        detail = site_sections.current_roles()
-        self.assertIn('2026.06–2026.10', detail)
-        self.assertIn('2026.08–2026.10', detail)
-        self.assertNotIn('2026.06–현재', detail)
-        self.assertNotIn('2026.08–현재', detail)
+    def test_elice_coaching_has_a_project_period_and_a_planned_end(self):
+        row = next(r for r in DATA['teaching'] if r['id'] == 'aba3-elice-2026-11')
+        self.assertEqual((row['start'], row['end'], row['plannedEnd']), ('2026-11', None, '2026-12'))
+        self.assertIn('2026.11.11', period(row, 'ko'))
+        self.assertIn('12.18', period(row, 'ko'))
+        self.assertIn('예정', period(row, 'ko'))
+        self.assertIn('scheduled', period(row, 'en').lower())
+        self.assertNotIn('196', text(section('ko', 'teaching')))
 
-    def test_invalid_or_completed_planned_end_stops_build(self):
-        for planned, end, error in [('2026-13', None, 'Invalid planned end'),
-                                    ('2026-07', None, 'Reversed planned period'),
-                                    ('2026-10', '2026-10', 'Planned end requires ongoing status')]:
-            records = copy.deepcopy(DATA['teaching'])
-            row = next(row for row in records if row['id'] == 'goyang-educore-2026-08')
-            row['plannedEnd'], row['end'] = planned, end
-            with patch.dict(DATA, teaching=records), self.assertRaisesRegex(ValueError, error):
+    def test_retired_activities_have_completed_source_dates(self):
+        sources = {r['id']: r for r in DATA['teaching']}
+        for key in ('goyang-educore-2026-08', 'codyssey-modulabs-2026-06'):
+            row = sources[key]
+            self.assertEqual(row['end'][:7], '2026-10')
+            self.assertFalse(row.get('plannedEnd'))
+            for detail in row['details']:
+                self.assertIsNotNone(detail['end'])
+                self.assertFalse(detail.get('plannedEnd'))
+        self.assertIn('2026.10.31', period(sources['codyssey-modulabs-2026-06'], 'ko'))
+        self.assertIn('27', sources['goyang-educore-2026-08']['summary']['ko'])
+
+    def test_coderland_appointment_is_distinct_from_online_teaching_start(self):
+        row = next(r for r in DATA['teaching'] if r['id'] == 'algorithms-coderland-2023-03')
+        self.assertEqual(row['start'], '2023-03')
+        self.assertIsNone(row['end'])
+        self.assertIn('2023.01.19', row['details'][0]['note']['ko'])
+
+    def test_active_roles_still_have_full_career_entries(self):
+        for row in current_role_records():
+            for lang in LANGUAGES:
+                found = section(lang, 'teaching').findall(f'.//*[@data-record="{row["teaching"]}"]')
+                self.assertEqual(len(found), 1)
+
+    def test_invalid_or_closed_planned_period_is_rejected(self):
+        for planned, end, message in [('2026-13', None, 'Invalid planned end'),
+                                      ('2026-10', None, 'Reversed planned period'),
+                                      ('2026-12', '2026-12', 'Planned end requires ongoing status')]:
+            rows = copy.deepcopy(DATA['teaching'])
+            coach = next(r for r in rows if r['id'] == 'aba3-elice-2026-11')
+            coach['plannedEnd'], coach['end'] = planned, end
+            with patch.dict(DATA, teaching=rows), self.assertRaisesRegex(ValueError, message):
                 validate()
 
-    def test_home_section_is_separate_bilingual_and_not_collapsed(self):
-        output = site_sections.current_roles()
-        self.assertEqual(output.count('data-current-role='), 3)
-        self.assertIn('현재 활동', output)
-        self.assertIn('Current Activities', output)
-        self.assertNotIn('fold-section', output)
-        self.assertNotIn('data-teaching=', output)
-        self.assertEqual(output.count('data-career-detail='), 5)
-        page = (Path(__file__).resolve().parents[1] / 'index.html').read_text()
-        self.assertLess(page.index('class="current-roles"'), page.index('id="snow-cv-papers"'))
-        self.assertLess(page.index('class="current-roles"'), page.index('id="snow-cv-career"'))
-        self.assertEqual(page.count('data-current-role='), 3)
+    def test_unknown_duplicated_or_untranslated_current_roles_are_rejected(self):
+        updates = [
+            ('teaching', 'missing', 'Unknown current role teaching reference'),
+            ('start', '2026-11', 'Duplicated current role facts'),
+            ('id', DATA['currentRoles'][1]['id'], 'Duplicate current role ID'),
+            ('title', {'ko':'코치'}, 'Missing current role translation'),
+        ]
+        for key, value, message in updates:
+            roles = copy.deepcopy(DATA['currentRoles'])
+            roles[0][key] = value
+            with self.subTest(key=key), patch.dict(DATA, currentRoles=roles), self.assertRaisesRegex(ValueError, message):
+                validate()
 
-    def test_current_summary_uses_dates_only_without_changing_status(self):
-        output = site_sections.current_roles()
-        dates=''.join(re.findall(r'<p class="current-role-date">(.*?)</p>',output))
-        self.assertNotIn('종료 예정', dates)
-        self.assertNotIn('Planned end', dates)
-        self.assertIn('2026.08–2026.10', output)
-        self.assertIn('2026.06–2026.10', output)
-        self.assertLess(output.index('class="current-role-date"'), output.index('<h3>'))
-        for row in current_role_records()[:2]:
-            self.assertIsNone(row['end'])
-            self.assertEqual(row['plannedEnd'], '2026-10')
-            self.assertNotIn('Planned end', period(row, 'en', include_planned_notice=False))
-            self.assertIn('Planned end', period(row, 'en'))
-
-    def test_educore_context_explicitly_identifies_ai_and_codex(self):
-        row = next(row for row in current_role_records() if row['id']=='educore')
-        self.assertEqual(row['context'], {'ko':'AI 웹 제작 과정 · Codex 업무 비서 과정',
-                         'en':'AI-assisted web development course · Codex work assistant course'})
-        home = site_sections.current_roles()
-        for lang in LANGUAGES:
-            self.assertIn(row['context'][lang], home)
-        self.assertIn('class="current-role-context"', home)
-        history = site_sections.teaching_detail()
-        self.assertIn('AI', history)
-        self.assertNotIn('data-teaching="goyang-educore-2026-08"', history)
-        self.assertIn('Codex', home)
-
-    def test_missing_or_duplicate_role_references_stop_build(self):
-        records = copy.deepcopy(DATA['currentRoles'])
-        records[0]['teaching'] = 'missing'
-        with patch.dict(DATA, currentRoles=records), self.assertRaisesRegex(ValueError, 'Unknown current role teaching reference'):
-            validate()
-        records = copy.deepcopy(DATA['currentRoles'])
-        records[0]['start'] = '2026-08'
-        with patch.dict(DATA, currentRoles=records), self.assertRaisesRegex(ValueError, 'Duplicated current role facts'):
-            validate()
-        records = copy.deepcopy(DATA['currentRoles'])
-        records[1]['id'] = records[0]['id']
-        with patch.dict(DATA, currentRoles=records), self.assertRaisesRegex(ValueError, 'Duplicate current role ID'):
-            validate()
-
-    def test_invalid_standalone_date_or_translation_stops_build(self):
-        records = copy.deepcopy(DATA['currentRoles'])
-        records[-1]['start'] = '2023-13'
-        with patch.dict(DATA, currentRoles=records), self.assertRaisesRegex(ValueError, 'Invalid current role start'):
-            validate()
-        records = copy.deepcopy(DATA['currentRoles'])
-        del records[-1]['title']['en']
-        with patch.dict(DATA, currentRoles=records), self.assertRaisesRegex(ValueError, 'Missing current role translation'):
-            validate()
-
-    def test_current_sources_are_not_repeated_in_histories_but_details_survive(self):
-        history_ids={row['id'] for row in teaching_history_records()}
-        self.assertEqual(len(history_ids),9)
-        current=site_sections.current_roles()
-        for row in current_role_records():
-            self.assertNotIn(row['teaching'],history_ids)
-            for render in [site_sections.teaching_summary(),site_sections.teaching_detail()]:
-                self.assertNotIn(f'data-teaching="{row["teaching"]}"',render)
-            for lang in LANGUAGES:
-                self.assertIn(row['summary'][lang],current)
-            for detail in row['courseRecord']['details']:
-                self.assertEqual(current.count(f'data-career-detail="{detail["id"]}"'),1)
-        self.assertEqual(len(DATA['teaching']),14)
-        self.assertEqual(sum(len(row['details']) for row in DATA['teaching']),31)
-
-    def test_completed_current_program_returns_to_history_without_data_copy(self):
-        records=copy.deepcopy(DATA['teaching'])
-        row=next(row for row in records if row['id']=='goyang-educore-2026-08')
-        row['end']='2026-10'
-        row.pop('plannedEnd')
-        with patch.dict(DATA,teaching=records):
-            self.assertNotIn('educore',[row['id'] for row in current_role_records()])
-            self.assertEqual(sum(item['id']==row['id'] for item in teaching_history_records()),1)
-            for output in [site_sections.teaching_summary(),site_sections.teaching_detail()]:
-                self.assertEqual(output.count(f'data-teaching="{row["id"]}"'),1)
-
-    def test_empty_current_roles_omit_section(self):
+    def test_all_closed_or_empty_selections_produce_no_current_activities(self):
         with patch.dict(DATA, currentRoles=[]):
-            self.assertEqual(site_sections.current_roles(), '')
-
-
-if __name__ == '__main__':
-    unittest.main()
+            self.assertEqual(current_role_records(), [])

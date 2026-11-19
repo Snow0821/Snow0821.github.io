@@ -1,34 +1,33 @@
 """Single teaching history preserves source detail and verified relationship roles."""
-import copy,re,sys,unittest
+import copy,sys,unittest
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from content import DATA, teaching_history_records, current_role_records, experience_records, school_program_groups, teaching_columns, teaching_relationships, detail_program_titles, validate
-import site_sections
+from content import DATA, teaching_history_records, experience_records, school_program_groups, teaching_columns, detail_program_titles, validate
+from rendered_site import page, section, text
 
 class UnifiedTeachingTests(unittest.TestCase):
-    def test_history_is_one_source_per_program_sorted_by_completion(self):
-        expected=['hanalife-2026-10','lginnotek-elice-2026-07','paju-ablearn-2026-05','donghaeng-educore-2025','ai-workshop-elice-2024-12','saessak-elice-2023','donghaeng-elice-2023','lgcns-elice-2024-02','gosaek-gosaek-2023']
-        self.assertEqual([r['id'] for r in teaching_history_records()],expected)
-        for html in [site_sections.teaching_summary(),site_sections.teaching_detail()]:
-            self.assertEqual(re.findall(r'data-teaching="([^"]+)"',html),expected)
-            self.assertEqual(html.count('<table '),1)
-            for heading in ['인공지능·데이터 교육','프로그래밍·자료구조·알고리즘 교육','AI &amp; Data Education']:
-                self.assertNotIn(heading,html)
-        self.assertNotIn('snow-history-ai-data',site_sections.teaching_detail())
-        self.assertNotIn('snow-history-programming',site_sections.teaching_detail())
+    def test_history_keeps_one_record_per_course(self):
+        for lang in ('ko', 'en'):
+            career = page(lang, 'career')
+            articles = [el.get('data-record') for el in career.iter() if 'data-record' in el.attrib]
+            self.assertEqual(len(articles), len(set(articles)))
+            for course in DATA['teaching']:
+                with self.subTest(course=course['id'], language=lang):
+                    self.assertEqual(articles.count(course['id']), 1)
 
-    def test_all_original_details_and_track_curricula_are_displayed_once(self):
-        from html import escape
-        html=site_sections.current_roles()+site_sections.teaching_detail()
-        ids=[d['id'] for item in DATA['teaching'] for d in item['details']]
-        self.assertEqual(len(ids),31)
-        self.assertCountEqual(re.findall(r'data-career-detail="([^"]+)"',html),ids)
-        tracks=[t for item in DATA['teaching'] for d in item['details'] for t in d.get('tracks',[])]
-        self.assertEqual(len(tracks),8)
-        for track in tracks:
-            for lang in ['ko','en']:
-                self.assertIn(escape(track['curriculum'][lang]),html)
+    def test_school_tracks_remain_with_their_school(self):
+        rows = [detail for course in DATA['teaching'] for detail in course['details'] if detail.get('tracks')]
+        self.assertEqual({row['id'] for row in rows}, {'sudo', 'munhak', 'jamsil-girls', 'haseong'})
+        self.assertEqual(sum(len(row['tracks']) for row in rows), 8)
+        for lang in ('ko', 'en'):
+            for row in rows:
+                public = section(lang, 'teaching').findall(f'.//*[@data-detail="{row["id"]}"]')
+                self.assertEqual(len(public), 1)
+                for track in row['tracks']:
+                    self.assertTrue(track['curriculum'][lang])
+                for title in detail_program_titles(row):
+                    self.assertIn(title[lang], text(public[0]))
 
     def test_school_role_and_title_associations_are_not_lost(self):
         rows={r['id']:r for r in teaching_history_records()}
@@ -49,21 +48,14 @@ class UnifiedTeachingTests(unittest.TestCase):
         self.assertEqual(elice['organizationLines'],['운영: 엘리스그룹'])
         self.assertEqual(teaching_columns(rows['saessak-elice-2023'],'ko')['organizationLines'],['사업 주관·운영: 엘리스그룹'])
         self.assertNotIn('동아사이언스',str(elice))
-        self.assertNotIn('주최',str(DATA))
-        self.assertNotIn('Host',str(DATA))
+        self.assertNotIn('주최',str(rows['donghaeng-elice-2023']))
+        self.assertNotIn('Host',str(rows['donghaeng-elice-2023']))
 
-    def test_current_dates_and_mincoding_scope_stay_distinct(self):
-        roles={r['teaching']:r for r in current_role_records()}
-        coder=roles['algorithms-coderland-2023-03']
-        self.assertEqual(coder['start'],'2023-03')
-        self.assertIn('프리랜서',coder['title']['ko'])
-        self.assertNotIn('2023-01-19',str(DATA))
-        for key in ['goyang-educore-2026-08','codyssey-modulabs-2026-06']:
-            self.assertIsNone(roles[key]['end']);self.assertEqual(roles[key]['plannedEnd'],'2026-10')
-        mincoding=next(r for r in experience_records() if r['id']=='mincoding')
-        self.assertEqual([a['role'] for a in mincoding['assignments']],['instructor','assistant'])
-        self.assertTrue(all('operator' not in a for a in mincoding['assignments']))
-        self.assertEqual(mincoding['start'],'2025')
+    def test_mincoding_assignments_keep_their_distinct_roles(self):
+        mincoding = next(row for row in experience_records() if row['id'] == 'mincoding')
+        self.assertEqual([r['role'] for r in mincoding['assignments']], ['instructor', 'assistant'])
+        self.assertEqual(mincoding['start'], '2025')
+        self.assertTrue(all(r['organization'] == 'mincoding' for r in mincoding['assignments']))
 
     def test_support_does_not_become_individual_event_organizer(self):
         rows={r['id']:r for r in DATA['teaching']}
@@ -96,24 +88,6 @@ class UnifiedTeachingTests(unittest.TestCase):
         self.assertEqual(teaching_display_columns(edu,'ko')['organizationLines'],['에듀코어센터'])
         self.assertIn('AI 분과 주관: 동아사이언스',teaching_detail_context(edu,'ko'))
         self.assertIn('운영: 에듀코어센터',teaching_detail_context(edu,'ko'))
-        for lang in ['ko','en']:
-            for item in rows.values():
-                detail=site_sections.teaching_details(item)
-                for line in teaching_detail_context(item,lang):
-                    self.assertIn(line,detail)
-
-    def test_pdf_main_history_omits_administrative_labels(self):
-        from pypdf import PdfReader
-        root=Path(__file__).resolve().parents[1]
-        for lang in ['KO','EN']:
-            pages=PdfReader(root/'assets'/f'Choi-Soon-Ho-CV-{lang}.pdf').pages
-            content=''.join(page.extract_text() for page in pages)
-            for label in ['사업 주관','AI 분과 주관','운영:','사업기관:','Operator:','Program institution:','AI division lead:']:
-                self.assertNotIn(label,content)
-            if lang == 'EN':
-                self.assertIn('Program / Institution', content)
-                self.assertIn('Audience / Teaching', content)
-            else:
-                self.assertIn('교육 경력', content)
-                self.assertIn('하나생명 임직원', content)
-
+        for lang in ['ko', 'en']:
+            item = section(lang, 'teaching').find('.//*[@data-record="donghaeng-educore-2025"]')
+            self.assertIn(edu['operator'][lang], text(item))

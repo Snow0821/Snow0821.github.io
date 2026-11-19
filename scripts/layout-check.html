@@ -1,29 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portfolio responsive layout check</title>
+<title>포트폴리오 모바일 레이아웃 검토</title>
 <style>
-  body { margin:24px; background:#e8e8e8; color:#333; font:14px system-ui; }
-  main { display:flex; align-items:flex-start; gap:24px; }
-  h1 { font-size:18px; margin-bottom:8px; }
-  p { margin:0 0 20px; }
-  h2 { font-size:14px; margin:0 0 8px; }
-  iframe { display:block; border:1px solid #bbb; background:white; }
+  body { margin: 1rem; color: #202c2b; background: #f8f7f3; font: 1rem system-ui, sans-serif; }
+  main { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1.25rem; }
+  h1 { font-size: 1.25rem; } h2 { font-size: 1rem; }
+  iframe { display: block; border: 1px solid #78847e; max-width: 100%; }
 </style>
-<h1>Responsive layout check</h1>
-<p>Each frame loads the actual portfolio at a mobile viewport width.</p>
+<h1>모바일 레이아웃 검토</h1>
 <main>
-  <section><h2>320 px</h2><iframe id="check-320" title="320 px portfolio" src="../index.html" width="320" height="900"></iframe></section>
-  <section><h2>375 px</h2><iframe id="check-375" title="375 px portfolio" src="../index.html" width="375" height="900"></iframe></section>
-  <section><h2>430 px</h2><iframe id="check-430" title="430 px portfolio" src="../index.html" width="430" height="900"></iframe></section>
+  <section><h2>메인 · 320px</h2><iframe title="320px 메인" src="/" width="320" height="760"></iframe></section>
+  <section><h2>포트폴리오 · 390px</h2><iframe title="390px 포트폴리오" src="/portfolio/" width="390" height="760"></iframe></section>
+  <section><h2>전체 이력 · 390px</h2><iframe title="390px 전체 이력" src="/career/" width="390" height="760"></iframe></section>
+  <section><h2>영문 메인 · 320px</h2><iframe title="320px English" src="/en/" width="320" height="760"></iframe></section>
 </main>
-<script>
-  // A fresh document avoids showing the previous deployment from the browser cache.
-  const previewVersion = new URLSearchParams(location.search).get('v') || Date.now();
-  document.querySelectorAll('iframe').forEach(frame => {
-    frame.src = '../index.html?preview=' + encodeURIComponent(previewVersion);
-  });
-</script>
 </html>

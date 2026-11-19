@@ -1,138 +1,126 @@
 {
   "document_type": "career-statement",
   "language": "ko",
-  "updated": "2026-10-16",
+  "updated": "2026-11-18",
   "pages": [
     {
       "page": 1,
       "blocks": [
         {
-          "text": "최순호",
+          "text": "현재 활동",
           "role": "heading"
         },
         {
-          "text": "AI 강사 · 연구자  |  sosaror@gmail.com · snow0821.github.io",
-          "role": "body"
-        },
-        {
-          "text": "AI Native 퍼실리테이터",
+          "text": "엘리스그룹 · AI캠퍼스 AI 비즈니스 에이전트 트랙 3기",
           "role": "lead"
         },
         {
-          "text": "코디세이 · 모두의연구소 | 2026.06-2026.10",
+          "text": "코치 · 2026.11.11 시작, 12.18 종료 예정",
+          "role": "meta"
+        },
+        {
+          "text": "잔여 이론 수업의 실습과 2차 프로젝트를 코칭합니다.",
           "role": "body"
         },
         {
-          "text": "과제 중심 교육과정의 완주를 돕는 학습 문화와 학습자 네트워크 형성.\nAI 전문지식과 최신 트렌드를 반영한 세미나 운영.",
-          "role": "body"
-        },
-        {
-          "text": "코더랜드 강사",
+          "text": "코더랜드 · 온라인 프로그래밍 교육",
           "role": "lead"
         },
         {
-          "text": "온라인 프로그래밍 교육 · 프리랜서 | 2023.03-현재",
+          "text": "프리랜서 코딩강사 · 2023.01.19 위촉, 현재 활동 중",
+          "role": "meta"
+        },
+        {
+          "text": "Python·C++로 자료구조와 알고리즘을 가르치고 정보올림피아드 대비를 개별 지도합니다.",
           "role": "body"
         },
         {
-          "text": "Python/C++/자료구조/알고리즘 지도. 2024-2026년 3년 연속 정보올림피아드 수상 지도.",
-          "role": "body"
-        },
-        {
-          "text": "최근 주요 교육",
+          "text": "최근 강의·퍼실리테이션",
           "role": "heading"
         },
         {
-          "text": "AI로 설계하는 데이터 서비스 실무(STEP 2)",
+          "text": "인천 AI디지털배움터 · 아이디어를 콘텐츠로, AI 크리에이터",
           "role": "lead"
         },
         {
-          "text": "2026.10 · K-하이테크플랫폼 · 하나생명 · 엘리스",
+          "text": "주강사 · 에이블런 · 2026.11.09",
+          "role": "meta"
+        },
+        {
+          "text": "콘텐츠 기획과 생성형 AI 활용을 다루는 온라인 파견교육을 맡았습니다.",
           "role": "body"
         },
         {
-          "text": "하나생명 임직원 대상 Claude Code 기반 PoC 실습·프로젝트 피드백.\n업무 문제 정의·검증 기준·PRD를 바탕으로 법인카드 내역 점검·문서 중요정보 마스킹 구현 지도.",
-          "role": "body"
-        },
-        {
-          "text": "고양 스마트시티즌",
+          "text": "코디세이 · AI Native 과정",
           "role": "lead"
         },
         {
-          "text": "2026.08-2026.10 · 에듀코어센터",
+          "text": "PBL 퍼실리테이터 · 모두의연구소 · 2026.06.01–10.31",
+          "role": "meta"
+        },
+        {
+          "text": "과제 수행을 지원하고 학습 이슈를 조율했으며 AI 교양 세미나를 운영했습니다.",
           "role": "body"
         },
         {
-          "text": "고양시민 대상 AI 활용 웹 제작 및 Codex 업무 비서 강의.\n웹페이지·문서 제작과 배포, 개인 업무 비서 구현 및 LLM 에이전트 실습 지도.",
-          "role": "body"
-        },
-        {
-          "text": "AI·AX Lv2 집체교육",
+          "text": "고양 스마트시티즌 · AI 웹 제작과 Codex 업무 비서",
           "role": "lead"
         },
         {
-          "text": "2026.07 · LG이노텍 임직원 · 엘리스그룹",
+          "text": "강사 · 에듀코어센터 · 2026.08–10",
+          "role": "meta"
+        },
+        {
+          "text": "AI 웹사이트 제작·배포와 개인 업무 비서 구현을 지도했습니다. 10월 과정은 13·20·27일에 진행했습니다.",
           "role": "body"
         },
         {
-          "text": "AI·AX 강의·실습 진행. 현업 프로젝트 수행에 대한 조언과 계획 발표 피드백 제공.",
-          "role": "body"
-        },
-        {
-          "text": "학력 및 자격",
-          "role": "heading"
-        },
-        {
-          "text": "국민대학교 소프트웨어융합대학원",
+          "text": "진광고등학교 · 디지털새싹 문제해결경진대회",
           "role": "lead"
         },
         {
-          "text": "· 인공지능 공학석사",
+          "text": "외부전문가 멘토 · 한성대학교산학협력단·에듀코어센터 · 2026.10.21, 90분",
+          "role": "meta"
+        },
+        {
+          "text": "청소년 금융안전 AI 프로젝트의 문제 정의와 구현 방향을 지도했습니다.",
           "role": "body"
         },
         {
-          "text": "2025",
-          "role": "body"
-        },
-        {
-          "text": "한동대학교 전산전자공학부",
+          "text": "하나생명 · AI로 설계하는 데이터 서비스 실무(STEP 2)",
           "role": "lead"
         },
         {
-          "text": "· 컴퓨터공학·전자공학 공학사",
+          "text": "강사 · 엘리스그룹 K-하이테크플랫폼 · 2026.10.14",
+          "role": "meta"
+        },
+        {
+          "text": "임직원 대상 Claude Code 기반 PoC 실습과 프로젝트 피드백을 진행했습니다. 업무 문제와 검증 기준을 정리하고 PRD를 바탕으로 구현을 지도했습니다.",
           "role": "body"
         },
         {
-          "text": "2019",
+          "text": "LG이노텍 · AI·AX Lv2 집체교육",
+          "role": "lead"
+        },
+        {
+          "text": "강사 · 엘리스그룹 · 2026.07.01–07.09, 7일",
+          "role": "meta"
+        },
+        {
+          "text": "임직원 대상 AI·AX 강의·실습과 현업 프로젝트 계획·발표 피드백을 진행했습니다.",
           "role": "body"
         },
         {
-          "text": "NCS 확인강사",
+          "text": "파주시청 · 생성형 AI 기반 공공 홍보 및 행정 보고서 실무",
           "role": "lead"
         },
         {
-          "text": "· 인공지능",
+          "text": "보조강사 · 에이블런 · 2026.05·07",
+          "role": "meta"
+        },
+        {
+          "text": "공무원의 행정 보고서 작성과 공공 홍보 콘텐츠 제작 실습을 지원했습니다.",
           "role": "body"
-        },
-        {
-          "text": "2026",
-          "role": "body"
-        },
-        {
-          "text": "연구 논문 · 제1저자",
-          "role": "heading"
-        },
-        {
-          "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks (IJCNN 2026)",
-          "role": "lead"
-        },
-        {
-          "text": "Binarization of Ternary ViT on Image Classification (KICS 2025 Winter)",
-          "role": "lead"
-        },
-        {
-          "text": "Comparing accuracy of sign-quantized layers with linear layer in small models (KICS 2024 Summer)",
-          "role": "lead"
         }
       ]
     },
@@ -140,16 +128,12 @@
       "page": 2,
       "blocks": [
         {
-          "text": "학교 AI·데이터 교육",
-          "role": "heading"
-        },
-        {
-          "text": "SW동행",
+          "text": "청소년 SW동행 · 에듀코어센터",
           "role": "heading"
         },
         {
           "text": "2025.04-2025.07 · 에듀코어센터",
-          "role": "body"
+          "role": "meta"
         },
         {
           "text": "GPT로 그린 세상: 책임 있는 소비를 위한 앱 만들기",
@@ -188,12 +172,12 @@
           "role": "body"
         },
         {
-          "text": "SW동행",
+          "text": "청소년 SW동행 · 엘리스그룹",
           "role": "heading"
         },
         {
           "text": "2024.09-2024.11 · 엘리스그룹",
-          "role": "body"
+          "role": "meta"
         },
         {
           "text": "로컬 푸드 급식 메이커",
@@ -240,7 +224,7 @@
           "role": "body"
         },
         {
-          "text": "상인천중학교: 온라인 Orange3 기초·SDGs 미니프로젝트 지도 및 대학생 멘토 학습 보조 조율.",
+          "text": "상인천중학교 배정 과정으로, 온라인 Orange3 기초와 SDGs 미니프로젝트를 다뤘습니다.",
           "role": "body"
         }
       ]
@@ -249,16 +233,12 @@
       "page": 3,
       "blocks": [
         {
-          "text": "학교 AI·데이터 교육",
-          "role": "heading"
-        },
-        {
-          "text": "디지털새싹",
+          "text": "디지털새싹 · 학교별 AI·데이터 교육",
           "role": "heading"
         },
         {
           "text": "2023.05-2024.12 · 엘리스그룹",
-          "role": "body"
+          "role": "meta"
         },
         {
           "text": "차근차근 데이터 분석 시작하기 / 차근차근 데이터 분석 활용하기",
@@ -359,7 +339,7 @@
         },
         {
           "text": "2024.12-2025.01 · 엘리스그룹 · 디지털새싹",
-          "role": "body"
+          "role": "meta"
         },
         {
           "text": "디지털새싹 강사 워크숍 강의 진행. 「손쉽게 공부하는 인공지능」의 AI·ML·DL 기초, AI 윤리, 데이터 분석·시각화·대화형 AI 교육.",
@@ -371,7 +351,7 @@
         },
         {
           "text": "2025.10-2025.11 · 민코딩 외부 출강",
-          "role": "body"
+          "role": "meta"
         },
         {
           "text": "코딩테스트 문제해결·학습법, Python 자료구조·알고리즘 교육.",
@@ -387,7 +367,7 @@
         },
         {
           "text": "2024.03-2024.05 · 개발 실무",
-          "role": "body"
+          "role": "meta"
         },
         {
           "text": "FastAPI 백엔드 및 Next.js·React 프론트엔드 개발.",
@@ -399,7 +379,7 @@
         },
         {
           "text": "2022.08-2022.10 · 소속: 주식회사 테드 · 프론트엔드 개발자",
-          "role": "body"
+          "role": "meta"
         },
         {
           "text": "서비스 프론트엔드 개발 및 OAuth 로그인·실명인증·결제 API 연동.",
@@ -410,12 +390,43 @@
           "role": "lead"
         },
         {
-          "text": "2014.06-2015.01 · 기획팀 · 게임기획자 · 기획 실무",
-          "role": "body"
+          "text": "2014–2015 · 기획팀 · 게임기획자",
+          "role": "meta"
         },
         {
           "text": "모바일게임 레벨·스토리·밸런싱 및 확률·과금 구조 설계.",
           "role": "body"
+        },
+        {
+          "text": "학력 및 등록",
+          "role": "heading"
+        },
+        {
+          "text": "국민대학교 소프트웨어융합대학원 인공지능전공 공학석사(2025.08.20) · 한동대학교 전산전자공학부 컴퓨터공학·전자공학 공학사(2019.08.16).",
+          "role": "body"
+        },
+        {
+          "text": "NCS 확인강사 등록 · 인공지능(200107, 2026).",
+          "role": "body"
+        },
+        {
+          "text": "학술대회 논문 · 제1저자",
+          "role": "heading"
+        },
+        {
+          "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks · IJCNN 2026",
+          "role": "body",
+          "link": "https://dblp.org/rec/conf/ijcnn/ChoiK26"
+        },
+        {
+          "text": "이진화 기반 삼진 양자화 ViT 모델을 활용한 이미지 분류 기법에 관한 연구 · 한국통신학회 동계 2025",
+          "role": "body",
+          "link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12132696"
+        },
+        {
+          "text": "Comparing accuracy of sign-quantized layers with linear layer in small models · 한국통신학회 하계 2024",
+          "role": "body",
+          "link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11906215"
         }
       ]
     }
