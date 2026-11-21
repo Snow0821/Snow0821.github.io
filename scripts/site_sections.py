@@ -25,45 +25,47 @@ def documents(lang='ko'):
     for key, screen, file, language in records:
         read = (anchor(screen, text('home.read',lang) + (' · KO' if lang != 'ko' else '')) if screen else '')
         pdf = f'<a href="{core}{h(file)}" download>{label("home.pdf",lang)} <span class="file-language">{language}</span></a>'
+        if key == 'doccv':
+            other = 'en' if lang == 'ko' else 'ko'
+            pdf += f'<a href="{core}{h(cv_filename(other))}" download>{label("index.cv"+other,lang)} (PDF)</a>'
         entries.append(f'<article class="document"><h3>{label("home."+key,lang)}</h3><p>{label("home."+key+"_desc",lang)}</p><div class="document-links">{pdf}{read}</div></article>')
     return f'<section class="documents" id="documents"><h2>{label("home.docs",lang)}</h2><div class="document-list">{"".join(entries)}</div></section>'
 
 
 def home(lang):
-    works, career = route('work',lang), route('career',lang)
-    chart = f'''<figure class="quant-figure">
-<a class="figure-link" href="{works}#paper-2025">
-<img src="/assets/ternary-quantization.png" width="1536" height="924" alt="{label('figure.alt',lang)}" decoding="async">
-<div class="figure-caption"><div><strong>{label('figure.name',lang)}</strong><span>{label('figure.caption',lang)}</span></div><span aria-hidden="true" class="figure-arrow">↗</span></div>
-</a></figure>'''
-    hero = f'''<section class="hero"><div class="hero-copy"><p class="profession">{label('hero.role',lang)}</p>
+    works, career = route('work', lang), route('career', lang)
+    incheon = next(row for row in teaching_records() if row['course'] == 'incheon-creator')
+    course = teaching_columns(incheon, lang)
+    paper = next(p for p in DATA['papers'] if p['id'] == '2026')
+    paper_url = works + '#paper-' + paper['id']
+    paper_name = paper_title(paper, lang).split(':')[0]
+    hero = f'''<section class="hero editorial-hero"><div class="hero-copy">
+<p class="profession" lang="en">AI · COMPUTER SCIENCE</p>
 <h1><span>{label('hero.title1',lang)}</span><span>{label('hero.title2',lang)}</span></h1>
-<p class="introduction">{label('hero.body',lang)}</p><div class="hero-actions">
-<a class="primary-link" href="{works}">{label('hero.explore',lang)} <span aria-hidden="true">→</span></a>
-<a class="secondary-link" href="/assets/{h(cv_filename(lang))}" download>{label('hero.cv',lang)} <span aria-hidden="true">↓</span></a>
-</div></div>{chart}</section>'''
+<p class="introduction">{label('editor.identity',lang)}</p><div class="hero-actions">
+{anchor(works+'?type=education',text('editor.teach',lang),'primary-link')}
+{anchor(works+'?type=research',text('editor.research',lang),'secondary-link')}</div></div>
+<a class="research-cover" href="{paper_url}" aria-label="{h(paper_title(paper,lang))}">
+<span class="cover-art" aria-hidden="true"></span>
+<span class="cover-title" lang="en">{h(paper_name)}</span>
+<span class="cover-caption">{label('editor.cover',lang)}</span></a></section>'''
+    selected = f'''<section class="selected-work"><div class="section-heading">
+<h2>{label('home.selected',lang)}</h2>{anchor(works,text('home.allwork',lang),'section-link')}</div>
+<div class="work-pair">{link_line(career+'#record-'+incheon['id'],course['subject'],text('index.education',lang)+'　/　'+course['provider'])}
+{link_line(paper_url,paper_name,text('index.research',lang)+'　/　'+text('editor.researchShort',lang))}</div></section>'''
+    chart = f'''<figure class="quant-figure"><a class="figure-link" href="{works}#paper-2025">
+<img src="/assets/ternary-quantization.png" width="1536" height="924" alt="{label('figure.alt',lang)}" loading="lazy">
+<div class="figure-caption"><div><strong>{label('figure.name',lang)}</strong><span>{label('figure.caption',lang)}</span></div></div></a></figure>'''
     activities = []
     for position in current_role_records():
         record = position.get('courseRecord') or position
-        organization = localized(DATA['organizations'][position['organization']],lang)
-        role = localized(position['title'],lang)
-        activities.append(link_line(career+'#record-'+record['id'], role,
-                                    organization+' · '+period(record,lang)))
-    papers = sorted(DATA['papers'],key=lambda p:p['year'],reverse=True)
-    projects = [p for p in DATA['otherExperience'] if p.get('portfolioProject') and p.get('url')]
-    selected = []
-    if papers:
-        p = papers[0]
-        selected.append(link_line(works+'#paper-'+p['id'],paper_title(p,lang),
-                                  str(p['year'])+' · '+localized(DATA['venues'][p['venue']]['short'],lang)))
-    if projects:
-        p = projects[0]
-        selected.append(link_line(works+'#project-'+p['id'],localized(p['title'],lang),
-                                  text('works.kind_project',lang)+' · '+localized(p['role'],lang)))
-    return hero+f'''<div class="home-index">
-<section><div class="section-heading"><h2>{label('section.current_roles',lang)}</h2>{anchor(career,text('home.allcareer',lang),'section-link')}</div>{''.join(activities)}</section>
-<section><div class="section-heading"><h2>{label('home.selected',lang)}</h2>{anchor(works,text('home.allwork',lang),'section-link')}</div>{''.join(selected)}</section>
-</div>'''+documents(lang)
+        org = localized(DATA['organizations'][position['organization']],lang)
+        activities.append(link_line(career+'#record-'+record['id'], localized(position['title'],lang),
+                                    org+' · '+period(record,lang)))
+    return hero + selected + f'''<div class="home-index">
+<section><div class="section-heading"><h2>{label('section.current_roles',lang)}</h2>
+{anchor(career,text('home.allcareer',lang),'section-link')}</div><p class="role-summary">{label('hero.body',lang)}</p>{''.join(activities)}</section>
+<section><div class="section-heading"><h2>{label('editor.figureSection',lang)}</h2></div>{chart}</section></div>''' + documents(lang)
 
 
 def page_head(title, desc, lang):
@@ -87,14 +89,57 @@ def project(item, lang):
 <p class="byline">{local(item['role'],lang)}</p><p>{local(item['description'],lang)}</p>{link}</div></article>'''
 
 
+def index_rows(lang, papers, projects):
+    rows = {}
+    for item in sorted(teaching_records(), key=lambda x: x['start'], reverse=True):
+        if item.get('careerCategory') == 'employment':
+            continue
+        fields = teaching_columns(item, lang)
+        context = fields['audience'] or fields['provider'] or fields['organization']
+        url = route('career',lang)+'#record-'+item['id']
+        rows[item['id']] = ('education', url, fields['subject'], context+' · '+fields['role'])
+    for paper in papers:
+        title = paper_title(paper,lang).split(':')[0] if paper['id']=='2026' else paper_title(paper,lang)
+        venue = localized(DATA['venues'][paper['venue']]['short'],lang)
+        rows[paper['id']] = ('research', '#paper-'+paper['id'], title, str(paper['year'])+' · '+venue)
+    for item in projects:
+        rows[item['id']] = ('development', '#project-'+item['id'], localized(item['title'],lang),
+                            localized(item['role'],lang)+' · '+period(item,lang))
+    featured = ['incheon-ablearn-2026-11','2026','hanalife-2026-10','kimanna-capstone','algorithms-coderland-2023-03']
+    ordered = dict.fromkeys([key for key in featured if key in rows] + list(rows))
+    cards = []
+    for key in ordered:
+        kind, url, title, context = rows[key]
+        cards.append(f'<li data-kind="{kind}"><a href="{h(url)}"><span class="kind">{label("index."+kind,lang)}</span>'
+                     f'<span class="entry"><strong>{h(title)}</strong><small>{h(context)}</small></span>'
+                     '<span class="entry-arrow" aria-hidden="true">↗</span></a></li>')
+    return ''.join(cards)
+
+
 def portfolio(lang):
-    papers = sorted(DATA['papers'],key=lambda p:p['year'],reverse=True)
-    projects = sorted((p for p in DATA['otherExperience'] if p.get('portfolioProject')), key=lambda p:p['start'],reverse=True)
-    groups = [('papers',text('works.papers',lang)),('projects',text('works.projects',lang))]
+    papers = sorted(DATA['papers'], key=lambda p:p['year'], reverse=True)
+    projects = sorted((p for p in DATA['otherExperience'] if p.get('portfolioProject')), key=lambda p:p['start'], reverse=True)
+    documents_list = [('home.docprofile','Choi-Soon-Ho-Instructor-Profile-KO.pdf'),
+                      ('index.cvko',cv_filename('ko')), ('index.cven',cv_filename('en')),
+                      ('home.doccareer','Choi-Soon-Ho-Career-Statement-KO.pdf')]
+    docs = ''.join(anchor('/assets/'+file,text(key,lang),'rail-doc',True) for key,file in documents_list)
+    filters = ''.join(f'<a class="index-filter" data-filter="{kind}" href="?type={kind}">{label("index."+kind,lang)}</a>'
+                      for kind in ('all','education','research','development'))
+    summary = h(text('index.count',lang,shown='{shown}',total='{total}'))
+    more = h(text('index.more',lang,count='{count}'))
+    catalogue = f'''<section class="catalogue" data-work-index data-count="{summary}" data-more="{more}" data-less="{label('index.less',lang)}">
+<div class="index-identity"><div class="index-word" lang="en" aria-hidden="true">Index.</div><p>{label('index.intro',lang)}</p></div>
+<aside class="index-docs"><h2>{label('home.docs',lang)}</h2>{docs}</aside>
+<div class="index-main" id="activity-list"><h1>{label('index.title',lang)}</h1>
+<nav class="index-filters" aria-label="{label('index.filters',lang)}" data-filters hidden>{filters}</nav>
+<ul class="work-entries" aria-label="{label('index.list',lang)}">{index_rows(lang,papers,projects)}</ul>
+<div class="index-controls"><button type="button" class="more-entries" data-expand hidden></button>
+<span class="result-count" data-result-count role="status"></span></div></div></section>'''
     publication_html = ''.join(paper_detail(p,lang) for p in papers)
     project_html = ''.join(project(p,lang) for p in projects)
-    return page_head('nav.work','works.research_info',lang)+f'''<div class="directory">
-{contents(groups,lang)}<div class="directory-body">{section_shell(*groups[0],publication_html)}{section_shell(*groups[1],project_html)}</div></div>'''
+    groups = [('papers',text('works.papers',lang)),('projects',text('works.projects',lang))]
+    return catalogue + f'''<div class="directory work-directory">{contents(groups,lang)}<div class="directory-body">
+{section_shell(*groups[0],publication_html)}{section_shell(*groups[1],project_html)}</div></div>'''
 
 
 def record_row(record_id, date, title, metadata='', summary='', extra=''):

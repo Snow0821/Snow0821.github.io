@@ -6,13 +6,13 @@
 
 | 페이지 | 구성 | 편집 원본 |
 | --- | --- | --- |
-| 메인 `/` · `/en/` | 자기소개, 현재 활동, 대표 작업, 이력 문서 | `data/portfolio.json`, `locales/*.json` |
-| 포트폴리오 `/portfolio/` · `/en/portfolio/` | 연도별 논문, 저자 역할, 서지정보, 프로젝트 | `papers`, `authors`, `venues`, `otherExperience` |
+| 메인 `/` · `/en/` | 자기소개, 대표 강의·연구, 현재 활동, 이력 문서 | `data/portfolio.json`, `locales/*.json` |
+| 포트폴리오 `/portfolio/` · `/en/portfolio/` | 교육·연구·개발 활동 색인, 논문 서지정보, 프로젝트 | `papers`, `authors`, `venues`, `otherExperience` |
 | 전체 이력 `/career/` · `/en/career/` | 학력, 경력, 강의 경력, 교육훈련, 자격증, 수상, 저서·기고 | `education`, `teaching`, `otherExperience`, `professionalDevelopment`, `qualifications` |
 | 국문 CV `/cv/` · 경력기술서 `/career-statement/` | 웹 열람본과 PDF | `data/cv-public.json`, `data/career-statement-public.json` |
 | 이력 PDF | 국문 CV 2쪽, 영문 CV 3쪽, 경력기술서 4쪽, 강사 소개서 1쪽 | 위 두 문서 원본과 `data/instructor-profile.json` |
 
-메뉴와 목차는 표준 링크입니다. 언어를 바꾸면 같은 탭으로 이동합니다. 논문의 인용문과 BibTeX는 각 논문 아래에서 복사할 수 있습니다.
+메뉴와 목차는 표준 링크입니다. 언어를 바꾸면 같은 페이지와 활동 필터를 유지합니다. 논문의 인용문과 BibTeX는 각 논문 아래에서 복사할 수 있습니다.
 
 ## 이력 추가하기
 

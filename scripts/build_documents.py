@@ -1,7 +1,10 @@
 """Generate responsive Korean reading pages from the same copy as the PDFs."""
+from hashlib import sha256
 from html import escape
 import json
 from pathlib import Path
+
+from design import css_tokens
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCUMENTS = {
@@ -30,6 +33,7 @@ def html_block(block):
 
 
 def build():
+    css_version = sha256((ROOT / "cv/documents.css").read_bytes()).hexdigest()[:12]
     for slug, (title, filename) in DOCUMENTS.items():
         copy = read_copy(slug)
         content = "\n".join(html_block(block) for page in copy["pages"] for block in page["blocks"])
@@ -39,7 +43,7 @@ def build():
 <html lang="ko"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="독립연구자이자 AI·CS 강사 최순호의 {title}">
-<title>최순호 · {title}</title><link rel="stylesheet" href="../cv/documents.css">
+<title>최순호 · {title}</title><style>{css_tokens()}</style><link rel="stylesheet" href="../cv/documents.css?v={css_version}">
 </head><body>
 <a class="skip" href="#document">본문 바로가기</a>
 <header class="masthead"><a class="name" href="../">최순호</a>

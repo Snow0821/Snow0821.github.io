@@ -38,7 +38,7 @@ def nav(page, lang):
     home = route('home', lang)
     name = local(DATA['profile']['name'], lang)
     return f'''<header class="site-header"><div class="shell header-inner">
-<a href="{home}" class="wordmark">{name}</a>
+<a href="{home}" class="wordmark">{name}<span lang="{other}">{local(DATA['profile']['name'],other)}</span></a>
 <nav class="site-nav" aria-label="{label("nav.label",lang)}">{"".join(links)}</nav>{switch}
 </div></header>'''
 

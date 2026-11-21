@@ -17,4 +17,7 @@ def css_tokens():
     values += [f'--space-{name}:{value}px;' for name,value in DESIGN['spacing'].items()]
     values += [f'--panel-radius:{RADIUS["webPanel"]}px;', f'--table-radius:{RADIUS["webTable"]}px;']
     values += [f'--teaching-{name}-width:{value}%;' for name,value in zip(['period','provider','course'],COLUMNS)]
+    values.append(f'--control-radius:{RADIUS["webControl"]}px;')
+    values.extend(f'--art-{key}:{color};' for key, color in DESIGN['artwork'].items())
+    values.extend(f'--brand-{key}:{color};' for key, color in DESIGN['identityPalette'].items())
     return ':root{' + ''.join(values) + '}'

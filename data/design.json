@@ -1,15 +1,15 @@
 {
   "palette": {
     "light": {
-      "paper": "#F8F7F3",
-      "ink": "#202C2B",
+      "paper": "#F7F5EF",
+      "ink": "#303735",
       "secondary": "#4E5D59",
-      "line": "#CDD2C9",
+      "line": "#CCCFC5",
       "accent": "#285D50",
-      "tint": "#E9EEE7",
+      "tint": "#E7EFEB",
       "selected": "#285D50",
       "on-selected": "#FFFFFF",
-      "beige": "#F5F1E9",
+      "beige": "#E8DFD0",
       "tag-border": "#A2B2AB",
       "control-border": "#78847E",
       "camel": "#B68D64",
@@ -18,21 +18,21 @@
       "date": "#475E54"
     },
     "dark": {
-      "paper": "#222831",
-      "ink": "#F1F0EC",
-      "secondary": "#C2CBD4",
-      "line": "#4A5764",
-      "accent": "#B9CDE0",
-      "tint": "#2D403B",
-      "selected": "#D4E2ED",
-      "on-selected": "#253B53",
-      "beige": "#403B33",
-      "tag-border": "#8DABA0",
-      "control-border": "#84958F",
+      "paper": "#212A27",
+      "ink": "#F5F2E9",
+      "secondary": "#C4CFC8",
+      "line": "#4E6158",
+      "accent": "#A8CFC3",
+      "tint": "#2C3933",
+      "selected": "#A8CFC3",
+      "on-selected": "#203C32",
+      "beige": "#38382F",
+      "tag-border": "#80988B",
+      "control-border": "#879C91",
       "camel": "#B68D64",
       "table-meta": "#37392F",
       "table-body": "#293B35",
-      "date": "#B7CFC1"
+      "date": "#B5CDC1"
     }
   },
   "typography": {
@@ -72,6 +72,12 @@
   "radius": {
     "webPanel": 0,
     "webTable": 0,
-    "pdfPanel": 5
+    "pdfPanel": 5,
+    "webControl": 6
+  },
+  "artwork": {
+    "field": "#23483E",
+    "muted": "#87AC9E",
+    "grid": "#34594D"
   }
 }
