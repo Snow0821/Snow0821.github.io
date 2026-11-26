@@ -120,5 +120,10 @@
   "index.less": "대표 활동만 보기",
   "index.cvko": "국문 CV",
   "index.cven": "영문 CV",
-  "editor.identity": "최순호 · 독립연구자이자 AI·CS 강사"
+  "editor.identity": "최순호 · 독립연구자이자 AI·CS 강사",
+  "themes.title": "주제별 대표 작업",
+  "themes.intro": "대표 작업을 먼저 보고, 같은 주제의 논문·강의·프로젝트를 이어서 볼 수 있습니다.",
+  "themes.representative": "대표 작업",
+  "themes.related": "관련 작업",
+  "themes.all": "전체 활동 찾아보기"
 }

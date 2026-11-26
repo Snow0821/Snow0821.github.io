@@ -1,0 +1,25 @@
+.theme-section { margin-block: 1.45rem 2.65rem; }
+.theme-section h2, .all-activities { font-size: clamp(1.25rem, 2vw, 1.65rem); letter-spacing: -.035em; }
+.theme-intro { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 1rem; row-gap: .2rem; margin: .3rem 0 1.15rem; color: var(--secondary); font-size: .95rem; }
+.theme-intro a { color: var(--ink); text-underline-offset: .16em; }
+.theme-branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; margin: 0; padding: 0; list-style: none; }
+.theme-branch { padding: 1rem 1rem 1.05rem; border: 1px solid var(--line); background: var(--tint); min-width: 0; }
+.theme-number { color: var(--accent); font-size: .78rem; font-weight: 680; font-variant-numeric: tabular-nums; }
+.theme-branch h3 { margin: .14rem 0 .7rem; font-size: clamp(1.08rem, 2vw, 1.38rem); line-height: 1.28; font-weight: 700; letter-spacing: -.035em; }
+.theme-evidence { padding-left: .78rem; border-left: 1px solid var(--control-border); }
+.theme-label { font-size: .79rem; color: var(--secondary); font-weight: 600; }
+.theme-lead { display: block; padding: .24rem 0; font-size: 1.04rem; font-weight: 690; line-height: 1.35; }
+.theme-summary { margin: .26rem 0 .75rem; color: var(--secondary); font-size: .88rem; line-height: 1.55; }
+.theme-related { border-top: 1px solid var(--line); padding-top: .55rem; }
+.theme-children { margin: .16rem 0 0; padding-left: 1rem; font-size: .89rem; line-height: 1.42; }
+.theme-children a { display: inline-block; padding-block: .33rem; }
+.theme-children li::marker { color: var(--accent); }
+.theme-branch a { text-decoration-thickness: 1px; text-underline-offset: .16em; }
+.theme-branch a:hover { color: var(--accent); }
+.all-activities { scroll-margin-top: 5rem; }
+@media (max-width: 560px) {
+  .theme-branches { grid-template-columns: minmax(0,1fr); }
+  .theme-branch { padding: .85rem 1rem; }
+  .theme-children a { padding-block: .42rem; }
+}
+@media print { .theme-branch { break-inside: avoid; } }

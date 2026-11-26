@@ -1,6 +1,8 @@
 """Home, portfolio and career views built from the public record."""
+import json
+
 from content import (
-    DATA, current_role_records, cv_filename, detail_program_titles, localized,
+    DATA, ROOT, current_role_records, cv_filename, detail_program_titles, localized,
     period, teaching_columns, teaching_detail_context, teaching_records, text,
 )
 from html_components import anchor, h, label, local, route
@@ -89,7 +91,7 @@ def project(item, lang):
 <p class="byline">{local(item['role'],lang)}</p><p>{local(item['description'],lang)}</p>{link}</div></article>'''
 
 
-def index_rows(lang, papers, projects):
+def portfolio_links(lang, papers, projects):
     rows = {}
     for item in sorted(teaching_records(), key=lambda x: x['start'], reverse=True):
         if item.get('careerCategory') == 'employment':
@@ -105,6 +107,10 @@ def index_rows(lang, papers, projects):
     for item in projects:
         rows[item['id']] = ('development', '#project-'+item['id'], localized(item['title'],lang),
                             localized(item['role'],lang)+' · '+period(item,lang))
+    return rows
+
+
+def index_rows(lang, rows):
     featured = ['incheon-ablearn-2026-11','2026','hanalife-2026-10','kimanna-capstone','algorithms-coderland-2023-03']
     ordered = dict.fromkeys([key for key in featured if key in rows] + list(rows))
     cards = []
@@ -116,9 +122,46 @@ def index_rows(lang, papers, projects):
     return ''.join(cards)
 
 
+
+def theme_tree(lang, rows, papers, projects):
+    themes = json.loads((ROOT/'data/portfolio-themes.json').read_text())
+    evidence = {x['id']: x['summary'] for x in [*papers, *teaching_records()]}
+    evidence.update({x['id']: x['description'] for x in projects})
+    cards = []
+    seen = set()
+    for number, theme in enumerate(themes, 1):
+        root, children = theme['representative'], theme['related']
+        keys = [root, *children]
+        if len(keys) != len(set(keys)) or seen.intersection(keys) or any(key not in rows for key in keys):
+            raise ValueError(f"Invalid portfolio theme entries: {theme['id']}")
+        seen.update(keys)
+        kind, url, title, _ = rows[root]
+        if kind == 'research':
+            title = paper_title(next(p for p in papers if p['id'] == root), lang)
+        children_html = ''.join(
+            f'<li>{anchor(rows[key][1],rows[key][2])}</li>' for key in children
+        )
+        heading = 'theme-' + theme['id']
+        cards.append(f'''<li class="theme-branch" aria-labelledby="{h(heading)}">
+<span class="theme-number" aria-hidden="true">{number:02d}</span>
+<h3 id="{h(heading)}">{local(theme['title'],lang)}</h3>
+<div class="theme-evidence">
+<p class="theme-label">{label('themes.representative',lang)} <span aria-hidden="true">·</span> {label('index.'+kind,lang)}</p>
+{anchor(url,title,'theme-lead')}
+<p class="theme-summary">{local(evidence[root],lang)}</p>
+<p class="theme-label theme-related">{label('themes.related',lang)}</p>
+<ul class="theme-children">{children_html}</ul>
+</div></li>''')
+    return f'''<section class="theme-section" aria-labelledby="portfolio-themes">
+<h2 id="portfolio-themes">{label('themes.title',lang)}</h2>
+<div class="theme-intro"><p>{label('themes.intro',lang)}</p>{anchor('#all-activities',text('themes.all',lang))}</div>
+<ol class="theme-branches">{"".join(cards)}</ol></section>'''
+
+
 def portfolio(lang):
     papers = sorted(DATA['papers'], key=lambda p:p['year'], reverse=True)
     projects = sorted((p for p in DATA['otherExperience'] if p.get('portfolioProject')), key=lambda p:p['start'], reverse=True)
+    rows = portfolio_links(lang, papers, projects)
     documents_list = [('home.docprofile','Choi-Soon-Ho-Instructor-Profile-KO.pdf'),
                       ('index.cvko',cv_filename('ko')), ('index.cven',cv_filename('en')),
                       ('home.doccareer','Choi-Soon-Ho-Career-Statement-KO.pdf')]
@@ -131,8 +174,10 @@ def portfolio(lang):
 <div class="index-identity"><div class="index-word" lang="en" aria-hidden="true">Index.</div><p>{label('index.intro',lang)}</p></div>
 <aside class="index-docs"><h2>{label('home.docs',lang)}</h2>{docs}</aside>
 <div class="index-main" id="activity-list"><h1>{label('index.title',lang)}</h1>
+{theme_tree(lang,rows,papers,projects)}
+<h2 id="all-activities" class="all-activities">{label('themes.all',lang)}</h2>
 <nav class="index-filters" aria-label="{label('index.filters',lang)}" data-filters hidden>{filters}</nav>
-<ul class="work-entries" aria-label="{label('index.list',lang)}">{index_rows(lang,papers,projects)}</ul>
+<ul class="work-entries" aria-label="{label('index.list',lang)}">{index_rows(lang,rows)}</ul>
 <div class="index-controls"><button type="button" class="more-entries" data-expand hidden></button>
 <span class="result-count" data-result-count role="status"></span></div></div></section>'''
     publication_html = ''.join(paper_detail(p,lang) for p in papers)

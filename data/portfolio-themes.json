@@ -1,0 +1,26 @@
+[
+  {
+    "id": "neural-networks",
+    "title": {"ko": "신경망 구조·경량화", "en": "Neural network design & compression"},
+    "representative": "2026",
+    "related": ["2025", "2024"]
+  },
+  {
+    "id": "applied-ai-education",
+    "title": {"ko": "생성형 AI 실습 교육", "en": "Applied generative AI education"},
+    "representative": "goyang-educore-2026-08",
+    "related": ["hanalife-2026-10", "aba3-elice-2026-11", "incheon-ablearn-2026-11"]
+  },
+  {
+    "id": "cs-education",
+    "title": {"ko": "프로그래밍·알고리즘 교육", "en": "Programming & algorithms education"},
+    "representative": "algorithms-coderland-2023-03",
+    "related": ["tacademy-mincoding-2025", "gosaek-gosaek-2023"]
+  },
+  {
+    "id": "software-projects",
+    "title": {"ko": "소프트웨어 개발", "en": "Software development"},
+    "representative": "kimanna-capstone",
+    "related": ["cleaning-service", "ted", "openaithon"]
+  }
+]

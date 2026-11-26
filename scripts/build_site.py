@@ -14,6 +14,7 @@ def build():
     origin = DATA['profile']['portfolioUrl'].rstrip('/')
     versions = {name: hashlib.sha256((ROOT/'assets'/('site.'+name)).read_bytes()).hexdigest()[:12]
                 for name in ('css', 'js')}
+    theme_version = hashlib.sha256((ROOT/'assets/portfolio-themes.css').read_bytes()).hexdigest()[:12]
     for lang in LANGUAGES:
         for page, builder in [('home',site_sections.home),('work',site_sections.portfolio),('career',site_sections.career)]:
             path = route(page, lang)
@@ -26,6 +27,7 @@ def build():
             context = {'lang':lang,'page':page,'title':h(title),'description':h(text(description,lang)),
                        'canonical':origin+path,'alternates':'\n'.join(alternate),'tokens':css_tokens(),
                        'cssversion':versions['css'],'jsversion':versions['js'],
+                       'workstyle':f'<link rel="stylesheet" href="/assets/portfolio-themes.css?v={theme_version}">\n' if page=='work' else '',
                        'lightpaper':DESIGN['palette']['light']['paper'],'darkpaper':DESIGN['palette']['dark']['paper'],
                        'skip':h(text('nav.skip',lang)),'header':nav(page,lang),'content':builder(lang),'footer':footer(lang)}
             html = re.sub(r'\{\{([a-z]+)\}\}',lambda m:context[m[1]],template)
