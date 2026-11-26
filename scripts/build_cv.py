@@ -12,7 +12,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.platypus import Paragraph
 
-from build_documents import DOCUMENTS, ROOT, read_copy, write_if_changed
+from build_documents import DOCUMENTS, ROOT, document_links, read_copy, write_if_changed
 
 INK = "#202C2B"
 ACCENT = "#285D50"
@@ -49,6 +49,8 @@ def prepare(block):
     if block.get("link"):
         color = ACCENT
         value = f'<link href="{escape(block["link"], quote=True)}" underline="yes" color="{ACCENT}">{value}</link>'
+    for name, url in document_links(block):
+        value += f' · <link href="{escape(url, quote=True)}" underline="yes" color="{ACCENT}">{escape(name)}</link>'
     style = ParagraphStyle(block["role"], fontName=font, fontSize=size, leading=leading,
                            textColor=HexColor(color), splitLongWords=True, spaceShrinkage=0.0)
     paragraph = Paragraph(value, style)

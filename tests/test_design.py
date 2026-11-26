@@ -118,6 +118,19 @@ class PublicDesignTests(unittest.TestCase):
                 self.assertIsNotNone(article.find('.//*[@role="status"]'))
                 self.assertIn(paper['url'], [a.get('href') for a in article.iter('a')])
 
+    def test_featured_paper_links_and_citation_match_in_both_languages(self):
+        doi = '10.1109/IJCNN69854.2026.11729684'
+        for lang in LANGUAGES:
+            matches = page(lang, 'portfolio').findall('.//article[@id="paper-2026"]')
+            self.assertEqual(len(matches), 1)
+            article = matches[0]
+            self.assertEqual({a.text: a.get('href') for a in article.iter('a')}, {
+                'DOI': 'https://doi.org/' + doi,
+                'DBLP': 'https://dblp.org/rec/conf/ijcnn/ChoiK26',
+            })
+            for template in article.iter('template'):
+                self.assertIn(doi, ''.join(template.itertext()))
+
     def test_career_categories_have_navigable_headings_and_honest_empty_states(self):
         for lang in LANGUAGES:
             doc = page(lang,'career')

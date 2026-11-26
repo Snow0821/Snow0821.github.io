@@ -30,8 +30,9 @@ def build(output_path=None):
         add("body", f"{record['school']['ko']} · {record['field']['ko']} {record['degree']['ko']} ({record['year']})")
     add("heading", data["paperTitle"]["ko"])
     paper = data["representativePaper"]
-    add("lead", paper["title"], paper["url"])
-    add("meta", paper["venue"] + " · " + paper["authorRole"]["ko"])
+    add("lead", paper["title"])
+    blocks.append({"role": "meta", "text": paper["venue"] + " · " + paper["authorRole"]["ko"],
+                   "paperLinks": paper["sourceId"]})
     default = default_pdf_path(data["pdfFilename"])
     if os.environ.get("INSTRUCTOR_PROFILE_OUTPUT_DIR"):
         default = Path(os.environ["INSTRUCTOR_PROFILE_OUTPUT_DIR"]) / data["pdfFilename"]

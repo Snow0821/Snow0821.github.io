@@ -27,7 +27,7 @@ class InstructorProfileTests(unittest.TestCase):
         for item in PROFILE["paragraphs"]:
             self.assertEqual(set(item), {"ko", "en"})
             self.assertTrue(all(item.values()))
-        self.assertIn("://dblp.org/", PROFILE["representativePaper"]["url"])
+        self.assertEqual(PROFILE["representativePaper"]["sourceId"], "2026")
         self.assertTrue((ROOT / "assets" / PROFILE["pdfFilename"]).is_file())
 
     def test_clickable_one_page_with_searchable_text(self):
@@ -56,4 +56,6 @@ class InstructorProfileTests(unittest.TestCase):
             for field in expected:
                 self.assertIn(compact(field), words)
             links = {str(annotation.get_object()["/A"]["/URI"]) for annotation in page["/Annots"]}
-            self.assertEqual(links, {PROFILE["url"], "mailto:" + PROFILE["email"], PROFILE["representativePaper"]["url"]})
+            self.assertEqual(links, {PROFILE["url"], "mailto:" + PROFILE["email"],
+                                     "https://dblp.org/rec/conf/ijcnn/ChoiK26",
+                                     "https://doi.org/10.1109/IJCNN69854.2026.11729684"})

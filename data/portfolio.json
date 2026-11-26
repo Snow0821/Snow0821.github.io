@@ -80,6 +80,10 @@
       "name": {
         "ko": "2026 International Joint Conference on Neural Networks (IJCNN)",
         "en": "2026 International Joint Conference on Neural Networks (IJCNN)"
+      },
+      "publisher": {
+        "ko": "IEEE",
+        "en": "IEEE"
       }
     },
     "kicsWinter2025": {
@@ -148,7 +152,8 @@
         "choi": {
           "name": "Soon Ho Choi"
         }
-      }
+      },
+      "doi": "10.1109/IJCNN69854.2026.11729684"
     },
     {
       "id": "2025",

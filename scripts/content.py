@@ -428,8 +428,19 @@ def venue_name(paper, lang):
     return localized(DATA['venues'][paper['venue']]['name'], lang)
 
 
+def publication_links(paper):
+    links = [(paper['linkLabel'], paper['url'])]
+    if paper.get('doi'):
+        links.insert(0, ('DOI', 'https://doi.org/' + paper['doi']))
+    return links
+
+
 def venue_details(paper, lang):
     parts = [venue_name(paper, lang)]
+    if paper.get('doi'):
+        publisher = DATA['venues'][paper['venue']].get('publisher')
+        if publisher:
+            parts.append(localized(publisher, lang))
     if paper['pages']:
         parts.append('pp. ' + '–'.join(map(str, paper['pages'])))
     if paper['month']:
@@ -443,7 +454,10 @@ def reference(paper, lang):
     pages = ', pp. ' + '–'.join(map(str, paper['pages'])) if paper['pages'] else ''
     months = ['', 'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
     month = months[paper['month']] + ' ' if paper['month'] else ''
-    return f'{name}, “{paper["title"]},” in {venue_name(paper, lang)}{pages}, {month}{paper["year"]}.'
+    citation = f'{name}, “{paper["title"]},” in {venue_name(paper, lang)}{pages}, {month}{paper["year"]}.'
+    if paper.get('doi'):
+        citation += ' https://doi.org/' + paper['doi']
+    return citation
 
 
 def bibtex(paper):
@@ -457,6 +471,8 @@ def bibtex(paper):
         fields['pages'] = '--'.join(map(str, paper['pages']))
     if paper['month']:
         fields['month'] = str(paper['month'])
+    if paper.get('doi'):
+        fields['doi'] = paper['doi']
     fields['url'] = paper['url']
     rows = [f'  {key:<9} = {{{value}}}' for key, value in fields.items()]
     return '@inproceedings{' + paper['citationKey'] + ',\n' + ',\n'.join(rows) + '\n}'

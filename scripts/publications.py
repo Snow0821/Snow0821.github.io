@@ -1,5 +1,5 @@
 """Published papers viewed from one localized record and its canonical citation."""
-from content import DATA, bibtex, display_authors, localized, reference, venue_details
+from content import DATA, bibtex, display_authors, localized, publication_links, reference, venue_details
 from html_components import anchor, h, label, local
 
 
@@ -13,6 +13,11 @@ def detail(paper, lang):
     title = h(paper_title(paper, lang))
     authors = h(' · '.join(display_authors(paper, lang)))
     description = f'<p>{local(paper["summary"],lang)}</p>' if paper.get('summary') else ''
+    if paper.get('doi'):
+        sources = ' '.join(anchor(url, name, 'source-link', True)
+                           for name, url in publication_links(paper))
+    else:
+        sources = anchor(paper['url'], label('works.publication_link', lang), 'source-link', True)
     topics = ' / '.join(local(t,lang) for t in paper.get('topics',[]))
     return f'''<article class="paper record-row" id="paper-{pid}" data-paper="{pid}">
 <div class="row-margin"><span class="year">{paper['year']}</span><span>{venue}</span></div>
@@ -20,7 +25,7 @@ def detail(paper, lang):
 <p class="bibliography">{h(venue_details(paper,lang))}</p>{description}
 <p class="paper-topics">{topics}</p>
 <div class="paper-actions" data-success="{label('works.copied', lang)}" data-failure="{label('works.failed',lang)}">
-{anchor(paper['url'], label('works.publication_link',lang), 'source-link', True)}
+{sources}
 <button type="button" data-copy="ref-{pid}">{label('works.citation',lang)}</button>
 <button type="button" data-copy="bib-{pid}">{label('works.bibtex',lang)}</button>
 <span class="copy-status" data-copy-status role="status" aria-live="polite"></span></div>

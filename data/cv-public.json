@@ -52,12 +52,12 @@
         },
         {
           "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
-          "role": "lead",
-          "link": "https://dblp.org/rec/conf/ijcnn/ChoiK26"
+          "role": "lead"
         },
         {
-          "text": "IJCNN 2026 · pp. 1–6",
-          "role": "meta"
+          "text": "IJCNN 2026 · IEEE · pp. 1–6",
+          "role": "meta",
+          "paperLinks": "2026"
         },
         {
           "text": "Soon Ho Choi (제1저자), Soo Yong Kim",
@@ -413,12 +413,12 @@
         },
         {
           "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
-          "role": "lead",
-          "link": "https://dblp.org/rec/conf/ijcnn/ChoiK26"
+          "role": "lead"
         },
         {
-          "text": "IJCNN 2026 · pp. 1–6",
-          "role": "meta"
+          "text": "IJCNN 2026 · IEEE · pp. 1–6",
+          "role": "meta",
+          "paperLinks": "2026"
         },
         {
           "text": "Soon Ho Choi (First author), Soo Yong Kim.",

@@ -236,7 +236,7 @@
   "representativePaper": {
     "sourceId": "2026",
     "title": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks",
-    "venue": "IJCNN 2026",
+    "venue": "IJCNN 2026 · IEEE · pp. 1–6",
     "authorRole": {
       "ko": "제1저자",
       "en": "First author"
@@ -244,8 +244,7 @@
     "authors": [
       "Soon Ho Choi",
       "Soo Yong Kim"
-    ],
-    "url": "https://dblp.org/rec/conf/ijcnn/ChoiK26"
+    ]
   },
   "paperTitle": {
     "ko": "대표 논문",

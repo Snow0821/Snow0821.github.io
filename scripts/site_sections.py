@@ -41,6 +41,8 @@ def home(lang):
     paper = next(p for p in DATA['papers'] if p['id'] == '2026')
     paper_url = works + '#paper-' + paper['id']
     paper_name = paper_title(paper, lang).split(':')[0]
+    venue = DATA['venues'][paper['venue']]
+    paper_credit = f"{localized(venue['short'], lang)} {paper['year']} · {localized(venue['publisher'], lang)}"
     hero = f'''<section class="hero editorial-hero"><div class="hero-copy">
 <p class="profession" lang="en">AI · COMPUTER SCIENCE</p>
 <h1><span>{label('hero.title1',lang)}</span><span>{label('hero.title2',lang)}</span></h1>
@@ -54,7 +56,7 @@ def home(lang):
     selected = f'''<section class="selected-work"><div class="section-heading">
 <h2>{label('home.selected',lang)}</h2>{anchor(works,text('home.allwork',lang),'section-link')}</div>
 <div class="work-pair">{link_line(career+'#record-'+incheon['id'],course['subject'],text('index.education',lang)+'　/　'+course['provider'])}
-{link_line(paper_url,paper_name,text('index.research',lang)+'　/　'+text('editor.researchShort',lang))}</div></section>'''
+{link_line(paper_url,paper_name,text('editor.researchShort',lang)+'　/　'+paper_credit)}</div></section>'''
     chart = f'''<figure class="quant-figure"><a class="figure-link" href="{works}#paper-2025">
 <img src="/assets/ternary-quantization.png" width="1536" height="924" alt="{label('figure.alt',lang)}" loading="lazy">
 <div class="figure-caption"><div><strong>{label('figure.name',lang)}</strong><span>{label('figure.caption',lang)}</span></div></div></a></figure>'''

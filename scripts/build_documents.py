@@ -4,6 +4,7 @@ from html import escape
 import json
 from pathlib import Path
 
+from content import DATA, publication_links
 from design import css_tokens
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,11 +24,20 @@ def write_if_changed(path, data):
         path.write_bytes(data)
 
 
+def document_links(block):
+    if 'paperLinks' not in block:
+        return []
+    paper = next(p for p in DATA['papers'] if p['id'] == block['paperLinks'])
+    return publication_links(paper)
+
+
 def html_block(block):
     tag = {"heading": "h2", "lead": "h3", "body": "p", "meta": "p"}[block["role"]]
     value = "<br>".join(escape(line) for line in block["text"].splitlines())
     if block.get("link"):
         value = f'<a href="{escape(block["link"], quote=True)}">{value}</a>'
+    for name, url in document_links(block):
+        value += f' · <a href="{escape(url, quote=True)}">{escape(name)}</a>'
     attrs = ' class="entry-meta"' if block["role"] == "meta" else ""
     return f"<{tag}{attrs}>{value}</{tag}>"
 

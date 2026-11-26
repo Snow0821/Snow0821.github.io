@@ -414,9 +414,9 @@
           "role": "heading"
         },
         {
-          "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks · IJCNN 2026",
+          "text": "Learning to Wire: End-to-End Operand Selection for Symbolic Logic Networks · IJCNN 2026 · IEEE · pp. 1–6",
           "role": "body",
-          "link": "https://dblp.org/rec/conf/ijcnn/ChoiK26"
+          "paperLinks": "2026"
         },
         {
           "text": "이진화 기반 삼진 양자화 ViT 모델을 활용한 이미지 분류 기법에 관한 연구 · 한국통신학회 동계 2025",
