@@ -2227,22 +2227,6 @@
   ],
   "professionalDevelopment": [
     {
-      "id": "ablearn-partner-training-2026-11",
-      "date": "2026-11-11",
-      "title": {
-        "ko": "AI 시대 직장인의 필수 상식: 보안부터 효율, 책임 있는 활용까지",
-        "en": "AI at Work: Security, Efficiency and Responsible Use"
-      },
-      "organization": {
-        "ko": "에이블런",
-        "en": "ABLEARN"
-      },
-      "summary": {
-        "ko": "파트너 강사 보수교육에 참석해 AI 윤리와 보안, 책임 있는 활용을 다뤘습니다.",
-        "en": "Attended partner-instructor development on AI ethics, security and responsible use."
-      }
-    },
-    {
       "id": "edge-llm-training-2026-04",
       "date": "2026-04-13",
       "title": {
